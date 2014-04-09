@@ -24,6 +24,7 @@ Includes:
 * [jQuery.IME](https://github.com/wikimedia/jquery.ime) - GPL/MIT licenses
 * [jsPDF](https://github.com/MrRio/jsPDF) - MIT license
 * [polyglot.js](https://github.com/airbnb/polyglot.js) - BSD license
+* Parts of [text-app](https://github.com/GoogleChrome/text-app) - BSD license
 
 ## Licensing
 

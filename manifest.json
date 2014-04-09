@@ -1,0 +1,37 @@
+{
+  "name": "Homer",
+  "description": "write books for beginning readers",
+  "author": "mapmeld",
+  "version": "0.1",
+  "manifest_version": 2,
+  "app": {
+    "background": {
+      "scripts": [
+        "chrome-app/background.js"
+      ]
+    }
+  },
+  "permissions": [
+    {
+      "fileSystem": [
+        "write",
+        "retainEntries"
+      ]
+    },
+    "storage",
+    "https://www.google-analytics.com/"
+  ],
+  "file_handlers": {
+    "text": {
+      "title": "Storybook",
+      "types": ["application/text", "application/pdf", "text/*"],
+      "extensions": ["pdf", "txt", "json"]
+    }
+  },
+  "offline_enabled": true,
+  "_______default_locale": "en",
+  "icons": {
+    "16": "lib/jqime/images/ime-active.png",
+    "128": "lib/jqime/images/ime-active.png"
+  }
+}
