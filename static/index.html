@@ -38,14 +38,15 @@ function pdfify(){
   ctx.fillStyle = "#fff";
   ctx.rect(0, 0, 500, 300);
   ctx.fill();
+  ctx.font = "20px sans-serif";
   ctx.fillStyle = "#000";
   ctx.fillText($("textarea").val(), 0, 40);
 
   var doc = new jsPDF();
   doc.text(20, 20, "TEST UNICODE");
   
-  var imgData = $("canvas")[0].toDataURL('image/jpeg');
-  doc.addImage(imgData, 'JPEG', 20, 40, 125, 75);
+  var imgData = $("canvas")[0].toDataURL();
+  doc.addImage(imgData, 'PNG', 20, 40, 125, 75);
   
   doc.save('Test.pdf');
 }
