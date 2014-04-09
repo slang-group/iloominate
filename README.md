@@ -7,8 +7,10 @@ for printing books.
 
 ## Contest
 
-This project is developed as an entry to the Engaging Writers contest from
+This project is developed as an entry to the Enabling Writers contest from
 USAID / All Children Reading.
+
+Requirements and implementation notes are [in the wiki](https://github.com/mapmeld/homer/wiki).
 
 ## Technical
 
@@ -18,6 +20,7 @@ Node.js server. The main storybook editor will be available through the site,
 or offline as a Google Chrome app.
 
 Includes:
+* [jQuery 1.x](https://github.com/jquery/jquery/tree/1.x-master) - MIT license
 * [jQuery.IME](https://github.com/wikimedia/jquery.ime) - GPL/MIT licenses
 * [jsPDF](https://github.com/MrRio/jsPDF) - MIT license
 * [polyglot.js](https://github.com/airbnb/polyglot.js) - BSD license

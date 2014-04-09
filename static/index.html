@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Homer: Storybook App</title>
+    
+    <!-- 3rd party libraries -->
+    <link href="/jqime/css/jquery.ime.css" rel="stylesheet" type="text/css"/>
+  </head>
+  <body>
+    <noscript>Enable JavaScript!</noscript>
+    
+    <h4>Type first page</h4>
+    <textarea name="page"></textarea>
+    <br/>
+    <button onclick="pdfify()">Make into PDF</button>
+    
+    <canvas width="500" height="300"></canvas>
+
+    <!-- 3rd party libraries -->
+    <script type="text/javascript" src="/jquery-1.11.0.min.js"></script>
+
+    <script type="text/javascript" src="/jspdf.min.js"></script>
+
+    <script type="text/javascript" src="/jqime/libs/rangy/rangy-core.js"></script>
+    <script type="text/javascript" src="/jqime/src/jquery.ime.js"></script>
+    <script type="text/javascript" src="/jqime/src/jquery.ime.selector.js"></script>
+    <script type="text/javascript" src="/jqime/src/jquery.ime.preferences.js"></script>
+    <script type="text/javascript" src="/jqime/src/jquery.ime.inputmethods.js"></script>
+    
+    <!-- custom script -->
+    <script type="text/javascript">
+// page UI
+$("textarea").ime();
+
+function pdfify(){
+  var ctx = $("canvas")[0].getContext("2d");
+  ctx.fillStyle = "#fff";
+  ctx.rect(0, 0, 500, 300);
+  ctx.fill();
+  ctx.fillStyle = "#000";
+  ctx.fillText($("textarea").val(), 0, 40);
+
+  var doc = new jsPDF();
+  doc.text(20, 20, "TEST UNICODE");
+  
+  var imgData = $("canvas")[0].toDataURL('image/jpeg');
+  doc.addImage(imgData, 'JPEG', 20, 40, 125, 75);
+  
+  doc.save('Test.pdf');
+}
+    </script>
+  </body>
+</html>
