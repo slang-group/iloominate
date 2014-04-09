@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "dependencies": {
     "request": "2.34.X",
+    "node-polyglot": "0.3.X",
     "express": "3.5.X"
   },
   "engines": {

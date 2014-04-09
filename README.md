@@ -18,7 +18,9 @@ Node.js server. The main storybook editor will be available through the site,
 or offline as a Google Chrome app.
 
 Includes:
+* [jQuery.IME](https://github.com/wikimedia/jquery.ime) - GPL/MIT licenses
 * [jsPDF](https://github.com/MrRio/jsPDF) - MIT license
+* [polyglot.js](https://github.com/airbnb/polyglot.js) - BSD license
 
 ## Licensing
 
