@@ -10,7 +10,7 @@
 		*/
 		'ar-kbd': {
 			name: 'أرابيك',
-			source: '../lib/jqime/rules/ar/ar-kbd.js'
+			source: 'lib/jqime/rules/ar/ar-kbd.js'
 		},
 		/*
 		'as-avro': {
@@ -389,23 +389,23 @@
 		},*/
 		'ne-inscript': {
 			name: 'इनस्क्रिप्ट',
-			source: '../lib/jqime/rules/ne/ne-inscript.js'
+			source: 'lib/jqime/rules/ne/ne-inscript.js'
 		},
 		'ne-inscript2': {
 			name: 'इनस्क्रिप्ट २',
-			source: '../lib/jqime/rules/ne/ne-inscript2.js'
+			source: 'lib/jqime/rules/ne/ne-inscript2.js'
 		},
 		'ne-transliteration': {
 			name: 'ट्रांस्लितेरेशन',
-			source: '../lib/jqime/rules/ne/ne-transliteration.js'
+			source: 'lib/jqime/rules/ne/ne-transliteration.js'
 		},
 		'ne-rom': {
 			name: 'Romanized',
-			source: '../lib/jqime/rules/ne/ne-rom.js'
+			source: 'lib/jqime/rules/ne/ne-rom.js'
 		},
 		'ne-trad': {
 			name: 'Traditional',
-			source: '../lib/jqime/rules/ne/ne-trad.js'
+			source: 'lib/jqime/rules/ne/ne-trad.js'
 		},
 		/*
 		'nb-normforms': {
@@ -547,11 +547,11 @@
 		*/
 		'ipa-sil': {
 			name: 'International Phonetic Alphabet - SIL',
-			source: '../lib/jqime/rules/fonipa/ipa-sil.js'
+			source: 'lib/jqime/rules/fonipa/ipa-sil.js'
 		},
 		'ipa-x-sampa': {
 			name: 'International Phonetic Alphabet - X-SAMPA',
-			source: '../lib/jqime/rules/fonipa/ipa-x-sampa.js'
+			source: 'lib/jqime/rules/fonipa/ipa-x-sampa.js'
 		},
 		/*
 		'udm-alt': {

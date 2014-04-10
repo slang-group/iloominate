@@ -19,7 +19,7 @@ function pdfify(){
   //doc.addPage();
   // http://parall.ax/products/jspdf
   
-  doc.save('Test.pdf');
+  doc.save('Test.pdf');  
 }
 
 $("button").on("click", pdfify);
