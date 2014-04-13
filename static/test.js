@@ -3,7 +3,7 @@ $("textarea").ime();
 
 // highlight word list
 $("textarea").highlightTextarea({
-  words: ['hello', 'world'],
+  words: ['hello', 'world', 'नेपाल'],
   caseSensitive: false
 });
 
