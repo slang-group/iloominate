@@ -23,6 +23,7 @@ or offline as a Google Chrome app.
 
 Includes:
 * [Bootstrap / Bootswatch](http://bootswatch.com/lumen/) - MIT license
+* [highlightTextarea](http://www.strangeplanet.fr/work/jquery-highlighttextarea/) - GPL/MIT licenses
 * [jQuery 1.x](https://github.com/jquery/jquery/tree/1.x-master) - MIT license
 * [jQuery.IME](https://github.com/wikimedia/jquery.ime) - GPL/MIT licenses
 * [jsPDF](https://github.com/MrRio/jsPDF) - MIT license

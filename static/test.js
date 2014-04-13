@@ -1,6 +1,12 @@
 // multilingual input
 $("textarea").ime();
 
+// highlight word list
+$("textarea").highlightTextarea({
+  words: ['hello', 'world'],
+  caseSensitive: false
+});
+
 // drop an image onto the page
 var files, fileindex;
 
@@ -46,10 +52,10 @@ function pdfify(){
   ctx.fillText($("textarea").val(), 0, 40);
 
   var doc = new jsPDF();
-  
+
   // add sample text
   doc.text(20, 20, "TEST UNICODE");
-  
+
   // add user image
   var img_offset = 0;
   var page_img = $(".filedrop").find("img");
@@ -62,15 +68,15 @@ function pdfify(){
     }
     doc.addImage(insert_img.attr("src"), img_format, 20, 40, insert_img.width() / 8, insert_img.height() / 8);
   }
-  
+
   // add internationalized text as an image
   var imgData = $("canvas")[0].toDataURL();
   doc.addImage(imgData, 'PNG', 20, 40 + img_offset, 125, 75);
-  
+
   //doc.addPage();
   // http://parall.ax/products/jspdf
-  
-  doc.save('Test.pdf');  
+
+  doc.save('Test.pdf');
 }
 
 $(".pdfify").on("click", pdfify);
