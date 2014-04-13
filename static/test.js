@@ -4,6 +4,7 @@ $("textarea").ime();
 // highlight word list
 $("textarea").highlightTextarea({
   words: ['hello', 'world', 'नेपाल'],
+  letters: ['q'],
   caseSensitive: false
 });
 
