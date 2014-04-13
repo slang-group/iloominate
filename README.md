@@ -1,6 +1,6 @@
-# Homer
+# iLoominate
 
-Homer will be an app for templating, writing, and printing books for beginning
+iLoominate will be an app for templating, writing, and printing books for beginning
 readers. It will support multiple languages, help writers use the letters and
 words which children have learned, and support best practices and common layouts
 for printing books.
