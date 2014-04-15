@@ -2,22 +2,26 @@
 <html>
   <head>
     <meta charset="utf-8"/>
-    <title>Homer: Storybook App</title>
-
+    <title>iloominate: Storybook App</title>
+    
     <!-- 3rd party libraries -->
     <link href="../lib/highlightTextarea/jquery.highlighttextarea.css" rel="stylesheet" type="text/css"/>
     <link href="../lib/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <link href="../lib/jqime/css/jquery.ime.css" rel="stylesheet" type="text/css"/>
+
+    <!-- custom style -->
+    <link href="../static/main.css" rel="stylesheet" type="text/css"/>
   </head>
   <body>
     <div class="container">
       <div class="row-fluid">
         <div class="span12">
-          <noscript>Enable JavaScript!</noscript>
 
+          <noscript>Enable JavaScript!</noscript>
+    
           <div class="well">
-            <h4>Include an Image</h4>
-            <div class="filedrop">
+            <h4>Drop in an Image</h4>
+            <div class="filedrop bordered">
             </div>
 
             <h4>Type first page</h4>
@@ -25,7 +29,7 @@
             <br/>
             <a href="#" class="btn btn-info pdfify">Make into PDF</a>
           </div>
-
+    
           <canvas width="500" height="300" class="hide"></canvas>
         </div>
       </div>
@@ -49,7 +53,7 @@
     <script type="text/javascript" src="../lib/jqime/rules/ne/ne-rom.js"></script>
     <script type="text/javascript" src="../lib/jqime/rules/ne/ne-trad.js"></script>
     <script type="text/javascript" src="../lib/jqime/rules/ne/ne-transliteration.js"></script>
-
+    
     <!-- custom script -->
     <script type="text/javascript" src="../static/test.js"></script>
   </body>

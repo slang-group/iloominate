@@ -1,0 +1,11 @@
+/* typing area */
+textarea {
+  min-width: 100%;
+}
+
+/* image drop area */
+.bordered {
+  width: 50%;
+  height: 200px;
+  border: 4px dashed #777;
+}

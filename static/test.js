@@ -2,10 +2,16 @@
 $("textarea").ime();
 
 // highlight word list
-$("textarea").highlightTextarea({
-  words: ['hello', 'world', 'नेपाल'],
-  letters: ['q'],
-  caseSensitive: false
+$(document).ready(function(){
+  if(typeof outOfChromeApp == "undefined" || !outOfChromeApp){
+    $("textarea").width(650).height(100);
+  }
+
+  $("textarea").highlightTextarea({
+    words: ['hello', 'world', 'नेपाल'],
+    letters: ['q'],
+    caseSensitive: false
+  });
 });
 
 // drop an image onto the page
@@ -18,7 +24,7 @@ var blockHandler = function(e){
 
 var processFile = function(e){
   var img_url = e.target.result;
-  $(".filedrop").html("").append($("<img/>").attr("src", img_url));
+  $(".filedrop").removeClass("bordered").html("").append($("<img/>").attr("src", img_url));
   //var img = new Image();
   //img.onload = function(){
   //};
@@ -32,7 +38,7 @@ var dropFile = function(e){
   files = e.dataTransfer.files;
   if(files && files.length){
     var reader = new FileReader();
-    reader.onload = processFile;
+    reader.onload = processFile;d
     reader.readAsDataURL(files[0]);
   }
 };

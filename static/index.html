@@ -2,12 +2,15 @@
 <html>
   <head>
     <meta charset="utf-8"/>
-    <title>Homer: Storybook App</title>
+    <title>iloominate: Storybook App</title>
 
     <!-- 3rd party libraries -->
     <link href="/highlightTextarea/jquery.highlighttextarea.css" rel="stylesheet" type="text/css"/>
     <link href="/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <link href="/jqime/css/jquery.ime.css" rel="stylesheet" type="text/css"/>
+
+    <!-- custom style -->
+    <link href="../static/main.css" rel="stylesheet" type="text/css"/>
   </head>
   <body>
     <div class="container">
@@ -17,11 +20,12 @@
           <noscript>Enable JavaScript!</noscript>
 
           <div class="well">
-            <h4>Include an Image</h4>
-            <div class="filedrop">
+            <h4>Drop in an Image</h4>
+            <div class="filedrop bordered">
             </div>
 
             <h4>Type first page</h4>
+            <br/>
             <textarea name="page" class="form-control" rows="3"> </textarea>
             <br/>
             <a href="#" class="btn btn-info pdfify">Make into PDF</a>
@@ -45,6 +49,7 @@
     <script type="text/javascript" src="/jqime/src/jquery.ime.inputmethods.js"></script>
 
     <!-- custom script -->
+    <script type="text/javascript">var outOfChromeApp = true;</script>
     <script type="text/javascript" src="/test.js"></script>
   </body>
 </html>
