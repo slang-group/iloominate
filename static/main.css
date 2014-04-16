@@ -8,4 +8,13 @@ textarea {
   width: 50%;
   height: 200px;
   border: 4px dashed #777;
+  float: left;
+}
+
+/* layouts section */
+.layouts {
+  box-sizing: border-box;
+  width: 40%;
+  float: left;
+  padding: 25px;
 }
