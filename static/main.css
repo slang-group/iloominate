@@ -9,6 +9,11 @@ textarea {
   float: left;
 }
 
+.image_area img, .book img {
+  max-width: 100%;
+  max-height: 50%;
+}
+
 .bordered {
   height: 200px;
   border: 4px dashed #777;
@@ -25,4 +30,25 @@ textarea {
   width: 40%;
   float: left;
   padding: 25px;
+}
+
+/* book preview */
+.book {
+  width: 800px;
+  height: 600px;
+  font-size: 22pt;
+}
+
+.book .turn-page {
+  text-align: center;
+  background-color: #C6E6FF;
+  border: 1px solid #000;
+}
+.book .turn-page img {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.book img, .book span {
+  display: block;
 }

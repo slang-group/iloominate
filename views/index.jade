@@ -35,16 +35,20 @@ html
               != '&nbsp;'
             br
             a.btn.btn-info.pdfify.translate(href="#")= 'Make into PDF'
+            a.btn.btn-success.bookify.translate(href="#")= 'Make into Book'
             
             .clearfix
 
           canvas.hide(width="500", height="300")
+      .book.hide
 
     // 3rd party libraries
     script(type="text/javascript", src="/jquery-1.11.0.min.js")
     script(type="text/javascript", src="/highlightTextarea/jquery.highlighttextarea.js")
 
     script(type="text/javascript", src="/jspdf.min.js")
+
+    script(type="text/javascript", src="/turn.min.js")
     
     script(type="text/javascript", src="/polyglot.min.js")
 

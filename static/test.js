@@ -127,3 +127,31 @@ function pdfify(){
 }
 
 $(".pdfify").on("click", pdfify);
+
+// book preview
+function bookify(){
+  // generate book preview
+  $(".book").html("");
+  for(var i=0;i<5;i++){
+    var page = $("<div>");
+    var img = $("<img/>").attr("src", $(".filedrop").find("img").attr("src"));
+    var content = $("<span>").text($("textarea").val());
+    page.append(img);
+    page.append(content);
+    $(".book").append(page);
+  }
+  $(".book").turn({
+    display: 'double',
+    gradients: true,
+    acceleration: true,
+    elevation: 50,
+    peel: 'tr',
+    turnCorners: 'bl,br',
+    corners: 'forward'
+  });
+   
+  // show book preview
+  $($(".container").children()[0]).hide();
+  $(".book").removeClass("hide");
+}
+$(".bookify").on("click", bookify);

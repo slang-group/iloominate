@@ -28,6 +28,7 @@ Includes:
 * [jQuery.IME](https://github.com/wikimedia/jquery.ime) - GPL/MIT licenses
 * [jsPDF](https://github.com/MrRio/jsPDF) - MIT license
 * [polyglot.js](https://github.com/airbnb/polyglot.js) - BSD license
+* [turn.js](https://github.com/blasten/turn.js) - non-commercial BSD license
 
 ## Licensing
 
