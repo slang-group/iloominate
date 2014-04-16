@@ -17,10 +17,10 @@
       <div class="row-fluid">
         <div class="span12">
 
-          <noscript>Enable JavaScript!</noscript>
+          <noscript class="translate">Enable JavaScript!</noscript>
     
           <div class="well">
-            <h4>Drop in an Image</h4>
+            <h4 class="translate">Drop in an Image</h4>
             <div class="filedrop bordered">
             </div>
             <div class="layouts">
@@ -29,10 +29,10 @@
             <div class="clearfix">
             </div>
 
-            <h4>Type first page</h4>
+            <h4 class="translate">Type first page</h4>
             <textarea name="page" class="form-control" rows="3"> </textarea>
             <br/>
-            <a href="#" class="btn btn-info pdfify">Make into PDF</a>
+            <a href="#" class="btn btn-info pdfify" class="translate">Make into PDF</a>
           </div>
     
           <canvas width="500" height="300" class="hide"></canvas>
@@ -46,6 +46,8 @@
 
     <script type="text/javascript" src="../lib/png.js"></script>
     <script type="text/javascript" src="../lib/jspdf.debug.js"></script>
+    
+    <script type="text/javascript" src="../lib/polyglot.min.js"></script>
 
     <script type="text/javascript" src="../lib/jqime/libs/rangy/rangy-core.js"></script>
     <script type="text/javascript" src="../lib/jqime/src/jquery.ime.js"></script>
@@ -60,6 +62,7 @@
     <script type="text/javascript" src="../lib/jqime/rules/ne/ne-transliteration.js"></script>
     
     <!-- custom script -->
+    <script type="text/javascript" src="../static/translations.js"></script>
     <script type="text/javascript" src="../static/test.js"></script>
   </body>
 </html>

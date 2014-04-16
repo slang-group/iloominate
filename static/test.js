@@ -1,7 +1,7 @@
-// multilingual input
+// multilingual input with jQuery.IME
 $("textarea").ime();
 
-// highlight word list
+// highlight word list with jQuery.highlighttextarea
 $(document).ready(function(){
   if(typeof outOfChromeApp == "undefined" || !outOfChromeApp){
     $("textarea").width(650).height(100);
@@ -14,6 +14,44 @@ $(document).ready(function(){
   });
 });
 
+// make translations with Polyglot.js
+var polyglot, _;
+
+// in Chrome app - determine language on client side
+if(typeof outOfChromeApp == "undefined" || !outOfChromeApp){
+  chrome.i18n.getAcceptLanguages(function(languageList){
+    var preferredLocale = (languageList[0]).toLowerCase().replace("-","_");
+    // check if there is a match for the complete locale (e.g., es_uy)
+    if(!allTranslations[preferredLocale]){
+      // check if there is a match for the root locale (es_uy -> es)
+      preferredLocale = preferredLocale.split("_")[0];
+      if(!allTranslations[preferredLocale]){
+        // default (en)
+        preferredLocale = "en";
+      }
+    }
+    translations = allTranslations[preferredLocale];
+    doTranslations();
+  });
+}
+else{
+  doTranslations();
+}
+
+// translate words already on the page
+function doTranslations(){
+  polyglot = new Polyglot({ phrases: translations });
+  _ = function(word){
+    return polyglot.t(word);
+  };
+
+  var translateWords = $(".translate");
+  $.each(translateWords, function(w, word_element){
+    var word = $(word_element).text();
+    $(word_element).text( _(word) );
+  });
+}
+
 // drop an image onto the page
 var files, fileindex;
 
@@ -25,10 +63,6 @@ var blockHandler = function(e){
 var processFile = function(e){
   var img_url = e.target.result;
   $(".filedrop").removeClass("bordered").html("").append($("<img/>").attr("src", img_url));
-  //var img = new Image();
-  //img.onload = function(){
-  //};
-  //img.src = img_url;
 };
 
 var dropFile = function(e){
@@ -38,7 +72,7 @@ var dropFile = function(e){
   files = e.dataTransfer.files;
   if(files && files.length){
     var reader = new FileReader();
-    reader.onload = processFile;d
+    reader.onload = processFile;
     reader.readAsDataURL(files[0]);
   }
 };
