@@ -4,11 +4,19 @@ textarea {
 }
 
 /* image drop area */
-.bordered {
+.image_area {
   width: 50%;
+  float: left;
+}
+
+.bordered {
   height: 200px;
   border: 4px dashed #777;
-  float: left;
+}
+
+/* buttons */
+.rtl a.btn {
+  float: right;
 }
 
 /* layouts section */

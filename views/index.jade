@@ -20,21 +20,23 @@ html
           noscript.translate= 'Enable JavaScript!'
 
           .well
-            h4.translate= 'Drop in an Image'
-
-            .filedrop.bordered
+            .image_area
+              h4.translate(dir="auto")= 'Drop in an Image'
+              .filedrop.bordered
 
             .layouts
               img(src="/jqime/images/ime-active.png")
 
             .clearfix
 
-            h4.translate= 'Type first page'
+            h4.translate(dir="auto")= 'Type first page'
             br
-            textarea.form-control(name="page", rows="3")
+            textarea.form-control(name="page", rows="3", dir="auto")
               != '&nbsp;'
             br
             a.btn.btn-info.pdfify.translate(href="#")= 'Make into PDF'
+            
+            .clearfix
 
           canvas.hide(width="500", height="300")
 

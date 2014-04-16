@@ -38,18 +38,24 @@ else{
   doTranslations();
 }
 
-// translate words already on the page
 function doTranslations(){
   polyglot = new Polyglot({ phrases: translations });
   _ = function(word){
     return polyglot.t(word);
   };
 
+  // translate words already on the page
   var translateWords = $(".translate");
   $.each(translateWords, function(w, word_element){
     var word = $(word_element).text();
     $(word_element).text( _(word) );
   });
+  
+  // check for right-to-left languages (including Arabic)
+  // text inputs should have dir="auto" already set
+  if(_("ltr") == "rtl"){
+    $("body").addClass("rtl");
+  }
 }
 
 // drop an image onto the page

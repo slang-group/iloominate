@@ -10,7 +10,7 @@ app.use(express.static(__dirname + '/lib'));
 
 app.get('/', function(req, res){
   // detect language on server side, return translations
-  var preferredLocale = req.headers['accept-language'].split(",")[0];
+  var preferredLocale = req.query.language || req.headers['accept-language'].split(",")[0];
   if(!allTranslations[preferredLocale]){
     // check if there is a match for the root locale (es_uy -> es)
     preferredLocale = preferredLocale.split("_")[0];
