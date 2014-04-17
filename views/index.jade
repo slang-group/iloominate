@@ -15,7 +15,14 @@ html
   body
     div.container
       .row-fluid
-        .span12
+        .col-xs-3.list-group.page-list
+          a.list-group-item.active(href="#")
+            h4.list-group-item-heading.translate= 'Page 1'
+            p.list-group-item-text.translate= 'What is the story?'
+          div.list-group-item
+            a.btn.btn-success.new-page.translate(href="#") Add Page
+
+        .col-lg-9
 
           noscript.translate= 'Enable JavaScript!'
 

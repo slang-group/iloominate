@@ -40,8 +40,8 @@ else{
 
 function doTranslations(){
   polyglot = new Polyglot({ phrases: translations });
-  _ = function(word){
-    return polyglot.t(word);
+  _ = function(word, vars){
+    return polyglot.t(word, vars);
   };
 
   // translate words already on the page
@@ -90,38 +90,38 @@ window.addEventListener('drop', dropFile, false);
 
 // PDF export
 function pdfify(){
+  saveCurrentPage();
+
   var ctx = $("canvas")[0].getContext("2d");
-  ctx.fillStyle = "#fff";
-  ctx.rect(0, 0, 500, 300);
-  ctx.fill();
   ctx.font = "20px sans-serif";
   ctx.fillStyle = "#000";
-  ctx.fillText($("textarea").val(), 0, 40);
 
   var doc = new jsPDF();
 
-  // add sample text
-  doc.text(20, 20, "TEST UNICODE");
-
-  // add user image
-  var img_offset = 0;
-  var page_img = $(".filedrop").find("img");
-  if(page_img.length){
-    var insert_img = $(page_img[0]);
-    img_offset += insert_img.height() / 8;
-    var img_format = 'PNG';
-    if(insert_img.attr("src").indexOf("data:image/jpeg") === 0){
-      img_format = 'JPEG';
+  for(var p=0;p<pages.length;p++){
+    // add user image
+    var img_offset = 0;
+    if(pages[p].image){
+      var insert_img = pages[p].image;
+      img_offset += pages[p].image_height / 8;
+      var img_format = 'PNG';
+      if(pages[p].image.indexOf("data:image/jpeg") === 0){
+        img_format = 'JPEG';
+      }
+      doc.addImage(pages[p].image, img_format, 20, 40, pages[p].image_width / 8, pages[p].image_height / 8);
     }
-    doc.addImage(insert_img.attr("src"), img_format, 20, 40, insert_img.width() / 8, insert_img.height() / 8);
+
+    // add internationalized text as an image
+    $("canvas").width($("canvas").width());
+    ctx.fillText(pages[p].text, 0, 40);
+    var imgData = $("canvas")[0].toDataURL();
+    doc.addImage(imgData, 'PNG', 20, 40 + img_offset, 125, 75);
+
+    if(p != pages.length - 1){
+      // need next page
+      doc.addPage();
+    }
   }
-
-  // add internationalized text as an image
-  var imgData = $("canvas")[0].toDataURL();
-  doc.addImage(imgData, 'PNG', 20, 40 + img_offset, 125, 75);
-
-  //doc.addPage();
-  // http://parall.ax/products/jspdf
 
   doc.save('Test.pdf');
 }
@@ -130,14 +130,21 @@ $(".pdfify").on("click", pdfify);
 
 // book preview
 function bookify(){
+  saveCurrentPage();
+
   // generate book preview
   $(".book").html("");
-  for(var i=0;i<5;i++){
+  for(var p=0;p<pages.length;p++){
     var page = $("<div>");
-    var img = $("<img/>").attr("src", $(".filedrop").find("img").attr("src"));
-    var content = $("<span>").text($("textarea").val());
-    page.append(img);
+
+    if(pages[p].image){
+      var img = $("<img/>").attr("src", pages[p].image);
+      page.append(img);
+    }
+
+    var content = $("<span>").text(pages[p].text);
     page.append(content);
+
     $(".book").append(page);
   }
   $(".book").turn({
@@ -155,3 +162,66 @@ function bookify(){
   $(".book").removeClass("hide");
 }
 $(".bookify").on("click", bookify);
+
+// store page content
+var pages = [{ text: "", image: null }];
+var current_page = 0;
+
+function saveCurrentPage(){
+  var page_text = $("textarea").val();
+  pages[current_page].text = page_text;
+  $($(".page-list p")[current_page]).text(page_text.substring(0,18));
+
+  if($(".filedrop img").attr("src")){
+    pages[current_page].image = $(".filedrop img").attr("src");
+    pages[current_page].image_width = $(".filedrop img").width();
+    pages[current_page].image_height = $(".filedrop img").height();    
+  }
+}
+
+function setCurrentPage(p){
+  saveCurrentPage();
+  
+  current_page = p;
+
+  $(".page-list a").removeClass("active");
+  $($(".page-list a")[p]).addClass("active");
+  
+  // set text and highlighting
+  $("textarea").val(pages[p].text);
+  $("textarea").trigger("input");
+
+  // set image
+  if(pages[p].image){
+    $(".filedrop img").attr("src", pages[p].image);
+  }
+  else{
+    $(".filedrop img").attr("src", "");
+  }
+}
+
+// activate existing page links
+$($(".page-list").children()[0]).on("click", function(){
+  setCurrentPage(0);
+});
+
+// adding a new page
+$(".new-page").on("click", function(){  
+  // create new page listing
+  pages.push({ text: "", image: null });
+  var addPage = $("<a class='list-group-item' href='#'></a>");
+  addPage.append($("<h4 class='list-group-item-heading'>" + _("page_num", { page: pages.length }) + "</h4>"));
+  addPage.append($("<p class='list-group-item-text'></p>"));
+
+  // insert after last page
+  $($(".page-list .list-group-item")[pages.length-2]).after(addPage);
+
+  // activate page link
+  var myPageNum = pages.length-1;
+  addPage.on("click", function(){
+    setCurrentPage(myPageNum);
+  });
+
+  // show new page
+  setCurrentPage(myPageNum);
+});

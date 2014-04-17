@@ -5,7 +5,7 @@ readers. It will support multiple languages, help writers use the letters and
 words which children have learned, and support best practices and common layouts
 for printing books.
 
-<img src="http://i.imgur.com/sbbnljs.png"/>
+<img src="http://i.imgur.com/U2oSghK.png"/>
 
 ## Contest
 
