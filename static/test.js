@@ -112,7 +112,7 @@ function pdfify(){
     }
 
     // add internationalized text as an image
-    $("canvas").width($("canvas").width());
+    $("canvas").attr("width", 500);
     ctx.fillText(pages[p].text, 0, 40);
     var imgData = $("canvas")[0].toDataURL();
     doc.addImage(imgData, 'PNG', 20, 40 + img_offset, 125, 75);
