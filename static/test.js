@@ -1,6 +1,3 @@
-// multilingual input with jQuery.IME
-$("textarea").ime();
-
 // highlight word list with jQuery.highlighttextarea
 $(document).ready(function(){
   if(typeof outOfChromeApp == "undefined" || !outOfChromeApp){
@@ -12,6 +9,9 @@ $(document).ready(function(){
     letters: ['q'],
     caseSensitive: false
   });
+  
+  // multilingual input with jQuery.IME
+  $("textarea").ime();
 });
 
 // make translations with Polyglot.js
