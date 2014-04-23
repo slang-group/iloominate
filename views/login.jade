@@ -16,7 +16,7 @@ html
         h1
           span.fa.fa-sign-in
           span= 'Login'
-        - if message.length
+        if message.length
           div.alert.alert-danger #{message}
 
         form(action="/login", method="post")
