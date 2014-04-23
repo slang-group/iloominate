@@ -13,22 +13,15 @@ html
   body
     div.container
       .row-fluid
-        h1
-          span.fa.fa-sign-in
-          span= 'Signup'
-        if message.length
-          div.alert.alert-danger #{message}
-
-        form(action="/signup", method="post")
-          .form-group
-            label Email
-            input.form-control(type="text", name="email")
-          .form-group
-            label Password
-            input.form-control(type="password", name="password")
-          button.btn.btn-warning(type="submit")= 'Sign up'
+        h1 Profile Page
+        a.btn.btn-default(href="/logout") Log Out
       .row-fluid
-        a(href="/login")= 'Log in'
+        .span6
+          .well
+            h3 Test User
+            ul
+              li ID #{user._id}
+              li email #{user.local.email}
 
     // 3rd party libraries
     script(type="text/javascript", src="/jquery-1.11.0.min.js")
