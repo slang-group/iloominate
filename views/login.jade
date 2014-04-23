@@ -15,9 +15,9 @@ html
       .row-fluid
         h1
           span.fa.fa-sign-in
-          = 'Login'
+          span= 'Login'
         - if message.length
-          div.alert.alert-danger= message
+          div.alert.alert-danger #{message}
 
         form(action="/login", method="post")
           .form-group
