@@ -1,0 +1,41 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title= 'iloominate: Storybook App'
+
+    // 3rd party libraries
+    link(href="/bootstrap.min.css", rel="stylesheet", type="text/css")
+
+    // custom style
+    link(href="/main.css", rel="stylesheet", type="text/css")
+
+  body
+    div.container
+      .row-fluid
+        h1
+          span.fa.fa-sign-in
+          = 'Login'
+        - if message.length
+          div.alert.alert-danger= message
+
+        form(action="/login", method="post")
+          .form-group
+            label= Email
+            input.form-control(type="text", name="email")
+          .form-group
+            label= Password
+            input.form-control(type="password", name="password")
+          button.btn.btn-warning(type="submit")= 'Log in'
+      .row-fluid
+        a(href="/signup")= 'Sign up'
+
+    // 3rd party libraries
+    script(type="text/javascript", src="/jquery-1.11.0.min.js")
+    
+    script(type="text/javascript", src="/polyglot.min.js")
+
+    // custom script
+    script(type="text/javascript") var translations = !{translations};
+    script(type="text/javascript")
+      != 'var outOfChromeApp = true;'
