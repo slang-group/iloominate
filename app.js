@@ -47,12 +47,10 @@ app.get('/login', function(req, res){
   });
 });
 
-app.post('/login', function(req, res){
-  app.post('/login', passport.authenticate('local-login', {
-    successRedirect: '/profile',
-	failureRedirect: '/login',
-	failureFlash: true
-  }));
+app.post('/login', passport.authenticate('local-login', {
+  successRedirect: '/profile',
+  failureRedirect: '/login',
+  failureFlash: true
 });
 
 app.get('/signup', function(req, res){
