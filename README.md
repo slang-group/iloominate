@@ -34,5 +34,5 @@ Web server uses Node.js with libraries Express, Passport, and Mongoose.
 
 ## Licensing
 
-Homer will be open source (MIT license) and be built with several other open
+iLoominate will be open source (MIT license) and be built with several other open
 source libraries.
