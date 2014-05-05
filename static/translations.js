@@ -24,15 +24,15 @@ var allTranslations = {
     "ltr": "ltr"
   },
   "ht": {
-    "Enable JavaScript!": "Enable JavaScript!",
-    "Drop in an Image": "Drop in an Image",
-    "Type first page": "Type first page",
+    "Enable JavaScript!": "Aktive JavaScript!",
+    "Drop in an Image": "Mete yon imaj",
+    "Type first page": "Tipe premye paj la",
     "Make into PDF": "Fè PDF",
     "Make into Book": "Fè Liv",
-    "What is the story?": "What is the story?",
+    "What is the story?": "Kisa istwa a ye?",
     "Page 1": "Paj 1",
     "page_num": "Paj %{page}", // like Page 1, Page 2
-    "Add Page": "Add Paj",
+    "Add Page": "Ajoute Paj",
     "ltr": "ltr"
   },
   /* not actual translations below - still proof of concept */
