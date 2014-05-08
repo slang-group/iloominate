@@ -9,4 +9,10 @@ a
 man
 plan
 canal
+!
+.
+?
+how are you?
+" 
+'
 then drop the file into the web page
