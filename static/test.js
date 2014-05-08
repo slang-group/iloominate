@@ -76,7 +76,7 @@ var processImage = function(e){
 var processWhitelist = function(e){
   var whitelist = e.target.result;
   // reduce to lowercase words separated by spaces
-  whitelist = whiteliste.target.result.replace(/\r?\n|\r/g,' ').replace(/\s\s+/g, ' ').toLowerCase().split(' ');
+  whitelist = whitelist.replace(/\r?\n|\r/g,' ').replace(/\s\s+/g, ' ').toLowerCase().split(' ');
   
   // reset existing whitelists
   var wordWhitelist = [];
@@ -96,9 +96,6 @@ var processWhitelist = function(e){
       wordWhitelist.push(word);
     }
   }
-  
-  console.log(wordWhitelist);
-  console.log(letterWhitelist);
 
   highlighter.antihighlight('setLetters', [letterWhitelist.join('')]);
   highlighter.antihighlight('setWords', wordWhitelist);
