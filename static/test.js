@@ -1,12 +1,14 @@
-// highlight word list with jQuery.highlighttextarea
+// highlight unknown letters and words with jQuery.antihighlight
+var highlighter;
 $(document).ready(function(){
   if(typeof outOfChromeApp == "undefined" || !outOfChromeApp){
     $("textarea").width(650).height(100);
   }
 
-  $("textarea").highlightTextarea({
+  // activate antihighlight
+  highlighter = $("textarea").antihighlight({
     words: ['hello', 'world', 'नेपाल'],
-    letters: ['q'],
+    letters: ['abcdefghijklmnopqrstuvw'],
     caseSensitive: false
   });
   
@@ -66,9 +68,40 @@ var blockHandler = function(e){
   e.preventDefault();
 };
 
-var processFile = function(e){
+var processImage = function(e){
   var img_url = e.target.result;
   $(".filedrop").removeClass("bordered").html("").append($("<img/>").attr("src", img_url));
+};
+
+var processWhitelist = function(e){
+  var whitelist = e.target.result;
+  // reduce to lowercase words separated by spaces
+  whitelist = whiteliste.target.result.replace(/\r?\n|\r/g,' ').replace(/\s\s+/g, ' ').toLowerCase().split(' ');
+  
+  // reset existing whitelists
+  var wordWhitelist = [];
+  var letterWhitelist = [];
+  for(var w=0;w<whitelist.length;w++){
+    var word = whitelist[w];
+  
+    // all letters in letter list?
+    for(var i=0;i<word.length;i++){
+      if(letterWhitelist.indexOf(word[i]) == -1){
+        letterWhitelist.push(word[i]);
+      }
+    }
+
+    // add to word list?
+    if(wordWhitelist.indexOf(word) == -1){
+      wordWhitelist.push(word);
+    }
+  }
+  
+  console.log(wordWhitelist);
+  console.log(letterWhitelist);
+
+  highlighter.antihighlight('setLetters', [letterWhitelist.join('')]);
+  highlighter.antihighlight('setWords', wordWhitelist);
 };
 
 var dropFile = function(e){
@@ -78,8 +111,18 @@ var dropFile = function(e){
   files = e.dataTransfer.files;
   if(files && files.length){
     var reader = new FileReader();
-    reader.onload = processFile;
-    reader.readAsDataURL(files[0]);
+    
+    var fileType = files[0].type.toLowerCase();
+    if(fileType.indexOf("image") > -1){
+      // process an image
+      reader.onload = processImage;
+      reader.readAsDataURL(files[0]); 
+    }
+    else{
+      // process a whitelist of letters and words
+      reader.onload = processWhitelist;
+      reader.readAsText(files[0]);
+    }
   }
 };
 window.addEventListener('dragenter', blockHandler, false);

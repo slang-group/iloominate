@@ -14,6 +14,14 @@ USAID / All Children Reading.
 
 Requirements and implementation notes are [in the wiki](https://github.com/mapmeld/homer/wiki).
 
+## Educational
+
+iLoominate supports "word lists" and "letter lists" to help writers use letters and words
+appropriate for students' grade level. For example, if a writer types the phrase: "A man a plan a canal
+Panama" the program will highlight any letters or words which are not on the list.
+
+Letter lists and word lists are also tested in Arabic and Devanagari scripts.
+
 ## Technical
 
 The app must be available online and offline. The online portion of the
@@ -23,7 +31,7 @@ or offline as a Google Chrome app.
 
 Includes:
 * [Bootstrap / Bootswatch](http://bootswatch.com/lumen/) - MIT license
-* [highlightTextarea](http://www.strangeplanet.fr/work/jquery-highlighttextarea/) - GPL/MIT licenses
+* [antihighlight](https://github.com/mapmeld/jQuery-antihighlight) fork of [highlightTextarea](http://www.strangeplanet.fr/work/jquery-highlighttextarea/) - GPL/MIT licenses
 * [jQuery 1.x](https://github.com/jquery/jquery/tree/1.x-master) - MIT license
 * [jQuery.IME](https://github.com/wikimedia/jquery.ime) - GPL/MIT licenses
 * [jsPDF](https://github.com/MrRio/jsPDF) - MIT license

@@ -1,21 +1,21 @@
 /**
- * jQuery highlightTextarea 2.0
- *
+ * jQuery antihighlight 2.0
+ * based on jQuery.highlightTextarea
  * Copyright 2012, Damien "Mistic" Sorel
  *    http://www.strangeplanet.fr
  */
 
-.highlightTextarea {
+.antihighlight {
   position: relative;
   overflow: hidden;
 }
-.highlightTextarea  .highlighterContainer {
+.antihighlight  .highlighterContainer {
   position: absolute;
   border: none;
   margin: 0;
   overflow: hidden;
 }
-.highlightTextarea  .highlighter {
+.antihighlight  .highlighter {
   position: relative;
   border: none;
   padding: 0;
@@ -26,13 +26,13 @@
   white-space: pre-wrap;
   word-wrap: break-word;
 }
-.highlightTextarea  .highlighter.debug {
+.antihighlight  .highlighter.debug {
   color: #f00;
   border: 1px solid #f00;
   margin: -1px;
 }
-.highlightTextarea textarea,
-.highlightTextarea input {
+.antihighlight textarea,
+.antihighlight input {
   position: absolute;
   left: 0;
   top: 0;
@@ -40,10 +40,10 @@
   white-space: pre-wrap;
   word-wrap: break-word;
 }
-.highlightTextarea  .highlight {
+.antihighlight  .highlight {
   line-height: inherit;
 }
-.highlightTextarea .ui-resizable-se {
+.antihighlight .ui-resizable-se {
   bottom: 13px;
   right: 1px;
 }
