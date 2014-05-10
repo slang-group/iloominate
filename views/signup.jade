@@ -26,9 +26,9 @@ html
           .form-group
             label Password
             input.form-control(type="password", name="password")
-          button.btn.btn-warning(type="submit")= 'Sign up'
+          button.btn.btn-warning.translate(type="submit")= 'Sign up'
       .row-fluid
-        a(href="/login")= 'Log in'
+        a.translate(href="/login")= 'Log In'
 
     // 3rd party libraries
     script(type="text/javascript", src="/jquery-1.11.0.min.js")
@@ -39,3 +39,4 @@ html
     script(type="text/javascript") var translations = !{translations};
     script(type="text/javascript")
       != 'var outOfChromeApp = true;'
+    script(type="text/javascript", src="/localize.js")

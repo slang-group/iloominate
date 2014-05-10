@@ -16,50 +16,6 @@ $(document).ready(function(){
   $("textarea").ime();
 });
 
-// make translations with Polyglot.js
-var polyglot, _;
-
-// in Chrome app - determine language on client side
-if(typeof outOfChromeApp == "undefined" || !outOfChromeApp){
-  chrome.i18n.getAcceptLanguages(function(languageList){
-    var preferredLocale = (languageList[0]).toLowerCase().replace("-","_");
-    // check if there is a match for the complete locale (e.g., es_uy)
-    if(!allTranslations[preferredLocale]){
-      // check if there is a match for the root locale (es_uy -> es)
-      preferredLocale = preferredLocale.split("_")[0];
-      if(!allTranslations[preferredLocale]){
-        // default (en)
-        preferredLocale = "en";
-      }
-    }
-    translations = allTranslations[preferredLocale];
-    doTranslations();
-  });
-}
-else{
-  doTranslations();
-}
-
-function doTranslations(){
-  polyglot = new Polyglot({ phrases: translations });
-  _ = function(word, vars){
-    return polyglot.t(word, vars);
-  };
-
-  // translate words already on the page
-  var translateWords = $(".translate");
-  $.each(translateWords, function(w, word_element){
-    var word = $(word_element).text();
-    $(word_element).text( _(word) );
-  });
-  
-  // check for right-to-left languages (including Arabic)
-  // text inputs should have dir="auto" already set
-  if(_("ltr") == "rtl"){
-    $("body").addClass("rtl");
-  }
-}
-
 // drop an image onto the page
 var files, fileindex;
 
@@ -138,6 +94,10 @@ function pdfify(){
 
   var doc = new jsPDF();
 
+  if(rightToLeft){
+    pages.reverse();
+  }
+
   for(var p=0;p<pages.length;p++){
     // add user image
     var img_offset = 0;
@@ -163,6 +123,10 @@ function pdfify(){
     }
   }
 
+  if(rightToLeft){
+    pages.reverse();
+  }
+
   doc.save('Test.pdf');
 }
 
@@ -173,6 +137,10 @@ function bookify(){
   saveCurrentPage();
 
   // generate book preview
+  if(rightToLeft){
+    pages.reverse();
+  }
+  
   $(".book").html("");
   for(var p=0;p<pages.length;p++){
     var page = $("<div>");
@@ -200,8 +168,24 @@ function bookify(){
   // show book preview
   $($(".container").children()[0]).hide();
   $(".book").removeClass("hide");
+
+  if(rightToLeft){
+    pages.reverse();
+  }
 }
 $(".bookify").on("click", bookify);
+
+// books can be created and updated
+var book_id = null;
+
+function upload(){
+  saveCurrentPage();
+  $.post("/book", {pages: pages, book_id: book_id }, function(response){
+    book_id = response.id;
+  });
+}
+$(".upload").on("click", upload);
+
 
 // store page content
 var pages = [{ text: "", image: null }];

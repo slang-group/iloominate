@@ -15,6 +15,11 @@ html
   body
     div.container
       .row-fluid
+        .user-login
+          a.translate(href="/login") Log In
+          span &nbsp;&nbsp;|&nbsp;&nbsp;
+          a.translate(href="/signup") Sign Up
+
         .col-xs-3.list-group.page-list
           a.list-group-item.active(href="#")
             h4.list-group-item-heading.translate= 'Page 1'
@@ -38,8 +43,9 @@ html
             textarea.form-control(name="page", rows="3", dir="auto")
               != '&nbsp;'
             br
-            a.btn.btn-info.pdfify.translate(href="#")= 'Make into PDF'
-            a.btn.btn-success.bookify.translate(href="#")= 'Make into Book'
+            a.btn.btn-info.pdfify.translate(href="#") Make into PDF
+            a.btn.btn-success.bookify.translate(href="#") Make into Book
+            a.btn.btn-info.upload.translate(href="#") Upload
             
             .clearfix
 
@@ -66,4 +72,5 @@ html
     script(type="text/javascript") var translations = !{translations};
     script(type="text/javascript")
       != 'var outOfChromeApp = true;'
+    script(type="text/javascript", src="/localize.js")
     script(type="text/javascript", src="/test.js")

@@ -37,6 +37,12 @@ textarea {
   padding: 25px;
 }
 
+/* user login */
+.user-login {
+  float: right;
+  margin-right: 22px;
+}
+
 /* book preview */
 .book {
   width: 800px;
