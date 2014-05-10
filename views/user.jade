@@ -1,0 +1,41 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title= 'iloominate: Storybook App'
+
+    // 3rd party libraries
+    link(href="/bootstrap.min.css", rel="stylesheet", type="text/css")
+
+    // custom style
+    link(href="/main.css", rel="stylesheet", type="text/css")
+
+  body
+    div.container
+      .row-fluid
+        h1 User Page
+      .row-fluid
+        .span6
+          .well
+            h3 Test User
+            ul
+              li ID #{user._id}
+            br
+            h3 Books
+            ul
+              for book in books
+                li
+                  a(href="/book/#{book._id}")
+                    span.translate Book
+                    span : #{book.name}
+
+    // 3rd party libraries
+    script(type="text/javascript", src="/jquery-1.11.0.min.js")
+    
+    script(type="text/javascript", src="/polyglot.min.js")
+
+    // custom script
+    script(type="text/javascript") var translations = !{translations};
+    script(type="text/javascript")
+      != 'var outOfChromeApp = true;'
+    script(type="text/javascript", src="/localize.js")
