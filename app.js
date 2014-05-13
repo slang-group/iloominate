@@ -154,10 +154,10 @@ function uploadPages(res, book, pages, start_index){
     var hash = "";
     if(page.image){
       try{
-        hash = md5(page.image);
+        hash = md5(page.image+"")+"";
       }
       catch(e){
-        hash = md5.digest_s(page.image);
+        hash = md5.digest_s(page.image+"")+"";
       }
     }
 
@@ -165,7 +165,7 @@ function uploadPages(res, book, pages, start_index){
       // upload this new or updated image
       return cloudinary.uploader.upload(page.image, function(result){
         book.pages[start_index].hash = hash;
-        book.pages[start_index].url = result.url;
+        book.pages[start_index].image = result.url;
         start_index++;
         uploadPages(res, book, pages, start_index);
       });
