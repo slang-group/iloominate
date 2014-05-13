@@ -11,7 +11,9 @@
     "passport": "0.1.X",
     "passport-local": "0.1.X",
     "connect-flash": "0.1.X",
-    "bcrypt-nodejs": "latest"
+    "bcrypt-nodejs": "latest",
+    "cloudinary": "1.0.X",
+    "md5": "1.0.X"
   },
   "engines": {
     "node": "0.10.x"

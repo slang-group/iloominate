@@ -182,6 +182,7 @@ function upload(){
   saveCurrentPage();
   $.post("/book", {pages: pages, book_id: book_id }, function(response){
     book_id = response.id;
+    window.location = "/book/" + book_id;
   });
 }
 $(".upload").on("click", upload);

@@ -27,7 +27,7 @@ var allTranslations = {
     "ltr": "ltr",
     "Make into PDF": "Crear PDF",
     "Make into Book": "Crear Libro",
-    "What is the story?": "¿Qué es tu historia?",
+    "What is the story?": "¿Qué es su historia?",
     "Page 1": "Página 1",
     "page_num": "Página %{page}", // like Page 1, Page 2
     "Sign Up": "Sign Up",
