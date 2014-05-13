@@ -65,7 +65,7 @@ var allTranslations = {
   }
 };
 
-try{
+try {
   exports.translations = allTranslations;
+} catch (e) {
 }
-catch(e){}

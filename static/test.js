@@ -1,7 +1,7 @@
 // highlight unknown letters and words with jQuery.antihighlight
 var highlighter;
-$(document).ready(function(){
-  if(typeof outOfChromeApp == "undefined" || !outOfChromeApp){
+$(document).ready(function () {
+  if (typeof outOfChromeApp === "undefined" || !outOfChromeApp) {
     $("textarea").width(650).height(100);
   }
 
@@ -11,44 +11,81 @@ $(document).ready(function(){
     letters: ['abcdefghijklmnopqrstuvw'],
     caseSensitive: false
   });
-  
+
   // multilingual input with jQuery.IME
   $("textarea").ime();
 });
 
+// store page content
+var pages = [{ text: "", image: null }];
+var current_page = 0;
+
+function saveCurrentPage() {
+  var page_text = $("textarea").val();
+  pages[current_page].text = page_text;
+  $($(".page-list p")[current_page]).text(page_text.substring(0,18));
+
+  if($(".filedrop img").attr("src")){
+    pages[current_page].image = $(".filedrop img").attr("src");
+    pages[current_page].image_width = $(".filedrop img").width();
+    pages[current_page].image_height = $(".filedrop img").height();    
+  }
+}
+
+function setCurrentPage(p) {
+  saveCurrentPage();
+  
+  current_page = p;
+
+  $(".page-list a").removeClass("active");
+  $($(".page-list a")[p]).addClass("active");
+  
+  // set text and highlighting
+  $("textarea").val(pages[p].text);
+  $("textarea").trigger("input");
+
+  // set image
+  if(pages[p].image){
+    $(".filedrop img").attr("src", pages[p].image);
+  }
+  else{
+    $(".filedrop img").attr("src", "");
+  }
+}
+
 // drop an image onto the page
 var files, fileindex;
 
-var blockHandler = function(e){
+var blockHandler = function (e) {
   e.stopPropagation();
   e.preventDefault();
 };
 
-var processImage = function(e){
+var processImage = function (e) {
   var img_url = e.target.result;
   $(".filedrop").removeClass("bordered").html("").append($("<img/>").attr("src", img_url));
 };
 
-var processWhitelist = function(e){
+var processWhitelist = function (e) {
   var whitelist = e.target.result;
   // reduce to lowercase words separated by spaces
-  whitelist = whitelist.replace(/\r?\n|\r/g,' ').replace(/\s\s+/g, ' ').toLowerCase().split(' ');
-  
+  whitelist = whitelist.replace(/\r?\n|\r/g, ' ').replace(/\s\s+/g, ' ').toLowerCase().split(' ');
+
   // reset existing whitelists
   var wordWhitelist = [];
   var letterWhitelist = [];
-  for(var w=0;w<whitelist.length;w++){
+  for (var w=0; w<whitelist.length; w++) {
     var word = whitelist[w];
   
     // all letters in letter list?
     for(var i=0;i<word.length;i++){
-      if(letterWhitelist.indexOf(word[i]) == -1){
+      if(letterWhitelist.indexOf(word[i]) === -1){
         letterWhitelist.push(word[i]);
       }
     }
 
     // add to word list?
-    if(wordWhitelist.indexOf(word) == -1){
+    if(wordWhitelist.indexOf(word) === -1){
       wordWhitelist.push(word);
     }
   }
@@ -57,12 +94,12 @@ var processWhitelist = function(e){
   highlighter.antihighlight('setWords', wordWhitelist);
 };
 
-var dropFile = function(e){
+var dropFile = function (e) {
   e.stopPropagation();
   e.preventDefault();
 
   files = e.dataTransfer.files;
-  if(files && files.length){
+  if (files && files.length) {
     var reader = new FileReader();
     
     var fileType = files[0].type.toLowerCase();
@@ -85,7 +122,7 @@ window.addEventListener('drop', dropFile, false);
 
 
 // PDF export
-function pdfify(){
+function pdfify() {
   saveCurrentPage();
 
   var ctx = $("canvas")[0].getContext("2d");
@@ -98,7 +135,7 @@ function pdfify(){
     pages.reverse();
   }
 
-  for(var p=0;p<pages.length;p++){
+  for(var p=0; p<pages.length; p++) {
     // add user image
     var img_offset = 0;
     if(pages[p].image){
@@ -117,7 +154,7 @@ function pdfify(){
     var imgData = $("canvas")[0].toDataURL();
     doc.addImage(imgData, 'PNG', 20, 40 + img_offset, 125, 75);
 
-    if(p != pages.length - 1){
+    if(p !== pages.length - 1){
       // need next page
       doc.addPage();
     }
@@ -133,7 +170,7 @@ function pdfify(){
 $(".pdfify").on("click", pdfify);
 
 // book preview
-function bookify(){
+function bookify() {
   saveCurrentPage();
 
   // generate book preview
@@ -178,9 +215,9 @@ $(".bookify").on("click", bookify);
 // books can be created and updated
 var book_id = null;
 
-function upload(){
+function upload() {
   saveCurrentPage();
-  $.post("/book", {pages: pages, book_id: book_id }, function(response){
+  $.post("/book", {pages: pages, book_id: book_id }, function(response) {
     // redirect to newly created or updated book
     book_id = response.id;
     window.location = "/book/" + book_id;
@@ -188,51 +225,13 @@ function upload(){
 }
 $(".upload").on("click", upload);
 
-
-// store page content
-var pages = [{ text: "", image: null }];
-var current_page = 0;
-
-function saveCurrentPage(){
-  var page_text = $("textarea").val();
-  pages[current_page].text = page_text;
-  $($(".page-list p")[current_page]).text(page_text.substring(0,18));
-
-  if($(".filedrop img").attr("src")){
-    pages[current_page].image = $(".filedrop img").attr("src");
-    pages[current_page].image_width = $(".filedrop img").width();
-    pages[current_page].image_height = $(".filedrop img").height();    
-  }
-}
-
-function setCurrentPage(p){
-  saveCurrentPage();
-  
-  current_page = p;
-
-  $(".page-list a").removeClass("active");
-  $($(".page-list a")[p]).addClass("active");
-  
-  // set text and highlighting
-  $("textarea").val(pages[p].text);
-  $("textarea").trigger("input");
-
-  // set image
-  if(pages[p].image){
-    $(".filedrop img").attr("src", pages[p].image);
-  }
-  else{
-    $(".filedrop img").attr("src", "");
-  }
-}
-
 // activate existing page links
-$($(".page-list").children()[0]).on("click", function(){
+$($(".page-list").children()[0]).on("click", function() {
   setCurrentPage(0);
 });
 
 // adding a new page
-$(".new-page").on("click", function(){  
+$(".new-page").on("click", function() {  
   // create new page listing
   pages.push({ text: "", image: null });
   var addPage = $("<a class='list-group-item' href='#'></a>");

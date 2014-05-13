@@ -1,16 +1,16 @@
 // PDF export
-function pdfify(){
+function pdfify() {
   var ctx = $("canvas")[0].getContext("2d");
   ctx.font = "20px sans-serif";
   ctx.fillStyle = "#000";
 
   var doc = new jsPDF();
 
-  if(rightToLeft){
+  if (rightToLeft) {
     pages.reverse();
   }
 
-  for(var p=0;p<pages.length;p++){
+  for (var p=0; p<pages.length; p++) {
     // add user image
     var img_offset = 0;
     if(pages[p].image){
@@ -29,13 +29,13 @@ function pdfify(){
     var imgData = $("canvas")[0].toDataURL();
     doc.addImage(imgData, 'PNG', 20, 40 + img_offset, 125, 75);
 
-    if(p != pages.length - 1){
+    if (p !== pages.length - 1) {
       // need next page
       doc.addPage();
     }
   }
 
-  if(rightToLeft){
+  if (rightToLeft) {
     pages.reverse();
   }
 
@@ -45,14 +45,14 @@ function pdfify(){
 $(".pdfify").on("click", pdfify);
 
 // book preview
-function bookify(){
+function bookify() {
   // generate book preview
   if(rightToLeft){
     pages.reverse();
   }
   
   $(".book").html("");
-  for(var p=0;p<pages.length;p++){
+  for (var p=0; p<pages.length; p++) {
     var page = $("<div>");
 
     if(pages[p].image){
@@ -87,7 +87,7 @@ $(".bookify").on("click", bookify);
 
 var current_page = 0;
 
-function setCurrentPage(p){  
+function setCurrentPage(p) {  
   current_page = p;
 
   $(".page-list a").removeClass("active");
@@ -97,17 +97,17 @@ function setCurrentPage(p){
   $("p").text(pages[p].text);
 
   // set image
-  if(pages[p].image){
+  if (pages[p].image) {
     $(".filedrop img").attr("src", pages[p].image);
   }
-  else{
+  else {
     $(".filedrop img").attr("src", "");
   }
 }
 
 // activate existing page links
-$.each($(".page-list").children(), function(p, page_link){
-  if(p==0){
+$.each($(".page-list").children(), function(p, page_link) {
+  if (p === 0) {
     $(page_link).addClass("active");
   }
   $(page_link).on("click", function(){
