@@ -95,7 +95,10 @@ app.get('/user/:id', function(req, res){
 // book pages (view and post)
 app.get('/book/:book_id', function(req, res){
   Book.findById(req.params.book_id, function(err, book){
-    res.json(book);
+    res.render('book', {
+      book: book,
+      translations: getTranslations(req)
+    });
   });
 });
 
@@ -151,10 +154,10 @@ function uploadPages(res, book, pages, start_index){
     var hash = "";
     if(page.image){
       try{
-        hash = md5.digest_s(page.image);
+        hash = md5(page.image);
       }
       catch(e){
-        hash = md5(page.image);
+        hash = md5.digest_s(page.image);
       }
     }
 

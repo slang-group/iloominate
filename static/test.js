@@ -181,6 +181,7 @@ var book_id = null;
 function upload(){
   saveCurrentPage();
   $.post("/book", {pages: pages, book_id: book_id }, function(response){
+    // redirect to newly created or updated book
     book_id = response.id;
     window.location = "/book/" + book_id;
   });
