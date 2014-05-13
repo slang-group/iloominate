@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var flash = require('connect-flash');
 var cloudinary = require('cloudinary');
-var md5 = require('md5');
+var md5 = require('MD5');
 
 // load all translations
 var allTranslations = require('./static/translations').translations;

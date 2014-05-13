@@ -13,7 +13,7 @@
     "connect-flash": "0.1.X",
     "bcrypt-nodejs": "latest",
     "cloudinary": "1.0.X",
-    "md5": "1.0.X"
+    "MD5": "1.2.X"
   },
   "engines": {
     "node": "0.10.x"
