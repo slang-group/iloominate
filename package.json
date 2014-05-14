@@ -15,10 +15,15 @@
     "cloudinary": "1.0.X",
     "MD5": "1.2.X"
   },
+  "devDependencies": {
+    "jshint": "2.5.X",
+    "expresso": "0.9.X"
+  },
   "engines": {
     "node": "0.10.x"
   },
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "expresso test/* | jshint ./*.js --config ./test/.jshintrc | jshint ./static/*.js --config ./test/.jshintrc"
   }
 }
