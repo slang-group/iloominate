@@ -40,6 +40,9 @@ Includes:
 
 Web server uses Node.js with libraries Express, Passport, and Mongoose.
 
+Tests are run using Expresso and continuous integration on travis-ci.org - Link to latest build:
+[![Build Status](https://travis-ci.org/mapmeld/iloominate.png)](https://travis-ci.org/mapmeld/iloominate)
+
 ## Licensing
 
 iLoominate will be open source (MIT license) and be built with several other open
