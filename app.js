@@ -35,7 +35,7 @@ app.configure(function () {
 // helper function to return standard or requested translations from server
 function getTranslations (req) {
   // detect language on server side, return translations
-  var preferredLocale = req.query.language || req.headers['accept-language'].split(",")[0];
+  var preferredLocale = req.query.language || (req.headers['accept-language'] || "").split(",")[0];
   if (!allTranslations[preferredLocale]) {
     // check if there is a match for the root locale (es_uy -> es)
     preferredLocale = preferredLocale.split("_")[0];
@@ -201,3 +201,4 @@ app.post('/book', function (req, res) {
 });
 
 app.listen(process.env.PORT || 3000);
+module.exports = app;

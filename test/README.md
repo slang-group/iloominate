@@ -8,3 +8,8 @@ Verify consistent and readable syntax in all JavaScript files:
     jshint iloominate/*.js --config ./tests/.jshintrc
     jshint iloominate/static/*.js --config ./tests/.jshintrc
 
+## mocha
+
+Verify browser requests, translations, and users work as normal.
+
+    mocha
