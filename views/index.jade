@@ -15,11 +15,6 @@ html
   body
     div.container
       .row-fluid
-        .user-login
-          a.translate(href="/login") Log In
-          span &nbsp;&nbsp;|&nbsp;&nbsp;
-          a.translate(href="/signup") Sign Up
-
         .col-xs-3.list-group.page-list
           a.list-group-item.active(href="#")
             h4.list-group-item-heading.translate= 'Page 1'
@@ -28,8 +23,12 @@ html
             a.btn.btn-success.new-page.translate(href="#") Add Page
 
         .col-lg-9
-
           noscript.translate= 'Enable JavaScript!'
+        
+          .user-login
+            a.translate(href="/login") Log In
+            span &nbsp;&nbsp;|&nbsp;&nbsp;
+            a.translate(href="/signup") Sign Up
 
           .well
             .image_area
@@ -38,10 +37,11 @@ html
 
             .clearfix
 
-            h4.translate(dir="auto")= 'Type first page'
+            //
+              h4.translate(dir="auto")= 'Type first page'
             br
-            textarea.form-control(name="page", rows="3", dir="auto")
-              != '&nbsp;'
+            textarea.form-control.translate(name="page", rows="3", dir="auto")
+              != 'Type first page'
             br
             a.btn.btn-info.pdfify.translate(href="#") Make into PDF
             a.btn.btn-success.bookify.translate(href="#") Make into Book
