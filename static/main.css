@@ -39,6 +39,12 @@ textarea.form-control {
   float: right;
 }
 
+/* word lists */
+#wordmodal p {
+  background-color: #ddd;
+  padding: 4px;
+}
+
 /* layouts section */
 .layouts {
   box-sizing: border-box;

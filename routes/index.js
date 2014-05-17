@@ -1,5 +1,3 @@
-var WordList = require('../models/wordlist');
-
 var t = require('../static/translations');
 
 exports.home = function (req, res) {
@@ -10,3 +8,4 @@ exports.home = function (req, res) {
 
 exports.users = require('./users');
 exports.books = require('./books');
+exports.wordlists = require('./wordlists');

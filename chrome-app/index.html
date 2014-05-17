@@ -57,6 +57,28 @@
     <div class="clearfix">
     </div>
 
+    <div id="wordmodal" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">x</button>
+            <h3 class="translate">Save Word List</h3>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label class="translate" for="wordlistname">Name</label>
+              <input id="wordlistname" class="form-control" type="text" name="wordlistname"/>
+            </div>
+            <p>Word list goes here</p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default translate" type="button" data-dismiss="modal">Cancel</button>
+            <button class="save btn btn-primary translate" type="button" data-dismiss="modal">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 3rd party libraries -->
     <script type="text/javascript" src="../lib/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../lib/antihighlight/jquery.antihighlight.js"></script>
@@ -65,6 +87,8 @@
     <script type="text/javascript" src="../lib/jspdf.debug.js"></script>
     
     <script type="text/javascript" src="../lib/turn.min.js"></script>
+
+    <script type="text/javascript" src="../lib/bootstrap.min.js"></script>
     
     <script type="text/javascript" src="../lib/polyglot.min.js"></script>
 

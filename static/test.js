@@ -109,6 +109,20 @@ var processImage = function (e) {
     .find("h4").hide();
 };
 
+// uploading a whitelist when a user presses "Save" button
+$("#wordmodal .save").on("click", function() {
+  if (typeof outOfChromeApp === "undefined" || !outOfChromeApp) {
+    // save offline
+  } else {
+    // online - post to server
+    var name = $("#wordmodal #wordlistname").val();
+    var wordlist = $("#wordmodal p").text();
+    $.post("/wordlist", {name: name, wordlist: wordlist}, function(response) {
+      console.log(response);
+    });
+  }
+});
+
 var processWhitelist = function (e) {
   var whitelist = e.target.result;
   // reduce to lowercase words separated by spaces
@@ -135,6 +149,11 @@ var processWhitelist = function (e) {
 
   highlighter.antihighlight('setLetters', [letterWhitelist.join('')]);
   highlighter.antihighlight('setWords', wordWhitelist);
+  
+  // display and save whitelist
+  $("#wordmodal .modal-body input").val("");
+  $("#wordmodal .modal-body p").text(wordWhitelist.join(" ").substring(0,500));
+  $("#wordmodal").modal('show');
 };
 
 var dropFile = function (e) {

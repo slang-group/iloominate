@@ -17,14 +17,14 @@ html
       .row-fluid
         .col-xs-3.list-group.page-list
           a.list-group-item.active(href="#")
-            h4.list-group-item-heading.translate= 'Page 1'
-            p.list-group-item-text.translate= 'What is the story?'
+            h4.list-group-item-heading.translate Page 1
+            p.list-group-item-text.translate What is the story?
           div.list-group-item
             a.btn.btn-success.new-page.translate(href="#") Add Page
 
         .col-lg-9
-          noscript.translate= 'Enable JavaScript!'
-        
+          noscript.translate Enable JavaScript!
+
           .user-login
             a.translate(href="/login") Log In
             span &nbsp;&nbsp;|&nbsp;&nbsp;
@@ -32,13 +32,13 @@ html
 
           .well
             .image_area
-              h4.translate(dir="auto")= 'Drop in an Image'
+              h4.translate(dir="auto") Drop in an Image
               .filedrop.bordered
 
             .clearfix
 
             //
-              h4.translate(dir="auto")= 'Type first page'
+              h4.translate(dir="auto") Type first page
             br
             textarea.form-control.translate(name="page", rows="3", dir="auto")
               != 'Type first page'
@@ -52,6 +52,21 @@ html
           canvas.hide(width="500", height="300")
       .book.hide
 
+    #wordmodal.modal.fade
+      .modal-dialog
+        .modal-content
+          .modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true") x
+            h3.translate Save Word List
+          .modal-body
+            .form-group
+              label.translate(for="wordlistname") Name
+              input#wordlistname.form-control(type="text", name="wordlistname")
+            p Word list goes here
+          .modal-footer
+            button.btn.btn-default.translate(type="button", data-dismiss="modal") Cancel
+            button.save.btn.btn-primary.translate(type="button", data-dismiss="modal") Save
+
     // 3rd party libraries
     script(type="text/javascript", src="/jquery-1.11.0.min.js")
     script(type="text/javascript", src="/antihighlight/jquery.antihighlight.js")
@@ -59,6 +74,8 @@ html
     script(type="text/javascript", src="/jspdf.min.js")
 
     script(type="text/javascript", src="/turn.min.js")
+    
+    script(type="text/javascript", src="/bootstrap.min.js")
     
     script(type="text/javascript", src="/polyglot.min.js")
 

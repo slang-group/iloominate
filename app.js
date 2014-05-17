@@ -46,6 +46,9 @@ app.get('/', routes.home);
 app.get('/book/:book_id', routes.books.byid);
 app.post('/book', routes.books.save);
 
+// word lists
+app.post('/wordlist', routes.wordlists.save);
+
 // user pages
 app.get('/signup', routes.users.signup);
 app.get('/login', routes.users.login);
