@@ -82,7 +82,7 @@ var getTranslations = function (req) {
 
   // detect language on server side, return translations
   var preferredLocale;
-  if (typeof req == "string") {
+  if (typeof req === "string") {
     preferredLocale = req;
   } else {
     preferredLocale = req.query.language || (req.headers['accept-language'] || "").split(",")[0];
@@ -97,7 +97,7 @@ var getTranslations = function (req) {
     }
   }
   return JSON.stringify(allTranslations[preferredLocale]);
-}
+};
 
 
 try {
