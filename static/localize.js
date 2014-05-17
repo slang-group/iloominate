@@ -31,16 +31,7 @@ function doTranslations() {
 if (typeof outOfChromeApp === "undefined" || !outOfChromeApp) {
   chrome.i18n.getAcceptLanguages(function (languageList) {
     var preferredLocale = (languageList[0]).toLowerCase().replace("-", "_");
-    // check if there is a match for the complete locale (e.g., es_uy)
-    if (!allTranslations[preferredLocale]) {
-      // check if there is a match for the root locale (es_uy -> es)
-      preferredLocale = preferredLocale.split("_")[0];
-      if (!allTranslations[preferredLocale]) {
-        // default (en)
-        preferredLocale = "en";
-      }
-    }
-    translations = allTranslations[preferredLocale];
+    translations = JSON.parse(getTranslations(preferredLocale));
     doTranslations();
   });
 } else {

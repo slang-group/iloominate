@@ -65,7 +65,32 @@ var allTranslations = {
   }
 };
 
+// helper function to return standard or requested translations from server
+var getTranslations = function (req) {
+
+  // detect language on server side, return translations
+  var preferredLocale;
+  if (typeof req == "string") {
+    preferredLocale = req;
+  } else {
+    preferredLocale = req.query.language || (req.headers['accept-language'] || "").split(",")[0];
+  }
+
+  if (!allTranslations[preferredLocale]) {
+    // check if there is a match for the root locale (es_uy -> es)
+    preferredLocale = preferredLocale.split("_")[0];
+    if (!allTranslations[preferredLocale]) {
+      // default (en)
+      preferredLocale = "en";
+    }
+  }
+  return JSON.stringify(allTranslations[preferredLocale]);
+}
+
+
 try {
-  exports.translations = allTranslations;
+  // use exports if this is used as a Node.js module
+  exports.getTranslations = getTranslations;
 } catch (e) {
+
 }
