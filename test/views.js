@@ -18,7 +18,6 @@ describe('GET /', function(){
       .get('/?language=es')
       .expect(200)
       .end(function(err, res){
-        console.log(res);
         assert.include(res.text, 'Escriba la primera página');
         done();
       });
@@ -30,7 +29,6 @@ describe('GET /', function(){
       .set('accept-language', 'es_UY')
       .expect(200)
       .end(function(err, res){
-        console.log(res);
         assert.include(res.text, 'Escriba la primera página');
         done();
       });

@@ -26,6 +26,8 @@
   },
   "scripts": {
     "start": "node app.js",
-    "test": "mocha; jshint ./*.js --config ./test/.jshintrc; jshint ./static/*.js --config ./test/.jshintrc"
+    "test": "npm run test-mocha && npm run test-jshint",
+    "test-mocha": "mocha",
+    "test-jshint": "jshint ./*.js --config ./test/.jshintrc && jshint ./static/*.js --config ./test/.jshintrc"
   }
 }
