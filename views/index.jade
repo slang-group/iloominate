@@ -26,9 +26,20 @@ html
           noscript.translate Enable JavaScript!
 
           .user-login
-            a.translate(href="/login") Log In
-            span &nbsp;&nbsp;|&nbsp;&nbsp;
-            a.translate(href="/signup") Sign Up
+            if loggedin
+              .dropdown(style="display:inline;")
+                a(href="#", data-toggle="dropdown")
+                  span.translate Word List
+                  span &nbsp;▽
+                ul.dropdown-menu(role="menu", aria-labelledby="dLabel")
+                  li.active(role="presentation")
+                    a.translate(href="#", role="menuitem") Original
+              span &nbsp;&nbsp;|&nbsp;&nbsp;
+              a#logout.translate(href="/logout") Log Out
+            else
+              a.translate(href="/login") Log In
+              span &nbsp;&nbsp;|&nbsp;&nbsp;
+              a.translate(href="/signup") Sign Up
 
           .well
             .image_area

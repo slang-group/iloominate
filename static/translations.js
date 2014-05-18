@@ -8,17 +8,20 @@ var allTranslations = {
     "Drop in an Image": "Drop in an Image",
     "Type first page": "Type first page",
     "Log In": "Log In",
+    "Log Out": "Log Out",
     "ltr": "ltr", // left-to-right or right-to-left?
     "Make into PDF": "Make into PDF",
     "Make into Book": "Make into Book",
     "Name": "Name",
-    "What is the story?": "What is the story?",
+    "Original": "Original",
     "Page 1": "Page 1",
     "page_num": "Page %{page}", // like Page 1, Page 2
     "Save": "Save",
     "Save Word List": "Save Word List",
     "Sign Up": "Sign Up",
-    "Upload": "Upload"
+    "Upload": "Upload",
+    "What is the story?": "What is the story?",
+    "Word List": "Word List"
   },
   "es": {
     "Add Page": "Añadir Página",
@@ -29,17 +32,20 @@ var allTranslations = {
     "Drop in an Image": "Coloca una Imagen",
     "Type first page": "Escriba la primera página",
     "Log In": "Log In",
+    "Log Out": "Log Out",
     "ltr": "ltr",
     "Make into PDF": "Crear PDF",
     "Make into Book": "Crear Libro",
     "Name": "Nombre",
-    "What is the story?": "¿Qué es su historia?",
+    "Original": "Original",
     "Page 1": "Página 1",
     "page_num": "Página %{page}", // like Page 1, Page 2
     "Save": "Guardar",
     "Save Word List": "Guardar Lista de Palabras",
     "Sign Up": "Sign Up",
-    "Upload": "Subir"
+    "Upload": "Subir",
+    "What is the story?": "¿Qué es su historia?",
+    "Word List": "Lista de Palabras"
   },
   "ht": {
     "Add Page": "Ajoute Paj",
@@ -50,17 +56,20 @@ var allTranslations = {
     "Drop in an Image": "Mete yon imaj",
     "Type first page": "Tipe premye paj la",
     "Log In": "Log In",
+    "Log Out": "Log Out",
     "ltr": "ltr",
     "Make into PDF": "Fè PDF",
     "Make into Book": "Fè Liv",
     "Name": "Name",
-    "What is the story?": "Kisa istwa a ye?",
+    "Original": "Original",
     "Page 1": "Paj 1",
     "page_num": "Paj %{page}", // like Page 1, Page 2
     "Save": "Save",
     "Save Word List": "Save Word List",
     "Sign Up": "Sign Up",
-    "Upload": "Upload"
+    "Upload": "Upload",
+    "What is the story?": "Kisa istwa a ye?",
+    "Word List": "Word List"
   },
   /* not actual translations below - still proof of concept */
   "ar": {

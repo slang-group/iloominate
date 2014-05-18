@@ -109,25 +109,7 @@ var processImage = function (e) {
     .find("h4").hide();
 };
 
-// uploading a whitelist when a user presses "Save" button
-$("#wordmodal .save").on("click", function() {
-  if (typeof outOfChromeApp === "undefined" || !outOfChromeApp) {
-    // save offline
-  } else {
-    // online - post to server
-    var name = $("#wordmodal #wordlistname").val();
-    var wordlist = $("#wordmodal p").text();
-    $.post("/wordlist", {name: name, wordlist: wordlist}, function(response) {
-      console.log(response);
-    });
-  }
-});
-
-var processWhitelist = function (e) {
-  var whitelist = e.target.result;
-  // reduce to lowercase words separated by spaces
-  whitelist = whitelist.replace(/\r?\n|\r/g, ' ').replace(/\s\s+/g, ' ').toLowerCase().split(' ');
-
+function setWhitelist (whitelist) {
   // reset existing whitelists
   var wordWhitelist = [];
   var letterWhitelist = [];
@@ -150,9 +132,73 @@ var processWhitelist = function (e) {
   highlighter.antihighlight('setLetters', [letterWhitelist.join('')]);
   highlighter.antihighlight('setWords', wordWhitelist);
   
+  return wordWhitelist;
+}
+
+// logged in - load word lists
+if ($("#logout").length) {
+  // set original list
+  var menuItem = $(".user-login .dropdown-menu li");
+  menuItem.find("a").on("click", function() {
+    $(".user-login .dropdown-menu li").removeClass("active");
+    menuItem.addClass("active");
+    setWhitelist(['hello', 'world', 'नेपाल', 'abcdefghijklmnopqrstuvw']);
+  });
+
+  // download a copy of all word lists, add to a menu
+  $.getJSON("/wordlist/all", function (metalist) {
+    $.each(metalist, function(i, list) {
+      var menuItem = $("<li role='presentation'>");
+      menuItem.append($("<a href='#' role='menuitem'>").text(list.name));
+      $(".user-login .dropdown-menu").append(menuItem);
+      menuItem.find("a").on("click", function() {
+        $(".user-login .dropdown-menu li").removeClass("active");
+        menuItem.addClass("active");
+        setWhitelist(list.words);
+      });
+    });
+  });
+}
+
+// uploading a whitelist when a user presses "Save" button
+$("#wordmodal .save").on("click", function() {
+  var name = $("#wordmodal #wordlistname").val();
+  var wordlist = $("#wordmodal p").text();
+  
+  // add to word list dropdown for logged-in users
+  if ($("#logout").length) {
+    $(".user-login .dropdown-menu li").removeClass("active");
+    
+    var menuItem = $("<li role='presentation' class='active'>");
+    menuItem.append($("<a href='#' role='menuitem'>").text(name));
+    $(".user-login .dropdown-menu").append(menuItem);
+    menuItem.find("a").on("click", function() {
+      $(".user-login .dropdown-menu li").removeClass("active");
+      menuItem.addClass("active");
+      setWhitelist(wordlist.split(" "));
+    });
+  }
+
+  if (typeof outOfChromeApp === "undefined" || !outOfChromeApp) {
+    // save offline
+  } else {
+    // online - post to server
+    $.post("/wordlist", {name: name, wordlist: wordlist}, function(response) {
+      console.log(response);
+    });
+  }
+});
+
+var processWhitelist = function (e) {
+  var whitelist = e.target.result;
+  // reduce to lowercase words separated by spaces
+  whitelist = whitelist.replace(/\r?\n|\r/g, ' ').replace(/\s\s+/g, ' ').toLowerCase().split(' ');
+
+  whitelist = setWhitelist(whitelist);
+  
   // display and save whitelist
   $("#wordmodal .modal-body input").val("");
-  $("#wordmodal .modal-body p").text(wordWhitelist.join(" ").substring(0,500));
+  $("#wordmodal .modal-body p").text(whitelist.join(" ").substring(0,500));
   $("#wordmodal").modal('show');
 };
 
