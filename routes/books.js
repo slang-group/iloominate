@@ -36,7 +36,7 @@ function uploadPages (res, book, pages, start_index) {
       });
     }
   }
-  
+
   // check next page for an image to upload
   start_index++;
   uploadPages(res, book, pages, start_index);
@@ -58,7 +58,7 @@ exports.save = function (req, res) {
       book.pages = [];
       for (var i=0; i<req.body.pages.length; i++) {
         var page = req.body.pages[i];
-        
+
         if (book.pages.length > i) {
           // new page
           book.pages.push({ text: page.text, hash: "" });
@@ -75,13 +75,18 @@ exports.save = function (req, res) {
   else{
     var book = new Book();
     book.name = "hello";
-    book.user_id = "536e934decbddf2809fa32a0";
+    if(req.isAuthenticated()){
+      book.user_id = req.user._id;
+    }
+    else{
+      book.user_id = "536e934decbddf2809fa32a0";
+    }
     book.pages = [];
     for(var i=0; i<req.body.pages.length; i++){
       var page = req.body.pages[i];
       book.pages.push({ text: page.text, hash: "" });
     }
-    
+
     uploadPages(res, book, req.body.pages, 0);
   }
 };
