@@ -30,8 +30,9 @@ Node.js server. The main storybook editor will be available through the site,
 or offline as a Google Chrome app.
 
 Includes:
-* [Bootstrap / Bootswatch](http://bootswatch.com/lumen/) - MIT license
 * [antihighlight](https://github.com/mapmeld/jQuery-antihighlight) fork of [highlightTextarea](http://www.strangeplanet.fr/work/jquery-highlighttextarea/) - GPL/MIT licenses
+* [Bootstrap / Bootswatch](http://bootswatch.com/lumen/) - MIT license
+* [JavaScript-MD5](https://github.com/blueimp/JavaScript-MD5) - MIT license
 * [jQuery 1.x](https://github.com/jquery/jquery/tree/1.x-master) - MIT license
 * [jQuery.IME](https://github.com/wikimedia/jquery.ime) - GPL/MIT licenses
 * [jsPDF](https://github.com/MrRio/jsPDF) - MIT license

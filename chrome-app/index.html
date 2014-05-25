@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8"/>
     <title>iloominate: Storybook App</title>
-    
+
     <!-- 3rd party libraries -->
     <link href="../lib/antihighlight/jquery.antihighlight.css" rel="stylesheet" type="text/css"/>
     <link href="../lib/bootstrap.min.css" rel="stylesheet" type="text/css"/>
@@ -26,9 +26,22 @@
         </div>
 
         <div class="col-lg-9">
-
           <noscript class="translate">Enable JavaScript!</noscript>
-    
+
+          <div class="user-login">
+            <div class="dropdown" style="display:inline;">
+              <a href="#" data-toggle="dropdown">
+                <span class="translate">Word List</span>
+                <span> ▽</span>
+              </a>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                <li class="active" role="presentation">
+                  <a class="translate" href="#" role="menuitem">Original</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
           <div class="well">
             <div class="image_area">
               <h4 class="translate" dir="auto">Drop in an Image</h4>
@@ -46,14 +59,14 @@
             <a href="#" class="btn btn-info pdfify" class="translate">Make into PDF</a>
             <a href="#" class="btn btn-success bookify translate">Make into Book</a>
           </div>
-    
+
           <canvas width="500" height="300" class="hide"></canvas>
         </div>
       </div>
       <div class="book hide">
       </div>
     </div>
-    
+
     <div class="clearfix">
     </div>
 
@@ -85,11 +98,13 @@
 
     <script type="text/javascript" src="../lib/png.js"></script>
     <script type="text/javascript" src="../lib/jspdf.debug.js"></script>
-    
+
+    <script type="text/javascript" src="../lib/md5.min.js"></script>
+
     <script type="text/javascript" src="../lib/turn.min.js"></script>
 
     <script type="text/javascript" src="../lib/bootstrap.min.js"></script>
-    
+
     <script type="text/javascript" src="../lib/polyglot.min.js"></script>
 
     <script type="text/javascript" src="../lib/jqime/libs/rangy/rangy-core.js"></script>
@@ -97,13 +112,15 @@
     <script type="text/javascript" src="../lib/jqime/src/jquery.ime.selector.js"></script>
     <script type="text/javascript" src="../lib/jqime/src/jquery.ime.preferences.js"></script>
     <script type="text/javascript" src="../lib/jqime/src/jquery.ime.inputmethods.js"></script>
+
+    <!-- include input methods -->
     <script type="text/javascript" src="../lib/jqime/rules/ar/ar-kbd.js"></script>
     <script type="text/javascript" src="../lib/jqime/rules/ne/ne-inscript.js"></script>
     <script type="text/javascript" src="../lib/jqime/rules/ne/ne-inscript2.js"></script>
     <script type="text/javascript" src="../lib/jqime/rules/ne/ne-rom.js"></script>
     <script type="text/javascript" src="../lib/jqime/rules/ne/ne-trad.js"></script>
     <script type="text/javascript" src="../lib/jqime/rules/ne/ne-transliteration.js"></script>
-    
+
     <!-- custom script -->
     <script type="text/javascript" src="../static/translations.js"></script>
     <script type="text/javascript" src="../static/localize.js"></script>

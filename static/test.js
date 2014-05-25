@@ -49,18 +49,18 @@ function setCurrentPage(p) {
 
     $(".page-list a").removeClass("active");
     $($(".page-list a")[p]).addClass("active");
-  
+
     // set text and highlighting
     $("textarea").val(pages[p].text);
     $("textarea").trigger("input");
 
     // read page
     if(current_image){
-      // set up image on page    
+      // set up image on page
       $(".filedrop")
         .removeClass("bordered")
         .html("");
-  
+
       $(".image_area")
         .addClass("fullsize")
         .css({
@@ -74,7 +74,7 @@ function setCurrentPage(p) {
       $(".filedrop")
         .addClass("bordered")
         .html("");
-  
+
       $(".image_area")
         .removeClass("fullsize")
         .css({
@@ -99,7 +99,7 @@ var processImage = function (e) {
   $(".filedrop")
     .removeClass("bordered")
     .html("");
-  
+
   $(".image_area")
     .addClass("fullsize")
     .css({
@@ -115,7 +115,7 @@ function setWhitelist (whitelist) {
   var letterWhitelist = [];
   for (var w=0; w<whitelist.length; w++) {
     var word = whitelist[w];
-  
+
     // all letters in letter list?
     for(var i=0;i<word.length;i++){
       if(letterWhitelist.indexOf(word[i]) === -1){
@@ -131,7 +131,7 @@ function setWhitelist (whitelist) {
 
   highlighter.antihighlight('setLetters', [letterWhitelist.join('')]);
   highlighter.antihighlight('setWords', wordWhitelist);
-  
+
   return wordWhitelist;
 }
 
@@ -160,27 +160,62 @@ if ($("#logout").length) {
   });
 }
 
+// offline - load previous word lists
+if (typeof outOfChromeApp === "undefined" || !outOfChromeApp) {
+  chrome.storage.local.get(null, function (items) {
+    $.each(items, function(hash, list){
+      // only look at word lists
+      if(!list.type || list.type !== "wordlist") {
+        return;
+      }
+
+      var menuItem = $("<li role='presentation'>");
+      menuItem.append($("<a href='#' role='menuitem'>").text(list.name));
+      $(".user-login .dropdown-menu").append(menuItem);
+      menuItem.find("a").on("click", function() {
+        $(".user-login .dropdown-menu li").removeClass("active");
+        menuItem.addClass("active");
+        setWhitelist(list.wordlist.split(' '));
+      });
+    });
+  });
+}
+
 // uploading a whitelist when a user presses "Save" button
 $("#wordmodal .save").on("click", function() {
   var name = $("#wordmodal #wordlistname").val();
   var wordlist = $("#wordmodal p").text();
-  
+
   // add to word list dropdown for logged-in users
-  if ($("#logout").length) {
+  $(".user-login .dropdown-menu li").removeClass("active");
+
+  var menuItem = $("<li role='presentation' class='active'>");
+  menuItem.append($("<a href='#' role='menuitem'>").text(name));
+  $(".user-login .dropdown-menu").append(menuItem);
+  menuItem.find("a").on("click", function() {
     $(".user-login .dropdown-menu li").removeClass("active");
-    
-    var menuItem = $("<li role='presentation' class='active'>");
-    menuItem.append($("<a href='#' role='menuitem'>").text(name));
-    $(".user-login .dropdown-menu").append(menuItem);
-    menuItem.find("a").on("click", function() {
-      $(".user-login .dropdown-menu li").removeClass("active");
-      menuItem.addClass("active");
-      setWhitelist(wordlist.split(" "));
-    });
-  }
+    menuItem.addClass("active");
+    setWhitelist(wordlist.split(" "));
+  });
 
   if (typeof outOfChromeApp === "undefined" || !outOfChromeApp) {
-    // save offline
+    // save to Chrome app version of localStorage
+    var hash = md5(wordlist);
+    chrome.storage.local.get('wordlist_' + hash, function(item){
+      if (!Object.keys(item).length) {
+        // creating a new list in localStorage
+        var storeVal = {};
+        storeVal['wordlist_' + hash] = {type: 'wordlist', name: name, wordlist: wordlist};
+        chrome.storage.local.set(storeVal, function(){
+          console.log('list saved as ' + storeName);
+        });
+      }
+      else{
+        // list exists in localStorage
+        return;
+      }
+    });
+
   } else {
     // online - post to server
     $.post("/wordlist", {name: name, wordlist: wordlist}, function(response) {
@@ -195,7 +230,7 @@ var processWhitelist = function (e) {
   whitelist = whitelist.replace(/\r?\n|\r/g, ' ').replace(/\s\s+/g, ' ').toLowerCase().split(' ');
 
   whitelist = setWhitelist(whitelist);
-  
+
   // display and save whitelist
   $("#wordmodal .modal-body input").val("");
   $("#wordmodal .modal-body p").text(whitelist.join(" ").substring(0,500));
@@ -209,12 +244,12 @@ var dropFile = function (e) {
   files = e.dataTransfer.files;
   if (files && files.length) {
     var reader = new FileReader();
-    
+
     var fileType = files[0].type.toLowerCase();
     if(fileType.indexOf("image") > -1){
       // process an image
       reader.onload = processImage;
-      reader.readAsDataURL(files[0]); 
+      reader.readAsDataURL(files[0]);
     }
     else{
       // process a whitelist of letters and words
@@ -286,7 +321,7 @@ function bookify() {
     if(rightToLeft){
       pages.reverse();
     }
-  
+
     $(".book").html("");
     for(var p=0;p<pages.length;p++){
       var page = $("<div>");
@@ -310,7 +345,7 @@ function bookify() {
       turnCorners: 'bl,br',
       corners: 'forward'
     });
-   
+
     // show book preview
     $($(".container").children()[0]).hide();
     $(".book").removeClass("hide");
@@ -342,7 +377,7 @@ $($(".page-list").children()[0]).on("click", function() {
 });
 
 // adding a new page
-$(".new-page").on("click", function() {  
+$(".new-page").on("click", function() {
   // create new page listing
   pages.push({ text: "", image: null });
   var addPage = $("<a class='list-group-item' href='#'></a>");
