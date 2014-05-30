@@ -1,5 +1,6 @@
 var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/user');
+var Team = require('../models/team');
 
 module.exports = function(passport){
   passport.serializeUser(function(user, done){
@@ -28,17 +29,42 @@ module.exports = function(passport){
           return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
         }
         else{
+          // save user's email and password
           var newUser = new User();
           newUser.local.email = email;
           newUser.local.password = newUser.generateHash(password);
-          newUser.save(function(err){
-            if(err){
-              throw err;
-            }
-            return done(null, newUser);
-          });
+
+
+          if(req.body.team){
+            // find team object and connect user to team by ID
+            var teamName = req.body.team.toLowerCase().replace(/\s/,'');
+            Team.findOne({ 'name' :  teamName }, function(err, team) {
+              if (err) {
+                throw err;
+              }
+              if (!team) {
+                return done(null, false, req.flash('signupMessage', 'That team does not exist.'));
+              }
+              newUser.teams = [team._id];
+              newUser.save(function(err){
+                if(err){
+                  throw err;
+                }
+                return done(null, newUser);
+              });
+            });
+          }
+          else{
+            // save user without team
+            newUser.save(function(err){
+              if(err){
+                throw err;
+              }
+              return done(null, newUser);
+            });
+          }
         }
-      });    
+      });
     });
   }));
 
