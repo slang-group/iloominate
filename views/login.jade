@@ -21,10 +21,10 @@ html
 
         form(action="/login", method="post")
           .form-group
-            label Email
+            label.translate Email
             input.form-control(type="text", name="email")
           .form-group
-            label Password
+            label.translate Password
             input.form-control(type="password", name="password")
           button.btn.btn-warning.translate(type="submit")= 'Log In'
       .row-fluid
@@ -32,7 +32,7 @@ html
 
     // 3rd party libraries
     script(type="text/javascript", src="/jquery-1.11.0.min.js")
-    
+
     script(type="text/javascript", src="/polyglot.min.js")
 
     // custom script
