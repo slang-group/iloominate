@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 
 var teamSchema = mongoose.Schema({
-  name: String
+  name: String,
   users: Array,
   admin: String,
   local: {
