@@ -15,7 +15,7 @@ $.each($('.pickcharacter a'), function(i, character){
     $('span.aboutcharacter').text(prefix ? "the " + name : name);
 
     // name selection UI
-    $('.pickcharacter a').css({ "font-weight": "normal" })
+    $('.pickcharacter a').css({ "font-weight": "normal" });
     $(character).css({ "font-weight": "bold" });
   });
 });
@@ -26,7 +26,7 @@ $('#guidemodal .next').on('click', function(){
     if(!$(steps[s]).hasClass('hide')){
       // active step
       $(steps[s]).addClass('hide');
-      if(s + 1 == steps.length){
+      if(s + 1 === steps.length){
         // end of steps - reset
         $('#guidemodal').modal('hide');
         $('#guidemodal .form-group').addClass('hide');
