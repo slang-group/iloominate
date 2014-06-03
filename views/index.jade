@@ -13,40 +13,55 @@ html
     link(href="/main.css", rel="stylesheet", type="text/css")
 
   body
+    div.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
+      div.container
+        div.navbar-header
+
+        ul.nav.navbar-nav
+          li.active
+            a(href="#")
+              span iLoominate&nbsp;&nbsp;
+              span.translate Online
+
+        ul.nav.navbar-nav.pull-right
+          if loggedin
+            li
+              a(href="#", data-toggle="dropdown")
+                span.translate Word List
+                span &nbsp;▽
+              ul.dropdown-menu(role="menu", aria-labelledby="dLabel")
+                li.active(role="presentation")
+                  a.translate(href="#", role="menuitem") Original
+            li
+              a#logout.translate(href="/logout") Log Out
+          else
+              li
+                a.translate(href="/login") Log In
+              li
+                a.translate(href="/signup") Sign Up
+
+    br
+    br
+    br
+
     div.container
-      .row-fluid
-        .col-xs-3.list-group.page-list
+      div.row-fluid
+        div.col-xs-3.list-group.page-list
           a.list-group-item.active(href="#")
             h4.list-group-item-heading.translate Page 1
             p.list-group-item-text.translate What is the story?
           div.list-group-item
             a.btn.btn-success.new-page.translate(href="#") Add Page
 
-        .col-lg-9
+        div.col-lg-9
           noscript.translate Enable JavaScript!
 
-          .user-login
-            if loggedin
-              .dropdown(style="display:inline;")
-                a(href="#", data-toggle="dropdown")
-                  span.translate Word List
-                  span &nbsp;▽
-                ul.dropdown-menu(role="menu", aria-labelledby="dLabel")
-                  li.active(role="presentation")
-                    a.translate(href="#", role="menuitem") Original
-              span &nbsp;&nbsp;|&nbsp;&nbsp;
-              a#logout.translate(href="/logout") Log Out
-            else
-              a.translate(href="/login") Log In
-              span &nbsp;&nbsp;|&nbsp;&nbsp;
-              a.translate(href="/signup") Sign Up
-
-          .well
-            .image_area
+          div.well
+            div.image_area
               h4.translate(dir="auto") Drop in an Image
-              .filedrop.bordered
+              div.filedrop.bordered
 
-            .clearfix
+            div.clearfix
 
             //
               h4.translate(dir="auto") Type first page
@@ -58,23 +73,23 @@ html
             a.btn.btn-success.bookify.translate(href="#") Make into Book
             a.btn.btn-info.upload.translate(href="#") Upload
 
-            .clearfix
+            div.clearfix
 
           canvas.hide(width="500", height="300")
-      .book.hide
+      div.book.hide
 
     #wordmodal.modal.fade
-      .modal-dialog
-        .modal-content
-          .modal-header
+      div.modal-dialog
+        div.modal-content
+          div.modal-header
             button.close(type="button", data-dismiss="modal", aria-hidden="true") x
             h3.translate Save Word List
-          .modal-body
-            .form-group
+          div.modal-body
+            div.form-group
               label.translate(for="wordlistname") Name
               input#wordlistname.form-control(type="text", name="wordlistname")
             p Word list goes here
-          .modal-footer
+          div.modal-footer
             button.btn.btn-default.translate(type="button", data-dismiss="modal") Cancel
             button.save.btn.btn-primary.translate(type="button", data-dismiss="modal") Save
 

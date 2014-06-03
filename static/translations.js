@@ -13,6 +13,7 @@ var allTranslations = {
     "Make into PDF": "Make into PDF",
     "Make into Book": "Make into Book",
     "Name": "Name",
+    "Online": "Online",
     "Original": "Original",
     "Page 1": "Page 1",
     "page_num": "Page %{page}", // like Page 1, Page 2
@@ -37,6 +38,7 @@ var allTranslations = {
     "Make into PDF": "Crear PDF",
     "Make into Book": "Crear Libro",
     "Name": "Nombre",
+    "Online": "Online",
     "Original": "Original",
     "Page 1": "Página 1",
     "page_num": "Página %{page}", // like Page 1, Page 2
@@ -61,6 +63,7 @@ var allTranslations = {
     "Make into PDF": "Fè PDF",
     "Make into Book": "Fè Liv",
     "Name": "Name",
+    "Online": "Online",
     "Original": "Original",
     "Page 1": "Paj 1",
     "page_num": "Paj %{page}", // like Page 1, Page 2
