@@ -43,25 +43,35 @@
       </div>
     </div>
 
-
-    <br/><br/><br/>
+    <br/>
+    <br/>
+    <br/>
 
     <div class="container">
       <div class="row-fluid">
-        <div class="col-xs-3 list-group page-list">
-          <a href="#" class="list-group-item active">
-            <h4 class="list-group-item-heading translate">Page 1</h4>
-            <p class="list-group-item-text translate">What is the story?</p>
-          </a>
-          <div class="list-group-item">
-            <a href="#" class="btn btn-success new-page translate">Add Page</a>
+        <div class="col-xs-3">
+          <div class="list-group page-list">
+            <a href="#" class="list-group-item active">
+              <h4 class="list-group-item-heading translate">Page 1</h4>
+              <p class="list-group-item-text translate">What is the story?</p>
+            </a>
+            <div class="list-group-item">
+              <a href="#" class="btn btn-success new-page translate">Add Page</a>
+            </div>
+          </div>
+
+          <div class="list-group book-options">
+            <a class="list-group-item guide" href="#">
+              <img class="icon" src="../static/images/teacher_14016.png"/>
+              <span class="translate">Guide</span>
+            </a>
           </div>
         </div>
 
         <div class="col-lg-9">
           <noscript class="translate">Enable JavaScript!</noscript>
 
-          <div class="well">
+          <div class="well page">
             <div class="image_area">
               <h4 class="translate" dir="auto">Drop in an Image</h4>
               <div class="filedrop bordered">
@@ -75,6 +85,8 @@
             -->
             <textarea name="page" class="form-control translate" rows="3" dir="auto">Type first page</textarea>
             <br/>
+            <a href="#" class="btn btn-success new-page translate">Add Page</a>
+            <hr/>
             <a href="#" class="btn btn-info pdfify" class="translate">Make into PDF</a>
             <a href="#" class="btn btn-success bookify translate">Make into Book</a>
           </div>
@@ -111,6 +123,69 @@
       </div>
     </div>
 
+    <div id="guidemodal" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">x</button>
+            <h3 class="translate">Guide</h3>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <p>Every story needs a hero. Use the beginning to introduce the main character of your story.</p>
+              <label for="maincharacter">Who is this story about?</label>
+              <div class="row pickcharacter">
+                <ul class="col-xs-4">
+                  <li>
+                    <strong>Names</strong>
+                  </li>
+                  <li>
+                    <a href="#">Pam</a>
+                  </li>
+                  <li>
+                    <a href="#">Sam</a>
+                  </li>
+                  <li>
+                    <a href="#">Dad</a>
+                  </li>
+                </ul>
+                <ul class="col-xs-4">
+                  <li>
+                    <strong>Animals</strong>
+                  </li>
+                  <li>
+                    <a href="#">bird</a>
+                  </li>
+                  <li>
+                    <a href="#">cat</a>
+                  </li>
+                  <li>
+                    <a href="#">bat</a>
+                  </li>
+                </ul>
+              </div>
+              <input id="maincharacter" class="form-control" type="hidden" name="maincharacter"/>
+            </div>
+            <div class="form-group hide">
+              <p>
+                Describe
+                <span class="aboutcharacter"></span>.
+                Write a sentence about who he / she / it is.
+              </p>
+              <input id="aboutcharacter" class="form-control" name="aboutcharacter"/>
+            </div>
+
+            <button class="btn btn-info translate next" type="button">Next</button>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-default translate" type="button" data-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
     <!-- 3rd party libraries -->
     <script type="text/javascript" src="../lib/jquery-1.11.0.min.js"></script>
     <script type="text/javascript" src="../lib/antihighlight/jquery.antihighlight.js"></script>
@@ -144,5 +219,6 @@
     <script type="text/javascript" src="../static/translations.js"></script>
     <script type="text/javascript" src="../static/localize.js"></script>
     <script type="text/javascript" src="../static/test.js"></script>
+    <script type="text/javascript" src="../static/guide.js"></script>
   </body>
 </html>

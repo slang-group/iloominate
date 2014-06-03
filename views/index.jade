@@ -46,17 +46,23 @@ html
 
     div.container
       div.row-fluid
-        div.col-xs-3.list-group.page-list
-          a.list-group-item.active(href="#")
-            h4.list-group-item-heading.translate Page 1
-            p.list-group-item-text.translate What is the story?
-          div.list-group-item
-            a.btn.btn-success.new-page.translate(href="#") Add Page
+        div.col-xs-3
+          div.list-group.page-list
+            a.list-group-item.active(href="#")
+              h4.list-group-item-heading.translate Page 1
+              p.list-group-item-text.translate What is the story?
+            div.list-group-item
+              a.btn.btn-success.new-page.translate(href="#") Add Page
+          div.list-group.book-options
+            a.list-group-item.guide(href="#")
+              img.icon(src="/images/teacher_14016.png")
+              span.translate Guide
+
 
         div.col-lg-9
           noscript.translate Enable JavaScript!
 
-          div.well
+          div.well.page
             div.image_area
               h4.translate(dir="auto") Drop in an Image
               div.filedrop.bordered
@@ -69,6 +75,8 @@ html
             textarea.form-control.translate(name="page", rows="3", dir="auto")
               != 'Type first page'
             br
+            a.btn.btn-success.new-page.translate(href="#") Add Page
+            hr
             a.btn.btn-info.pdfify.translate(href="#") Make into PDF
             a.btn.btn-success.bookify.translate(href="#") Make into Book
             a.btn.btn-info.upload.translate(href="#") Upload
@@ -92,6 +100,48 @@ html
           div.modal-footer
             button.btn.btn-default.translate(type="button", data-dismiss="modal") Cancel
             button.save.btn.btn-primary.translate(type="button", data-dismiss="modal") Save
+
+    #guidemodal.modal.fade
+      div.modal-dialog
+        div.modal-content
+          div.modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true") x
+            h3.translate Guide
+          div.modal-body
+            div.form-group
+              p Every story needs a hero. Use the beginning to introduce the main character of your story.
+              label(for="maincharacter") Who is this story about?
+              div.row.pickcharacter
+                ul.col-xs-4
+                  li
+                    strong Names
+                  li
+                    a(href="#") Pam
+                  li
+                    a(href="#") Sam
+                  li
+                    a(href="#") Dad
+                ul.col-xs-4
+                  li
+                    strong Animals
+                  li
+                    a(href="#") bird
+                  li
+                    a(href="#") cat
+                  li
+                    a(href="#") bat
+              input#maincharacter.form-control(type="hidden", name="maincharacter")
+            div.form-group.hide
+              p
+                span Describe&nbsp;
+                span.aboutcharacter
+                span . Write a sentence about who he / she / it is.
+              input#aboutcharacter.form-control(name="aboutcharacter")
+
+            button.btn.btn-info.translate.next(type="button") Next
+
+          div.modal-footer
+            button.btn.btn-default.translate(type="button", data-dismiss="modal") Cancel
 
     // 3rd party libraries
     script(type="text/javascript", src="/jquery-1.11.0.min.js")
@@ -117,3 +167,4 @@ html
       != 'var outOfChromeApp = true;'
     script(type="text/javascript", src="/localize.js")
     script(type="text/javascript", src="/test.js")
+    script(type="text/javascript", src="/guide.js")
