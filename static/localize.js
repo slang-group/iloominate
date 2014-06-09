@@ -25,6 +25,10 @@ function doTranslations() {
     $("html").attr("dir", "rtl");
     $("body").addClass("rtl");
   }
+
+  // language dropdown
+  $('#languageselect li').removeClass('active');
+  $('#languageselect li.' + _('en')).addClass('active');
 }
 
 // in Chrome app - determine language on client side
@@ -33,6 +37,13 @@ if (typeof outOfChromeApp === "undefined" || !outOfChromeApp) {
     var preferredLocale = (languageList[0]).toLowerCase().replace("-", "_");
     translations = JSON.parse(getTranslations(preferredLocale));
     doTranslations();
+
+    // dropdown changes language without redirecting page
+    $('#languageselect li a').on('click', function(e){
+      var preferredLocale = $(e.target).parent().attr("class").replace("active", " ").replace(" ","");
+      translations = JSON.parse(getTranslations(preferredLocale));
+      doTranslations();
+    });
   });
 } else {
   doTranslations();

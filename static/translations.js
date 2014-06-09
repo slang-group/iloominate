@@ -8,6 +8,7 @@ var allTranslations = {
     "en": "en", // language for page (html lang="en")
     "Enable JavaScript!": "Enable JavaScript!",
     "Guide": "Guide",
+    "Language": "Language",
     "Log In": "Log In",
     "Log Out": "Log Out",
     "ltr": "ltr", // left-to-right or right-to-left?
@@ -39,6 +40,7 @@ var allTranslations = {
     "en": "es",
     "Enable JavaScript!": "¡Active JavaScript!",
     "Guide": "Guía",
+    "Language": "Lengua",
     "Log In": "Log In",
     "Log Out": "Log Out",
     "ltr": "ltr",
@@ -70,6 +72,7 @@ var allTranslations = {
     "Email": "Email",
     "Enable JavaScript!": "Aktive JavaScript!",
     "Guide": "Guide",
+    "Language": "Language",
     "Log In": "Log In",
     "Log Out": "Log Out",
     "ltr": "ltr",
