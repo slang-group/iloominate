@@ -45,6 +45,11 @@ Tests are run using Mocha and continuous integration on travis-ci.org - Link to 
 
 [![Build Status](https://travis-ci.org/mapmeld/iloominate.png)](https://travis-ci.org/mapmeld/iloominate)
 
+Configuring cloud server on Heroku:
+
+    heroku addons:add mongolab:starter
+    heroku config:set SECRET='your_secret_passcode_token'
+
 ## Licensing
 
 iLoominate will be open source (MIT license) and be built with several other open
