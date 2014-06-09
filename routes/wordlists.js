@@ -35,7 +35,7 @@ exports.save = function (req, res) {
         res.json({ id: list._id });
       }
       else{
-        var list = new WordList();
+        list = new WordList();
         list.name = req.body.name;
         list.hash = hash;
         list.words = req.body.wordlist.split(" ");

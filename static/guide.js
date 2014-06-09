@@ -7,10 +7,15 @@ $('.guide').on('click', function(){
   $('#guidemodal').modal('show');
 });
 
+
+function loadCharacter(i){
+  $('span.aboutcharacter').text(aboutList[i]);
+}
+
 $.each($('.pickcharacter a'), function(i, character){
   $(character).on('click', function(){
     // name selection UI
-    if($(character).css("font-weight") == "bold"){
+    if($(character).css("font-weight") === "bold"){
       $(character).css({ "font-weight": "normal" });
     }
     else{
@@ -90,7 +95,3 @@ $('#guidemodal .next').on('click', function(){
     }
   }
 });
-
-function loadCharacter(i){
-  $('span.aboutcharacter').text(aboutList[i]);
-}

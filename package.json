@@ -28,6 +28,6 @@
     "start": "node app.js",
     "test": "npm run test-mocha && npm run test-jshint",
     "test-mocha": "mocha",
-    "test-jshint": "jshint ./*.js --config ./test/.jshintrc && jshint ./static/*.js --config ./test/.jshintrc"
+    "test-jshint": "jshint ./*.js --config ./test/.jshintrc && jshint ./static/*.js --config ./test/.jshintrc && jshint ./routes/*.js --config ./test/.jshintrc"
   }
 }
