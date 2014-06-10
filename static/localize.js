@@ -33,18 +33,51 @@ function doTranslations() {
 
 // in Chrome app - determine language on client side
 if (typeof outOfChromeApp === "undefined" || !outOfChromeApp) {
-  chrome.i18n.getAcceptLanguages(function (languageList) {
-    var preferredLocale = (languageList[0]).toLowerCase().replace("-", "_");
-    translations = JSON.parse(getTranslations(preferredLocale));
+  var preferredLocale;
+  var makeTranslation = function(locale) {
+    translations = JSON.parse(getTranslations(locale));
     doTranslations();
+  };
 
-    // dropdown changes language without redirecting page
-    $('#languageselect li a').on('click', function(e){
-      var preferredLocale = $(e.target).parent().attr("class").replace("active", " ").replace(" ","");
-      translations = JSON.parse(getTranslations(preferredLocale));
-      doTranslations();
+  chrome.storage.local.get('language', function(item){
+    if (!Object.keys(item).length) {
+      // get language from current browser settings
+      chrome.i18n.getAcceptLanguages(function (languageList) {
+        preferredLocale = (languageList[0]).toLowerCase().replace("-", "_");
+        makeTranslation(preferredLocale);
+      });
+    }
+    else{
+      // language setting exists
+      preferredLocale = item.language;
+      makeTranslation(preferredLocale);
+    }
+  });
+
+  // dropdown changes language without redirecting page
+  $('#languageselect li a').on('click', function(e){
+    preferredLocale = $(e.target).parent().attr("class").replace("active", " ").replace(" ","");
+    makeTranslation(preferredLocale);
+
+    // store user's language preference
+    chrome.storage.local.set({ 'language': preferredLocale }, function(){
+      console.log('language preference set to ' + preferredLocale);
     });
   });
 } else {
   doTranslations();
+  var locale = _("en");
+  if(document.cookie.indexOf('language=') > -1) {
+    // replacing existing language cookie
+    var fullCookie = document.cookie;
+    document.cookie = fullCookie.substring(0, fullCookie.indexOf('language='))
+      + fullCookie.substring(fullCookie.indexOf('language=') + 12)
+      + ';language=' + locale;
+  } else if(document.cookie.length) {
+    // adding language to end of cookies
+    document.cookie += ';language=' + locale;
+  } else {
+    // setting first cookie to language
+    document.cookie = 'language=' + locale;
+  }
 }
