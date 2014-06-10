@@ -47,7 +47,7 @@ exports.byid = function (req, res) {
   Book.findById(req.params.book_id, function (err, book) {
     res.render('book', {
       book: book,
-      translations: t.getTranslations(req)
+      translations: t.getTranslations(req, res)
     });
   });
 };

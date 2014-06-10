@@ -2,7 +2,7 @@ var t = require('../static/translations');
 
 exports.home = function (req, res) {
   res.render('index', {
-    translations: t.getTranslations(req),
+    translations: t.getTranslations(req, res),
     loggedin: req.isAuthenticated()
   });
 };

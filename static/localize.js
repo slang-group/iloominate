@@ -66,18 +66,4 @@ if (typeof outOfChromeApp === "undefined" || !outOfChromeApp) {
   });
 } else {
   doTranslations();
-  var locale = _("en");
-  if(document.cookie.indexOf('language=') > -1) {
-    // replacing existing language cookie
-    var fullCookie = document.cookie;
-    document.cookie = fullCookie.substring(0, fullCookie.indexOf('language='))
-      + fullCookie.substring(fullCookie.indexOf('language=') + 12)
-      + ';language=' + locale;
-  } else if(document.cookie.length) {
-    // adding language to end of cookies
-    document.cookie += ';language=' + locale;
-  } else {
-    // setting first cookie to language
-    document.cookie = 'language=' + locale;
-  }
 }

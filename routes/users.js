@@ -7,14 +7,14 @@ var t = require('../static/translations');
 exports.login = function (req, res) {
   res.render('login', {
     message: req.flash('loginMessage'),
-    translations: t.getTranslations(req)
+    translations: t.getTranslations(req, res)
   });
 };
 
 exports.signup = function (req, res) {
   res.render('signup', {
     message: req.flash('signupMessage'),
-    translations: t.getTranslations(req)
+    translations: t.getTranslations(req, res)
   });
 };
 
@@ -27,7 +27,7 @@ exports.logout = function (req, res) {
 exports.profile = function (req, res) {
   res.render('profile', {
     user: req.user,
-    translations: t.getTranslations(req)
+    translations: t.getTranslations(req, res)
   });
 };
 
@@ -37,7 +37,7 @@ exports.byid = function (req, res) {
     Book.find({ user_id: req.params.id }, function (err, books) {
       res.render('user', {
         books: books,
-        translations: t.getTranslations(req),
+        translations: t.getTranslations(req, res),
         user: viewUser
       });
     });

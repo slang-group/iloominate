@@ -111,7 +111,7 @@ var allTranslations = {
 };
 
 // helper function to return standard or requested translations from server
-var getTranslations = function (req) {
+var getTranslations = function (req, res) {
 
   // detect language on server side, return translations
   var preferredLocale;
@@ -119,6 +119,7 @@ var getTranslations = function (req) {
     preferredLocale = req;
   } else {
     preferredLocale = req.query.language || req.cookies.language || (req.headers['accept-language'] || "").split(",")[0];
+    res.cookie('language', preferredLocale);
   }
 
   if (!allTranslations[preferredLocale]) {

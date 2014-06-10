@@ -12,7 +12,7 @@ describe('GET /', function(){
         done();
       });
   });
-  
+
   it('should return Spanish translation when requested', function(done){
     request(app)
       .get('/?language=es')
@@ -22,11 +22,33 @@ describe('GET /', function(){
         done();
       });
   });
-  
+
   it('should return first language of accept-language header', function(done){
     request(app)
       .get('/')
       .set('accept-language', 'es_UY')
+      .expect(200)
+      .end(function(err, res){
+        assert.include(res.text, 'Escriba la primera página');
+        done();
+      });
+  });
+
+  var cookieAgent = request.agent(app);
+
+  it('should set language cookie', function(done){
+    cookieAgent
+      .get('/?language=es')
+      .expect(200)
+      .expect('set-cookie', 'language=es;')
+      .end(function(err, res){
+        done();
+      });
+  });
+
+  it('should use language cookie', function(done){
+    cookieAgent
+      .get('/')
       .expect(200)
       .end(function(err, res){
         assert.include(res.text, 'Escriba la primera página');
