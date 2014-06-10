@@ -118,7 +118,7 @@ var getTranslations = function (req) {
   if (typeof req === "string") {
     preferredLocale = req;
   } else {
-    preferredLocale = req.query.language || (req.headers['accept-language'] || "").split(",")[0];
+    preferredLocale = req.query.language || req.cookies.language || (req.headers['accept-language'] || "").split(",")[0];
   }
 
   if (!allTranslations[preferredLocale]) {
