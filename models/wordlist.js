@@ -4,7 +4,8 @@ var wordListSchema = mongoose.Schema({
   name: String,
   details: String,
   words: Array,
-  hash: String
+  hash: String,
+  user: String
 });
 
 module.exports = mongoose.model('WordList', wordListSchema);

@@ -34,7 +34,6 @@ module.exports = function(passport){
           newUser.local.email = email;
           newUser.local.password = newUser.generateHash(password);
 
-
           if(req.body.team){
             // find team object and connect user to team by ID
             var teamName = req.body.team.toLowerCase().replace(/\s/,'');
@@ -45,12 +44,18 @@ module.exports = function(passport){
               if (!team) {
                 return done(null, false, req.flash('signupMessage', 'That team does not exist.'));
               }
-              newUser.teams = [team._id];
+              newUser.teams = [teamName];
               newUser.save(function(err){
                 if(err){
                   throw err;
                 }
-                return done(null, newUser);
+                team.users.push(newUser._id);
+                team.save(function(err){
+                  if(err){
+                    throw err;
+                  }
+                  return done(null, newUser);
+                });
               });
             });
           }

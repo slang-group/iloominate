@@ -48,6 +48,7 @@ app.post('/book', routes.books.save);
 
 // word lists
 app.get('/wordlist/all', routes.wordlists.all);
+app.get('/wordlist/inteam', routes.wordlists.inteam);
 app.post('/wordlist', routes.wordlists.save);
 
 // user pages

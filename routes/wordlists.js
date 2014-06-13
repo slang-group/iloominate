@@ -1,20 +1,58 @@
 var md5 = require('MD5');
 
 var WordList = require('../models/wordlist');
+var Team = require('../models/team');
 
 exports.all = function (req, res) {
   WordList.find({}, function (err, lists) {
+    if(err) {
+      throw err;
+    }
     res.json(lists);
   });
+};
+
+exports.inteam = function (req, res) {
+  if (req.isAuthenticated()) {
+    if(req.user.teams.length) {
+      // select first team for now
+      var teamName = req.user.teams[0];
+      Team.findOne({ 'name' :  teamName }, function(err, team) {
+        if (err) {
+          throw err;
+        }
+        // select word lists of all users in team
+        WordList.find({ 'user': { $in: team.users } }).exec(function(err, lists){
+          if(err){
+            throw err;
+          }
+          res.json(lists);
+        });
+      });
+    }
+    else {
+      // no teams; go by user ID or empty
+      WordList.find().or([{ user: req.user._id }, { user: null }]).exec(function (err, lists) {
+        if(err){
+          throw err;
+        }
+        res.json(lists);
+      });
+    }
+  }
+  else {
+    // not signed in
+    res.json([]);
+  }
 };
 
 exports.save = function (req, res) {
   var hash;
   try {
-    hash = md5(page.image+"")+"";
+    hash = md5(req.body.wordlist+"")+"";
   }
   catch(e) {
-    hash = md5.digest_s(page.image+"")+"";
+    hash = md5.digest_s(req.body.wordlist+"")+"";
   }
 
   if (req.body.word_list_id) {
@@ -38,6 +76,9 @@ exports.save = function (req, res) {
         list = new WordList();
         list.name = req.body.name;
         list.hash = hash;
+        if(req.isAuthenticated()){
+          list.user = req.user._id;
+        }
         list.words = req.body.wordlist.split(" ");
         list.save(function (err) {
           res.json({ id: list._id });

@@ -140,19 +140,19 @@ if ($("#logout").length) {
   // set original list
   var menuItem = $(".user-login .dropdown-menu li");
   menuItem.find("a").on("click", function() {
-    $(".user-login .dropdown-menu li").removeClass("active");
+    $(".dropdown-menu.wordlists li").removeClass("active");
     menuItem.addClass("active");
     setWhitelist(['hello', 'world', 'नेपाल', 'abcdefghijklmnopqrstuvw']);
   });
 
   // download a copy of all word lists, add to a menu
-  $.getJSON("/wordlist/all", function (metalist) {
+  $.getJSON("/wordlist/inteam", function (metalist) {
     $.each(metalist, function(i, list) {
       var menuItem = $("<li role='presentation'>");
       menuItem.append($("<a href='#' role='menuitem'>").text(list.name));
-      $(".user-login .dropdown-menu").append(menuItem);
+      $(".dropdown-menu.wordlists").append(menuItem);
       menuItem.find("a").on("click", function() {
-        $(".user-login .dropdown-menu li").removeClass("active");
+        $(".dropdown-menu.wordlists li").removeClass("active");
         menuItem.addClass("active");
         setWhitelist(list.words);
       });
@@ -173,7 +173,7 @@ if (typeof outOfChromeApp === "undefined" || !outOfChromeApp) {
       menuItem.append($("<a href='#' role='menuitem'>").text(list.name));
       $(".user-login .dropdown-menu").append(menuItem);
       menuItem.find("a").on("click", function() {
-        $(".user-login .dropdown-menu li").removeClass("active");
+        $(".dropdown-menu.wordlists li").removeClass("active");
         menuItem.addClass("active");
         setWhitelist(list.wordlist.split(' '));
       });
@@ -187,13 +187,13 @@ $("#wordmodal .save").on("click", function() {
   var wordlist = $("#wordmodal p").text();
 
   // add to word list dropdown for logged-in users
-  $(".user-login .dropdown-menu li").removeClass("active");
+  $(".dropdown-menu.wordlists li").removeClass("active");
 
   var menuItem = $("<li role='presentation' class='active'>");
   menuItem.append($("<a href='#' role='menuitem'>").text(name));
-  $(".user-login .dropdown-menu").append(menuItem);
+  $(".dropdown-menu.wordlists").append(menuItem);
   menuItem.find("a").on("click", function() {
-    $(".user-login .dropdown-menu li").removeClass("active");
+    $(".dropdown-menu.wordlists li").removeClass("active");
     menuItem.addClass("active");
     setWhitelist(wordlist.split(" "));
   });
