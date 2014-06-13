@@ -8,5 +8,6 @@ exports.home = function (req, res) {
 };
 
 exports.users = require('./users');
+exports.teams = require('./teams');
 exports.books = require('./books');
 exports.wordlists = require('./wordlists');

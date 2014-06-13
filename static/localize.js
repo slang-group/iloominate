@@ -13,6 +13,16 @@ function doTranslations() {
   $.each(translateWords, function (w, word_element) {
     var word = $(word_element).text();
     $(word_element).text(_(word));
+
+    var placeholder = $(word_element).attr('placeholder');
+    if(placeholder) {
+      $(word_element).attr('placeholder', _(placeholder));
+    }
+
+    var value = $(word_element).attr('value');
+    if(value) {
+      $(word_element).attr('value', _(value));
+    }
   });
 
   // set page language (helps use spellcheck)

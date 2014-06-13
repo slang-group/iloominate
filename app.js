@@ -69,5 +69,10 @@ app.post('/login', passport.authenticate('local-login', {
   failureFlash: true
 }));
 
+// team pages
+app.post('/teams/create', routes.teams.create);
+app.post('/teams/join', routes.teams.join);
+app.get('/teams/:name/manage', routes.teams.manage);
+
 app.listen(process.env.PORT || 3000);
 module.exports = app;

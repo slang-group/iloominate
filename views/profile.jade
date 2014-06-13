@@ -23,9 +23,32 @@ html
               li ID #{user._id}
               li email #{user.local.email}
 
+            h3.translate Team
+            ul
+              for team in user.teams
+                if user.admin
+                  li
+                    span #{team}&nbsp;&nbsp;&nbsp;
+                    a(href="/team/#{team}/manage")
+                      span (
+                      span.translate leader
+                      span )
+                else
+                  li #{team}
+
+            h4.translate Join team
+            form(action="/teams/join", method="POST")
+              input.translate(type="input", name="teamname" placeholder="Team name")
+              input.btn.btn-success.translate(type="submit" value="Ask to Join")
+
+            h4.translate Lead new team
+            form(action="/teams/create", method="POST")
+              input.translate(type="input", name="teamname" placeholder="Team name")
+              input.btn.btn-success.translate(type="submit" value="Create")
+
     // 3rd party libraries
     script(type="text/javascript", src="/jquery-1.11.0.min.js")
-    
+
     script(type="text/javascript", src="/polyglot.min.js")
 
     // custom script
