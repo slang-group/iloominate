@@ -13,6 +13,7 @@ html
     link(href="/main.css", rel="stylesheet", type="text/css")
 
   body
+    input#csrf(type='hidden', name='_csrf', value=token)
     div.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
       div.container
         div.navbar-header

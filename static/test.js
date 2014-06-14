@@ -16,6 +16,9 @@ $(document).ready(function () {
   $("textarea").ime();
 });
 
+// CSRF token
+var csrf_token = $('#csrf').val();
+
 // store page content
 var pages = [{ text: "", image: null }];
 var current_page = 0;
@@ -218,7 +221,7 @@ $("#wordmodal .save").on("click", function() {
 
   } else {
     // online - post to server
-    $.post("/wordlist", {name: name, wordlist: wordlist}, function(response) {
+    $.post("/wordlist", {name: name, wordlist: wordlist, _csrf: csrf_token}, function(response) {
       console.log(response);
     });
   }
@@ -362,7 +365,7 @@ var book_id = null;
 
 function upload() {
   saveCurrentPage(function(){
-    $.post("/book", {pages: pages, book_id: book_id }, function(response) {
+    $.post("/book", {pages: pages, book_id: book_id, _csrf: csrf_token}, function(response) {
       // redirect to newly created or updated book
       book_id = response.id;
       window.location = "/book/" + book_id;

@@ -18,6 +18,15 @@ app.configure(function () {
   app.use(express.cookieParser());
   app.use(express.bodyParser());
   app.use(express.session({ secret: process.env.SECRET }));
+
+  // avoid CSRF attack / errors
+  app.use(express.csrf());
+  app.use(function (req, res, next) {
+    res.cookie('XSRF-TOKEN', req.csrfToken());
+    res.locals.token = req.csrfToken();
+    next();
+  });
+
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(flash());

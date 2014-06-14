@@ -20,6 +20,7 @@ html
           div.alert.alert-danger #{message}
 
         form(action="/signup", method="post")
+          input(type='hidden', name='_csrf', value=token)
           .form-group
             label.translate Email
             input.form-control(type="text", name="email")
