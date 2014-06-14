@@ -34,7 +34,13 @@ exports.profile = function (req, res) {
 // user page (works for all web visitors)
 exports.byid = function (req, res) {
   User.findById(req.params.id, function (err, viewUser) {
+    if (err) {
+      throw err;
+    }
     Book.find({ user_id: req.params.id }, function (err, books) {
+      if (err) {
+        throw err;
+      }
       res.render('user', {
         books: books,
         translations: t.getTranslations(req, res),

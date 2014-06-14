@@ -1,0 +1,78 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title= 'iloominate: Storybook App'
+
+    // 3rd party libraries
+    link(href="/bootstrap.min.css", rel="stylesheet", type="text/css")
+
+    // custom style
+    link(href="/main.css", rel="stylesheet", type="text/css")
+
+  body#imager
+    input#csrf(type='hidden', name='_csrf', value=token)
+    div.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
+      div.container
+        div.navbar-header
+
+        ul.nav.navbar-nav
+          li.active
+            a(href="#")
+              span iLoominate&nbsp;&nbsp;
+              span.translate Online
+
+        ul.nav.navbar-nav.pull-right
+          li
+            a(href="#", data-toggle="dropdown")
+              span.translate Language
+              span &nbsp;▽
+            ul#languageselect.dropdown-menu(role="menu", aria-labelledby="dLabel")
+              li.en(role="presentation")
+                a(href="/?language=en", role="menuitem") English
+              li.es(role="presentation")
+                a(href="/?language=es", role="menuitem") Español
+              li.ht(role="presentation")
+                a(href="/?language=ht", role="menuitem") Kreyòl Ayisyen
+              li.ne(role="presentation")
+                a(href="/?language=ne", role="menuitem") नेपाली
+              li.ar(role="presentation")
+                a(href="/?language=ar", role="menuitem") العربية
+          if loggedin
+            li
+              a#logout.translate(href="/logout") Log Out
+          else
+              li
+                a.translate(href="/login") Log In
+              li
+                a.translate(href="/signup") Sign Up
+
+    br
+    br
+    br
+
+    div.container
+      div.row-fluid.imagerbar
+        .col-md-4
+          a.addicon.translate(href="#") Add Icon
+        .col-md-4
+          a.upload.translate(href="#") Upload Image
+        .col-md-4
+          a.download.translate(href="#") Download
+
+      div.row-fluid
+        div.span12#stage
+
+    // 3rd party libraries
+    script(type="text/javascript", src="/jquery-1.11.0.min.js")
+    script(type="text/javascript", src="/bootstrap.min.js")
+    script(type="text/javascript", src="/polyglot.min.js")
+    script(type="text/javascript" src="/kinetic-v5.1.0.min.js")
+
+    // custom script
+    script(type="text/javascript") var translations = !{translations};
+    script(type="text/javascript")
+      != 'var outOfChromeApp = true;'
+    script(type="text/javascript", src="/localize.js")
+
+    script(type="text/javascript" src="/imager.js")

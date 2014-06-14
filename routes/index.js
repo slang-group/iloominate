@@ -11,3 +11,4 @@ exports.users = require('./users');
 exports.teams = require('./teams');
 exports.books = require('./books');
 exports.wordlists = require('./wordlists');
+exports.images = require('./images');

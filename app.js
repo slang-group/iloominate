@@ -60,6 +60,10 @@ app.get('/wordlist/all', routes.wordlists.all);
 app.get('/wordlist/inteam', routes.wordlists.inteam);
 app.post('/wordlist', routes.wordlists.save);
 
+// imagers
+app.get('/image/new', routes.images.create);
+app.get('/image/:id', routes.images.byid);
+
 // user pages
 app.get('/signup', routes.users.signup);
 app.get('/login', routes.users.login);

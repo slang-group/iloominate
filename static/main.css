@@ -96,3 +96,24 @@ img.icon {
 .book img, .book span {
   display: block;
 }
+
+body#imager {
+  background-color: #ccc;
+}
+
+#stage {
+  background-color: #fff;
+}
+
+.imagerbar .col-md-4 {
+  background-color: #ccf;
+  text-align: center;
+  height: 40px;
+  border: 1px solid #fff;
+  cursor: pointer;
+}
+
+.imagerbar .col-md-4 a {
+  color: #fff;
+  font-size: 25px;
+}

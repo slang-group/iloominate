@@ -7,6 +7,9 @@ function uploadPages (res, book, pages, start_index) {
   // reached end of book - return book ID
   if (start_index >= pages.length) {
     return book.save(function (err) {
+      if (err) {
+        throw err;
+      }
       res.json({ id: book._id });
     });
   }
@@ -45,6 +48,9 @@ function uploadPages (res, book, pages, start_index) {
 // book pages (view and post)
 exports.byid = function (req, res) {
   Book.findById(req.params.book_id, function (err, book) {
+    if (err) {
+      throw err;
+    }
     res.render('book', {
       book: book,
       translations: t.getTranslations(req, res)
@@ -55,6 +61,9 @@ exports.byid = function (req, res) {
 exports.save = function (req, res) {
   if (req.body.book_id) {
     Book.findById(req.body.book_id, function (err, book) {
+      if (err) {
+        throw err;
+      }
       book.pages = [];
       for (var i=0; i<req.body.pages.length; i++) {
         var page = req.body.pages[i];

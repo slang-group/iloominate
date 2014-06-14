@@ -50,8 +50,11 @@ Includes:
 * [jQuery 1.x](https://github.com/jquery/jquery/tree/1.x-master) - MIT license
 * [jQuery.IME](https://github.com/wikimedia/jquery.ime) - GPL/MIT licenses
 * [jsPDF](https://github.com/MrRio/jsPDF) - MIT license
+* [KineticJS](https://github.com/ericdrowell/KineticJS/) - GPL/MIT licenses
 * [polyglot.js](https://github.com/airbnb/polyglot.js) - BSD license
 * [turn.js](https://github.com/blasten/turn.js) - non-commercial BSD license
+
+Public Domain icons from [The Noun Project](http://thenounproject.com/).
 
 Web server uses Node.js with libraries Express, Passport, and Mongoose.
 
