@@ -53,15 +53,29 @@ html
 
     div.container
       div.row-fluid.imagerbar
-        .col-md-4
+        div.col-md-4
           a.addicon.translate(href="#") Add Icon
-        .col-md-4
-          a.upload.translate(href="#") Upload Image
-        .col-md-4
+        div.col-md-4
+          a.upload.translate(href="#") Upload
+        div.col-md-4
           a.download.translate(href="#") Download
 
       div.row-fluid
         div.span12#stage
+
+    #addmodal.modal.fade
+      div.modal-dialog
+        div.modal-content
+          div.modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true") x
+            h3.translate Add Icon
+          div.modal-body
+            div.row-fluid
+              img.col-md-4(src="/images/teacher_14016.png")
+              img.col-md-4(src="/images/penguin_1986.png")
+              img.col-md-4(src="/images/mosquito_19603.png")
+            div.clearfix
+
 
     // 3rd party libraries
     script(type="text/javascript", src="/jquery-1.11.0.min.js")

@@ -1,10 +1,12 @@
 var allTranslations = {
   "en": {
+    "Add Icon": "Add Icon",
     "Add Page": "Add Page",
     "Ask to Join": "Ask to Join",
     "Book": "Book",
     "Cancel": "Cancel",
     "Create": "Create",
+    "Download": "Download",
     "Drop in an Image": "Drop in an Image",
     "Email": "Email",
     "en": "en", // language for page (html lang="en")
@@ -38,11 +40,13 @@ var allTranslations = {
     "Word List": "Word List"
   },
   "es": {
+    "Add Icon": "Añadir Imagen",
     "Add Page": "Añadir Página",
     "Ask to Join": "Ask to Join",
     "Book": "Libro",
     "Cancel": "Cancelar",
     "Create": "Create",
+    "Download": "Download",
     "Drop in an Image": "Coloca una Imagen",
     "Email": "Email",
     "en": "es",
@@ -76,11 +80,13 @@ var allTranslations = {
     "Word List": "Lista de Palabras"
   },
   "ht": {
+    "Add Icon": "Ajoute Icon",
     "Add Page": "Ajoute Paj",
     "Ask to Join": "Ask to Join",
     "Book": "Liv",
     "Cancel": "Cancel",
     "Create": "Create",
+    "Download": "Download",
     "Drop in an Image": "Mete yon imaj",
     "en": "ht",
     "Email": "Email",
