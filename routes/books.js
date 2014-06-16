@@ -1,5 +1,7 @@
-var Book = require('../models/book');
+var cloudinary = require('cloudinary');
+var md5 = require('MD5');
 
+var Book = require('../models/book');
 var t = require('../static/translations');
 
 // helper function to store multiple pages

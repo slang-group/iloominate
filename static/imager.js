@@ -1,3 +1,6 @@
+// CSRF token
+var csrf_token = $('#csrf').val();
+
 // set up KineticJS stage
 var stage = new Kinetic.Stage({
   container: "stage",
@@ -98,6 +101,7 @@ function addAnchorBehaviors(anchor, group) {
 
 function addImage(png_url) {
   var png = new Image();
+
   png.onload = function() {
     // group of images, icons, controls
     var group = new Kinetic.Group({
@@ -211,6 +215,33 @@ $('#addmodal img').on('click', function(e) {
   $('#addmodal').modal('hide');
   addImage(e.target.src);
 });
+
+// uploading image to account
+function upload_image() {
+  // hide anchors and backdrops
+  for(var f = 0; f < fluff.length; f++) {
+    fluff[f].setOpacity(0);
+  }
+  stage.draw();
+
+  // save image to cloud
+  var canv = $("#stage canvas")[0];
+  var canvURL = canv.toDataURL();
+  image_id = image_id || "";
+  var icons = layer.getChildren();
+  for(var i = 0; i < icons.length; i++) {
+    icons[i] = {
+      pos: icons[i].getPosition(),
+      size: icons[i].getChildren()[1].getSize()
+    };
+  }
+
+  $.post("/image", {_csrf: csrf_token, id: image_id, src: canvURL, icons: icons}, function(response) {
+    console.log(response);
+    image_id = response.image_id;
+  });
+}
+$('.upload').parent().on('click', upload_image);
 
 // downloading image to desktop
 function save_image() {

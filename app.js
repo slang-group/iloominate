@@ -3,8 +3,6 @@ var express = require('express');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash = require('connect-flash');
-var cloudinary = require('cloudinary');
-var md5 = require('MD5');
 
 // connect to MongoDB for user account support
 var User = require('./models/user');
@@ -63,6 +61,7 @@ app.post('/wordlist', routes.wordlists.save);
 // imagers
 app.get('/image/new', routes.images.create);
 app.get('/image/:id', routes.images.byid);
+app.post('/image', routes.images.save);
 
 // user pages
 app.get('/signup', routes.users.signup);
