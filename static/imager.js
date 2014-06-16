@@ -228,12 +228,13 @@ function upload_image() {
   var canv = $("#stage canvas")[0];
   var canvURL = canv.toDataURL();
   image_id = image_id || "";
-  var icons = layer.getChildren();
-  for(var i = 0; i < icons.length; i++) {
-    icons[i] = {
-      pos: icons[i].getPosition(),
-      size: icons[i].getChildren()[1].getSize()
-    };
+  var children = layer.getChildren();
+  var icons = [];
+  for(var i = 0; i < children.length; i++) {
+    icons.push({
+      pos: children[i].getPosition(),
+      size: children[i].getChildren()[1].getSize()
+    });
   }
 
   $.post("/image", {_csrf: csrf_token, id: image_id, src: canvURL, icons: icons}, function(response) {
