@@ -12,7 +12,7 @@ exports.create = function (req, res) {
 };
 
 exports.byid = function (req, res) {
-  Imager.findById(req.params.id, function (err, imager) {
+  Imager.findById(req.params.id).select('_id name upload').exec(function (err, imager) {
     if (err) {
       throw err;
     }
@@ -21,6 +21,49 @@ exports.byid = function (req, res) {
       image: imager
     });
   });
+};
+
+exports.all = function (req, res) {
+  Imager.find({}).select('_id name upload').exec(function (err, images) {
+    if(err) {
+      throw err;
+    }
+    res.json(images);
+  });
+};
+
+exports.inteam = function (req, res) {
+  if (req.isAuthenticated()) {
+    if(req.user.teams.length) {
+      // select first team for now
+      var teamName = req.user.teams[0];
+      Team.findOne({ 'name' :  teamName }, function(err, team) {
+        if (err) {
+          throw err;
+        }
+        // select word lists of all users in team
+        Imager.find({ 'user': { $in: team.users } }).select('_id name upload').exec(function(err, images){
+          if(err){
+            throw err;
+          }
+          res.json(images);
+        });
+      });
+    }
+    else {
+      // no teams; go by user ID or empty
+      Imager.find().or([{ user: req.user._id }, { user: null }]).select('_id name upload').exec(function (err, images) {
+        if(err){
+          throw err;
+        }
+        res.json(images);
+      });
+    }
+  }
+  else {
+    // not signed in
+    res.json([]);
+  }
 };
 
 exports.save = function (req, res) {

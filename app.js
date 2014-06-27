@@ -56,10 +56,13 @@ app.post('/book', routes.books.save);
 // word lists
 app.get('/wordlist/all', routes.wordlists.all);
 app.get('/wordlist/inteam', routes.wordlists.inteam);
+app.get('/wordlist/:id', routes.wordlists.byid);
 app.post('/wordlist', routes.wordlists.save);
 
 // imagers
 app.get('/image/new', routes.images.create);
+app.get('/image/all', routes.images.all);
+app.get('/image/inteam', routes.images.inteam);
 app.get('/image/:id', routes.images.byid);
 app.post('/image', routes.images.save);
 

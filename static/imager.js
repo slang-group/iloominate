@@ -240,6 +240,7 @@ function upload_image() {
   $.post("/image", {_csrf: csrf_token, id: image_id, src: canvURL, icons: icons}, function(response) {
     console.log(response);
     image_id = response.image_id;
+    history.pushState(null, null, '/image/' + image_id);
   });
 }
 $('.upload').parent().on('click', upload_image);

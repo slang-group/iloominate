@@ -3,8 +3,17 @@ var md5 = require('MD5');
 var WordList = require('../models/wordlist');
 var Team = require('../models/team');
 
+exports.byid = function (req, res) {
+  WordList.findById(req.params.id, function (err, list) {
+    if (err) {
+      throw err;
+    }
+    res.json(list);
+  });
+};
+
 exports.all = function (req, res) {
-  WordList.find({}, function (err, lists) {
+  WordList.find({}).select('_id name hash').exec(function (err, lists) {
     if(err) {
       throw err;
     }
@@ -22,7 +31,7 @@ exports.inteam = function (req, res) {
           throw err;
         }
         // select word lists of all users in team
-        WordList.find({ 'user': { $in: team.users } }).exec(function(err, lists){
+        WordList.find({ 'user': { $in: team.users } }).select('_id name hash').exec(function(err, lists){
           if(err){
             throw err;
           }
@@ -32,7 +41,7 @@ exports.inteam = function (req, res) {
     }
     else {
       // no teams; go by user ID or empty
-      WordList.find().or([{ user: req.user._id }, { user: null }]).exec(function (err, lists) {
+      WordList.find().or([{ user: req.user._id }, { user: null }]).select('_id name hash').exec(function (err, lists) {
         if(err){
           throw err;
         }

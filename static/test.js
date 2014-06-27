@@ -149,6 +149,7 @@ if ($("#logout").length) {
   });
 
   // download a copy of all word lists, add to a menu
+  var wordlists_by_id = {};
   $.getJSON("/wordlist/inteam", function (metalist) {
     $.each(metalist, function(i, list) {
       var menuItem = $("<li role='presentation'>");
@@ -157,7 +158,17 @@ if ($("#logout").length) {
       menuItem.find("a").on("click", function() {
         $(".dropdown-menu.wordlists li").removeClass("active");
         menuItem.addClass("active");
-        setWhitelist(list.words);
+
+        // AJAX to download the actual wordlist once
+        if(!wordlists_by_id[list._id]) {
+          $.getJSON("/wordlist/" + list._id, function(detail_list) {
+            wordlists_by_id[detail_list._id] = detail_list.words;
+            setWhitelist(detail_list.words);
+          });
+        }
+        else {
+          setWhitelist(wordlists_by_id[list._id]);
+        }
       });
     });
   });
