@@ -39,8 +39,8 @@ textarea.form-control {
   z-index: 2;
 }
 
-.rtl a.btn {
-  float: right;
+.rtl .rtlhide {
+  display: none;
 }
 
 /* guide */
