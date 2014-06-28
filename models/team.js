@@ -5,6 +5,7 @@ var teamSchema = mongoose.Schema({
   name: String,
   users: Array,
   admin: String,
+  language: String,
   local: {
     email: String,
     password: String

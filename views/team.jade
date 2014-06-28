@@ -28,17 +28,24 @@ html
               span &nbsp;▽
             ul#languageselect.dropdown-menu(role="menu", aria-labelledby="dLabel")
               li.en(role="presentation")
-                a(href="/profile?language=en", role="menuitem") English
+                a(href="?language=en", role="menuitem") English
               li.es(role="presentation")
-                a(href="/profile?language=es", role="menuitem") Español
+                a(href="?language=es", role="menuitem") Español
               li.ht(role="presentation")
-                a(href="/profile?language=ht", role="menuitem") Kreyòl Ayisyen
+                a(href="?language=ht", role="menuitem") Kreyòl Ayisyen
               li.ne(role="presentation")
-                a(href="/profile?language=ne", role="menuitem") नेपाली
+                a(href="?language=ne", role="menuitem") नेपाली
               li.ar(role="presentation")
-                a(href="/profile?language=ar", role="menuitem") العربية
-          li
-            a#logout.translate(href="/logout") Log Out
+                a(href="?language=ar", role="menuitem") العربية
+
+          if user
+            li
+              a#logout.translate(href="/logout") Log Out
+          else
+              li
+                a.translate(href="/login") Log In
+              li
+                a.translate(href="/signup") Sign Up
 
     br
     br
@@ -46,40 +53,27 @@ html
 
     div.container
       .row-fluid
-        h1 Profile Page
+        h1 Team Page
       .row-fluid
-        .span6
+        .col-md-6
           .well
-            h3 Test User
+            h3.translate About the team
             ul
-              li ID #{user._id}
-              li email #{user.local.email}
+              li Users: #{team.users.length}
+              if team.language
+                li Primary Language: #{team.language}
+              li Word Lists: #{wordlists.length}
+              li Images: #{images.length}
 
-            h3.translate Team
-            ul
-              for team in user.teams
-                if user.admin
-                  li
-                    span #{team}&nbsp;&nbsp;&nbsp;
-                    a(href="/team/#{team}/manage")
-                      span (
-                      span.translate leader
-                      span )
-                else
-                  li
-                    a(href="/team/#{team}") #{team}
-
+      .row-fluid
+        .col-md-6
+          if user
             h4.translate Join team
             form(action="/team/join", method="POST")
               input(type='hidden', name='_csrf', value=token)
-              input.translate(type="input", name="teamname" placeholder="Team name")
+              input(type="hidden", name="teamname" value="#{team.name}")
               input.btn.btn-success.translate(type="submit" value="Ask to Join")
 
-            h4.translate Lead new team
-            form(action="/team/create", method="POST")
-              input(type='hidden', name='_csrf', value=token)
-              input.translate(type="input", name="teamname" placeholder="Team name")
-              input.btn.btn-success.translate(type="submit" value="Create")
 
     // 3rd party libraries
     script(type="text/javascript", src="/jquery-1.11.0.min.js")

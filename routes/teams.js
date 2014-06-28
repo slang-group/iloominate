@@ -1,4 +1,8 @@
 var Team = require('../models/team');
+var WordList = require('../models/wordlist');
+var Imager = require('../models/image');
+
+var t = require('../static/translations');
 
 exports.create = function (req, res) {
   if(req.isAuthenticated()) {
@@ -87,6 +91,51 @@ exports.join = function(req, res){
   }
 };
 
+exports.byname = function(req, res){
+  var teamName = req.params.name;
+  Team.findOne({ 'name' :  teamName }, function(err, team) {
+    if(err){
+      throw err;
+    }
+    if(!team){
+      // team name does not exist
+      if(req.isAuthenticated()) {
+        res.redirect('/profile');
+      }
+      else {
+        res.redirect('/');
+      }
+    }
+    else{
+      if(req.user && team.admin === req.user._id){
+        // admin of team
+        res.render('admin', {
+          team: team,
+          user: req.user,
+          translations: t.getTranslations(req, res)
+        });
+      }
+      else{
+        // regular team stats
+        Imager.find({}).select('_id').exec(function(err, images) {
+          if (err) {
+            throw err;
+          }
+          WordList.find({}).select('_id').exec(function(err, wordlists) {
+            res.render('team', {
+              team: team,
+              images: images,
+              wordlists: wordlists,
+              user: (req.user || ''),
+              translations: t.getTranslations(req, res)
+            });
+          });
+        });
+      }
+    }
+  });
+};
+
 exports.manage = function(req, res){
   if(req.isAuthenticated()) {
     var teamName = req.params.name;
@@ -103,7 +152,8 @@ exports.manage = function(req, res){
           // admin of team
           res.render('admin', {
             team: team,
-            user: req.user
+            user: req.user,
+            translations: t.getTranslations(req, res)
           });
         }
         else{

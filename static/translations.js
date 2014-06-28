@@ -1,5 +1,6 @@
 var allTranslations = {
   "en": {
+    "About the team": "About the team",
     "Add Icon": "Add Icon",
     "Add Page": "Add Page",
     "Ask to Join": "Ask to Join",
@@ -40,6 +41,7 @@ var allTranslations = {
     "Word List": "Word List"
   },
   "es": {
+    "About the team": "El equipo",
     "Add Icon": "Añadir Imagen",
     "Add Page": "Añadir Página",
     "Ask to Join": "Ask to Join",
@@ -80,6 +82,7 @@ var allTranslations = {
     "Word List": "Lista de Palabras"
   },
   "ht": {
+    "About the team": "About the team",
     "Add Icon": "Ajoute Icon",
     "Add Page": "Ajoute Paj",
     "Ask to Join": "Ask to Join",
