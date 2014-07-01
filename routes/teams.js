@@ -103,7 +103,7 @@ exports.byname = function(req, res){
         res.redirect('/profile');
       }
       else {
-        res.redirect('/');
+        res.redirect('/signup');
       }
     }
     else{

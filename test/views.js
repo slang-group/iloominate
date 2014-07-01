@@ -8,6 +8,16 @@ describe('GET /', function(){
       .get('/')
       .expect(200)
       .end(function(err, res){
+        assert.include(res.text, 'iLoominate');
+        done();
+      });
+  });
+
+  it('should return the editor', function(done){
+    request(app)
+      .get('/edit')
+      .expect(200)
+      .end(function(err, res){
         assert.include(res.text, 'Drop in an Image');
         done();
       });
@@ -15,7 +25,7 @@ describe('GET /', function(){
 
   it('should return Spanish translation when requested', function(done){
     request(app)
-      .get('/?language=es')
+      .get('/edit?language=es')
       .expect(200)
       .end(function(err, res){
         assert.include(res.text, 'Escriba la primera página');
@@ -25,7 +35,7 @@ describe('GET /', function(){
 
   it('should return first language of accept-language header', function(done){
     request(app)
-      .get('/')
+      .get('/edit')
       .set('accept-language', 'es_UY')
       .expect(200)
       .end(function(err, res){
@@ -38,7 +48,7 @@ describe('GET /', function(){
 
   it('should set language cookie', function(done){
     cookieAgent
-      .get('/?language=es')
+      .get('/edit?language=es')
       .expect(200)
       .expect('set-cookie', 'language=es;')
       .end(function(err, res){
@@ -48,7 +58,7 @@ describe('GET /', function(){
 
   it('should use language cookie', function(done){
     cookieAgent
-      .get('/')
+      .get('/edit')
       .expect(200)
       .end(function(err, res){
         assert.include(res.text, 'Escriba la primera página');

@@ -1,0 +1,88 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title= 'iloominate: Storybook App'
+
+    // 3rd party libraries
+    link(href="/bootstrap.min.css", rel="stylesheet", type="text/css")
+
+    // custom style
+    link(href="/main.css", rel="stylesheet", type="text/css")
+
+  body
+    input#csrf(type='hidden', name='_csrf', value=token)
+    div.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
+      div.container
+        div.navbar-header
+
+        ul.nav.navbar-nav
+          li.active
+            a(href="#")
+              span iLoominate&nbsp;&nbsp;
+              span.translate Online
+
+        ul.nav.navbar-nav.pull-right
+          li
+            a(href="#", data-toggle="dropdown")
+              span.translate Language
+              span &nbsp;▽
+            ul#languageselect.dropdown-menu(role="menu", aria-labelledby="dLabel")
+              li.en(role="presentation")
+                a(href="/?language=en", role="menuitem") English
+              li.es(role="presentation")
+                a(href="/?language=es", role="menuitem") Español
+              li.ht(role="presentation")
+                a(href="/?language=ht", role="menuitem") Kreyòl Ayisyen
+              li.ne(role="presentation")
+                a(href="/?language=ne", role="menuitem") नेपाली
+              li.ar(role="presentation")
+                a(href="/?language=ar", role="menuitem") العربية
+          if loggedin
+            li
+              a#logout.translate(href="/logout") Log Out
+          else
+              li
+                a.translate(href="/login") Log In
+              li
+                a.translate(href="/signup") Sign Up
+
+    br
+    br
+    br
+
+    div.container
+      div.row
+        div.col-xs-4
+        div.col-xs-4(style="text-align:center;")
+          a.btn.btn-success(href="/edit") Start Writing
+
+      div.row
+        div.col-xs-4
+          h3 Storybook App
+          p An app for writing children's books.
+          p You can write books online and while offline.
+          p It's free and the technology is open source.
+
+        div.col-xs-4
+          h3 Multilingual
+          p Launching with examples for English, Spanish, Haitian Creole.
+          p Tested with Arabic and Devanagari scripts.
+          p Easily translatable UI for new languages.
+
+        div.col-xs-4
+          h3 Create and Collaborate
+          p Sign up users and create teams online.
+          p Word lists and images are shared on teams.
+          p Drop images and word lists directly into a web browser.
+
+    // 3rd party libraries
+    script(type="text/javascript", src="/jquery-1.11.0.min.js")
+    script(type="text/javascript", src="/bootstrap.min.js")
+    script(type="text/javascript", src="/polyglot.min.js")
+
+    // custom script
+    script(type="text/javascript") var translations = !{translations};
+    script(type="text/javascript")
+      != 'var outOfChromeApp = true;'
+    script(type="text/javascript", src="/localize.js")

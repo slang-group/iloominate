@@ -48,6 +48,7 @@ var routes = require('./routes');
 
 // homepage and editor pages
 app.get('/', routes.home);
+app.get('/edit', routes.editor);
 
 // book pages
 app.get('/book/:book_id', routes.books.byid);
@@ -59,7 +60,7 @@ app.get('/wordlist/inteam', routes.wordlists.inteam);
 app.get('/wordlist/:id', routes.wordlists.byid);
 app.post('/wordlist', routes.wordlists.save);
 
-// imagers
+// image editor
 app.get('/image/new', routes.images.create);
 app.get('/image/all', routes.images.all);
 app.get('/image/inteam', routes.images.inteam);
