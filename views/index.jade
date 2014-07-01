@@ -73,6 +73,9 @@ html
             a.list-group-item.guide(href="#")
               img.icon(src="/images/teacher_14016.png")
               span.translate Guide
+            a.list-group-item.chooseicon(href="#")
+              img.icon(src="/images/penguin_1986.png")
+              span.translate Add Icon
 
 
         div.col-lg-9
@@ -116,6 +119,17 @@ html
           div.modal-footer
             button.btn.btn-default.translate(type="button", data-dismiss="modal") Cancel
             button.save.btn.btn-primary.translate(type="button", data-dismiss="modal") Save
+
+    #iconmodal.modal.fade
+      div.modal-dialog
+        div.modal-content
+          div.modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true") x
+            h3.translate Add Icon
+          div.modal-body
+          div.modal-footer
+            button.btn.btn-default.translate(type="button", data-dismiss="modal") Cancel
+            button.btn.btn-success.translate.iconadder(type="button", data-dismiss="modal") Add Icon
 
     #guidemodal.modal.fade
       div.modal-dialog

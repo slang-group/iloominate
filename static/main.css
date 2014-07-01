@@ -105,11 +105,11 @@ body#imager {
   background-color: #fff;
 }
 
-#addmodal img {
+#addmodal img, #iconmodal img {
   cursor: pointer;
   border: 1px solid #444;
 }
-#addmodal img:hover {
+#addmodal img:hover, #iconmodal img:hover, #iconmodal img.highlight {
   border: 1px solid pink;
 }
 

@@ -385,6 +385,29 @@ function upload() {
 }
 $(".upload").on("click", upload);
 
+// choose icon
+$(".chooseicon").on("click", function() {
+  $('#iconmodal').modal('show').find('.modal-body').html('');
+  $.getJSON("/image/inteam", function (imagelist) {
+    for(var i = 0; i < imagelist.length; i++) {
+      var img = $('<img/>').attr('src', imagelist[i].url).addClass('col-md-3');
+      $('#iconmodal .modal-body').append(img);
+    }
+    $('#iconmodal .modal-body').append($('<div></div>').addClass('clearfix'));
+    $('#iconmodal .modal-body img').on('click', function(e) {
+      // highlight only the selected image
+      $('#iconmodal .modal-body img').removeClass('highlight');
+      $(e.target).addClass('highlight');
+    });
+  });
+});
+$('.iconchooser').on('click', function() {
+  var highlighted_icons = $('#iconmodal .modal-body img.highlight');
+  if(highlighted_icons.length) {
+    processImage({ target: { result: $(highlighted_icons[0]).attr("src") } });
+  }
+});
+
 // activate existing page links
 $($(".page-list").children()[0]).on("click", function() {
   setCurrentPage(0);
