@@ -7,18 +7,18 @@ var Imager = require('../models/image');
 exports.create = function (req, res) {
   res.render('imager', {
     translations: t.getTranslations(req, res),
-    image: { id: "" }
+    image: JSON.stringify({ id: '' })
   });
 };
 
 exports.byid = function (req, res) {
-  Imager.findById(req.params.id).select('_id name upload').exec(function (err, imager) {
+  Imager.findById(req.params.id).exec(function (err, imager) {
     if (err) {
       throw err;
     }
     res.render('imager', {
       translations: t.getTranslations(req, res),
-      image: imager
+      image: JSON.stringify(imager)
     });
   });
 };

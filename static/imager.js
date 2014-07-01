@@ -99,14 +99,17 @@ function addAnchorBehaviors(anchor, group) {
   });
 }
 
-function addImage(png_url) {
+function addImage(png_url, pos, scale) {
   var png = new Image();
+
+  var position = pos || { x: 20, y: 20 };
+  var size = scale || { width: 156, height: 156 };
 
   png.onload = function() {
     // group of images, icons, controls
     var group = new Kinetic.Group({
-      x: 20,
-      y: 20,
+      x: position.x,
+      y: position.y,
       draggable: true,
       resizeYAdj: 0,
       resizeXAdj: 0
@@ -114,8 +117,8 @@ function addImage(png_url) {
 
     // highlight select icon
     var backdrop = new Kinetic.Rect({
-      width: 190,
-      height: 190,
+      width: size.width + 34,
+      height: size.height + 34,
       fill: "transparent",
       name: "backdrop",
       opacity: 0.5,
@@ -134,8 +137,8 @@ function addImage(png_url) {
       y: 0,
       name: "image",
       image: png,
-      width: 156,
-      height: 156
+      width: size.width,
+      height: size.height
     });
 
     // resize boxes
@@ -227,20 +230,29 @@ function upload_image() {
   // save image to cloud
   var canv = $("#stage canvas")[0];
   var canvURL = canv.toDataURL();
-  image_id = image_id || "";
+  image_id = image.id || "";
   var children = layer.getChildren();
   var icons = [];
   for(var i = 0; i < children.length; i++) {
+    var icon_img = children[i].getChildren()[1].attrs.image.src.split('/');
+    icon_img = icon_img[icon_img.length-1];
     icons.push({
       pos: children[i].getPosition(),
-      size: children[i].getChildren()[1].getSize()
+      size: children[i].getChildren()[1].getSize(),
+      url: icon_img
     });
   }
 
   $.post("/image", {_csrf: csrf_token, id: image_id, src: canvURL, icons: icons}, function(response) {
     console.log(response);
-    image_id = response.image_id;
-    history.pushState(null, null, '/image/' + image_id);
+    if(response.err) {
+      alert('Upload failed');
+    }
+    else {
+      image_id = response.image_id;
+      history.pushState(null, null, '/image/' + image_id);
+      alert('Saved');
+    }
   });
 }
 $('.upload').parent().on('click', upload_image);
@@ -258,5 +270,14 @@ function save_image() {
 }
 $('.download').parent().on('click', save_image);
 
-// start off project
-addImage("/images/teacher_14016.png");
+if(image.icons && image.icons.length) {
+  // load the existing project
+  for(var i = 0; i < image.icons.length; i++) {
+    var load_image = image.icons[i];
+    addImage('/images/' + (load_image.url || 'teacher_14016.png'), load_image.pos, load_image.size);
+  }
+}
+else {
+  // start a project
+  addImage("/images/teacher_14016.png");
+}
