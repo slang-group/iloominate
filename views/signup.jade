@@ -11,36 +11,72 @@ html
     link(href="/main.css", rel="stylesheet", type="text/css")
 
   body
+    div.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
+      div.container
+        div.navbar-header
+
+        ul.nav.navbar-nav
+          li.active
+            a(href="#")
+              span iLoominate&nbsp;&nbsp;
+              span.translate Online
+
+        ul.nav.navbar-nav.pull-right
+          li
+            a(href="#", data-toggle="dropdown")
+              span.translate Language
+              span &nbsp;▽
+            ul#languageselect.dropdown-menu(role="menu", aria-labelledby="dLabel")
+              li.en(role="presentation")
+                a(href="?language=en", role="menuitem") English
+              li.es(role="presentation")
+                a(href="?language=es", role="menuitem") Español
+              li.ht(role="presentation")
+                a(href="?language=ht", role="menuitem") Kreyòl Ayisyen
+              li.ne(role="presentation")
+                a(href="?language=ne", role="menuitem") नेपाली
+              li.ar(role="presentation")
+                a(href="?language=ar", role="menuitem") العربية
+    br
+    br
+    br
+
     div.container
       .row
         h1
           span.fa.fa-sign-in
-          span= 'Signup'
+          span.translate Sign up
         if message.length
           div.alert.alert-danger #{message}
 
-        form(action="/signup", method="post")
-          input(type='hidden', name='_csrf', value=token)
-          .form-group
-            label.translate Email
-            input.form-control(type="text", name="email")
-          .form-group
-            label.translate Password
-            input.form-control(type="password", name="password")
-          .form-group
-            label
-              span.translate Team
-              span.translate (Optional)
-            input.form-control(type="text", name="team")
-          button.btn.btn-warning.translate(type="submit")= 'Sign up'
-      br
-      br
       .row
-        a.translate(href="/login")= 'Log In'
+        .col-md-6
+          h3 Welcome to iLoominate!
+          p Create your user account.
+          p You can also add yourself to a team.
+
+        .col-md-6
+          form.well(action="/signup", method="post")
+            input(type='hidden', name='_csrf', value=token)
+            .form-group
+              label.translate Email
+              input.form-control(type="text", name="email")
+            .form-group
+              label.translate Password
+              input.form-control(type="password", name="password")
+            .form-group
+              label
+                span.translate Team
+                span.translate (Optional)
+              input.form-control(type="text", name="team")
+            button.btn.btn-warning.translate(type="submit")= 'Sign up'
+          br
+          br
+          a.translate(href="/login")= 'Log In'
 
     // 3rd party libraries
     script(type="text/javascript", src="/jquery-1.11.0.min.js")
-
+    script(type="text/javascript", src="/bootstrap.min.js")
     script(type="text/javascript", src="/polyglot.min.js")
 
     // custom script
