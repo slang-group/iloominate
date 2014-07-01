@@ -12,7 +12,7 @@ html
 
   body
     div.container
-      .row-fluid
+      .row
         h1
           span.fa.fa-sign-in
           span= 'Signup'
@@ -33,7 +33,9 @@ html
               span.translate (Optional)
             input.form-control(type="text", name="team")
           button.btn.btn-warning.translate(type="submit")= 'Sign up'
-      .row-fluid
+      br
+      br
+      .row
         a.translate(href="/login")= 'Log In'
 
     // 3rd party libraries

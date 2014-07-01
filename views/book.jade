@@ -12,7 +12,7 @@ html
 
   body
     div.container
-      .row-fluid
+      .row
         .user-login
           a.translate(href="/login") Log In
           span &nbsp;&nbsp;|&nbsp;&nbsp;
@@ -29,18 +29,18 @@ html
 
           .well
             h2 #{book.name}
-            
+
             .image_area
               .filedrop
                 img(src!=book.pages[0].image)
 
             .clearfix
-            
+
             p #{book.pages[0].text}
 
             a.btn.btn-info.pdfify.translate(href="#") Make into PDF
             a.btn.btn-success.bookify.translate(href="#") Make into Book
-            
+
             .clearfix
 
           canvas.hide(width="500", height="300")
@@ -52,7 +52,7 @@ html
     script(type="text/javascript", src="/jspdf.min.js")
 
     script(type="text/javascript", src="/turn.min.js")
-    
+
     script(type="text/javascript", src="/polyglot.min.js")
 
     // custom script
