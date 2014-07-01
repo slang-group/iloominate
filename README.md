@@ -67,6 +67,8 @@ Configuring cloud server on Heroku:
 
     heroku addons:add mongolab:starter
     heroku config:set SECRET='your_secret_passcode_token'
+    heroku addons:add cloudinary
+    heroku addons:add postmark
 
 ## Licensing
 

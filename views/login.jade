@@ -63,11 +63,21 @@ html
             .form-group
               label.translate Password
               input.form-control(type="password", name="password")
-            button.btn.btn-warning.translate(type="submit")= 'Log In'
+            button.btn.btn-warning.translate(type="submit") Log In
 
           br
           br
           a.translate(href="/signup") Sign up
+      .row
+        .col-md-4
+        .col-md-4
+          h4 Forgot your password?
+          form.well(action="/reset", method="post")
+            input(type='hidden', name='_csrf', value=token)
+            .form-group
+              label.translate Email
+              input.form-control(type="text", name="email")
+            button.btn.btn-warning.translate(type="submit") Reset Password
 
     // 3rd party libraries
     script(type="text/javascript", src="/jquery-1.11.0.min.js")

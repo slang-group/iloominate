@@ -9,6 +9,9 @@ var User = require('./models/user');
 mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGODB_URI || 'localhost');
 require('./config/passport')(passport);
 
+// password reset
+var password_reset = require('./config/reset');
+
 // configure Express.js framework
 var app = express();
 app.configure(function () {
@@ -71,6 +74,8 @@ app.post('/image', routes.images.save);
 app.get('/signup', routes.users.signup);
 app.get('/login', routes.users.login);
 app.get('/logout', routes.users.logout);
+app.post('/reset', password_reset.reset_mail);
+app.get('/reset', password_reset.reset_confirm);
 app.get('/profile', isLoggedIn, routes.users.profile);
 app.get('/user/:id', routes.users.byid);
 

@@ -7,7 +7,8 @@ var userSchema = mongoose.Schema({
     password: String
   },
   admin: Boolean,
-  teams: Array
+  teams: Array,
+  reset_time: Number
 });
 
 userSchema.methods.generateHash = function(password){
