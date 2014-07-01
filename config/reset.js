@@ -26,6 +26,7 @@ exports.reset_mail = function(req, res) {
       "TextBody": "Hello! We heard that you had a problem with your password. Reset it at http://iloominate.herokuapp.com/reset?reset_time=" + reset_time + "&email=" + user_email
     }, function(err, success) {
       if(err) {
+        console.log(err);
         res.send('Reset e-mail failed.');
       }
       else {
