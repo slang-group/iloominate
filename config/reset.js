@@ -37,7 +37,7 @@ exports.reset_mail = function(req, res) {
 };
 
 exports.reset_confirm = function(req, res) {
-  User.find({ "local.email": req.body.email }).execute(function(err, users) {
+  User.find({ "local.email": req.body.email }).exec(function(err, users) {
     if(users.length) {
       if (req.query.reset_time * 1 === users[0].reset_time * 1) {
         res.send('Confirmed!')
