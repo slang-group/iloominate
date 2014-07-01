@@ -4,7 +4,7 @@ var bcrypt = require("bcrypt-nodejs");
 var User = require('../models/user');
 
 exports.reset_mail = function(req, res) {
-  User.find({ email: req.body.email }).execute(function(err, users) {
+  User.find({ email: req.body.email }).exec(function(err, users) {
     var user_email = '';
     var reset_time = (new Date()) * 1;
     if(users.length) {
