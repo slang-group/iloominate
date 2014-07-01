@@ -1,5 +1,5 @@
 var postmark = require("postmark")(process.env.POSTMARK_API_KEY);
-var bcrypt = require("bcrypt");
+var bcrypt = require("bcrypt-nodejs");
 
 var User = require('../models/user');
 
