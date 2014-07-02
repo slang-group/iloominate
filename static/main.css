@@ -125,3 +125,17 @@ body#imager {
   color: #fff;
   font-size: 25px;
 }
+
+
+.homepage {
+  background: url('/images/cover.jpg') 100% 100% no-repeat;
+}
+.homepage h1 {
+  font-size: 30pt;
+  margin: 40px;
+  color: #fff;
+  text-shadow: 2px 2px #444;
+}
+.homepage .blank {
+  background: #fff;
+}

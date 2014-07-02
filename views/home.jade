@@ -10,7 +10,7 @@ html
     // custom style
     link(href="/main.css", rel="stylesheet", type="text/css")
 
-  body
+  body.homepage
     input#csrf(type='hidden', name='_csrf', value=token)
     div.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
       div.container
@@ -53,16 +53,24 @@ html
 
     div.container
       div.row
-        div.col-xs-4
-        div.col-xs-4(style="text-align:center;")
+        div.col-md-8
+          h1 Welcome to iLoominate
+        div.col-md-4
+          br
           a.btn.btn-success(href="/edit") Start Writing
+          br
+          br
+          a.btn.btn-success(href="/signup") Sign Up
 
-      div.row
+      br
+      br
+
+      div.row.blank
         div.col-xs-4
           h3 Storybook App
           p An app for writing children's books.
           p You can write books online and while offline.
-          p It's free and the technology is open source.
+          p It's free and easy to use.
 
         div.col-xs-4
           h3 Multilingual
@@ -73,8 +81,28 @@ html
         div.col-xs-4
           h3 Create and Collaborate
           p Sign up users and create teams online.
-          p Word lists and images are shared on teams.
+          p Word lists and images are shared between all team members.
           p Drop images and word lists directly into a web browser.
+
+      br
+      br
+
+      div.row.blank
+        div.col-xs-4
+          h3 Designed by Educators
+          p Our team is composed of teachers and technologists focused on the future of education.
+
+        div.col-xs-4
+          h3 Open Source
+          p Our project is built on open source technology, and we have released all of our code with an open source license as well.
+          p
+            span Programmers can contribute to the project&nbsp;
+            a(href="https://github.com/mapmeld/iloominate") on GitHub.
+
+      div.row
+        br
+        br
+
 
     // 3rd party libraries
     script(type="text/javascript", src="/jquery-1.11.0.min.js")
