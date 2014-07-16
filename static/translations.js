@@ -21,7 +21,6 @@ var allTranslations = {
     "Log Out": "Log Out",
     "ltr": "ltr", // left-to-right or right-to-left?
     "Make into PDF": "Make into PDF",
-    "Make into Book": "Make into Book",
     "Name": "Name",
     "New Icon": "New Icon",
     "Next": "Next",
@@ -63,7 +62,6 @@ var allTranslations = {
     "Log Out": "Log Out",
     "ltr": "ltr",
     "Make into PDF": "Crear PDF",
-    "Make into Book": "Crear Libro",
     "Name": "Nombre",
     "New Icon": "Imagen Nuevo",
     "Next": "Siguiente",
@@ -105,7 +103,6 @@ var allTranslations = {
     "Log Out": "Log Out",
     "ltr": "ltr",
     "Make into PDF": "Fè PDF",
-    "Make into Book": "Fè Liv",
     "Name": "Name",
     "New Icon": "New Icon",
     "Next": "Next",

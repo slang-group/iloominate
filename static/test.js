@@ -327,50 +327,6 @@ function pdfify() {
 
 $(".pdfify").on("click", pdfify);
 
-// book preview
-function bookify() {
-  saveCurrentPage(function(){
-
-    // generate book preview
-    if(rightToLeft){
-      pages.reverse();
-    }
-
-    $(".book").html("");
-    for(var p=0;p<pages.length;p++){
-      var page = $("<div>");
-
-      if(pages[p].image){
-        var img = $("<img/>").attr("src", pages[p].image);
-        page.append(img);
-      }
-
-      var content = $("<span>").text(pages[p].text);
-      page.append(content);
-
-      $(".book").append(page);
-    }
-    $(".book").turn({
-      display: 'double',
-      gradients: true,
-      acceleration: true,
-      elevation: 50,
-      peel: 'tr',
-      turnCorners: 'bl,br',
-      corners: 'forward'
-    });
-
-    // show book preview
-    $($(".container").children()[0]).hide();
-    $(".book").removeClass("hide");
-
-    if(rightToLeft){
-      pages.reverse();
-    }
-  });
-}
-$(".bookify").on("click", bookify);
-
 // books can be created and updated
 var book_id = null;
 
@@ -433,3 +389,100 @@ $(".new-page").on("click", function() {
   // show new page
   setCurrentPage(myPageNum);
 });
+
+
+PBS.KIDS.storybook.config = {
+	background: {
+		color: "#ababab"
+	},
+	audio: {
+		enabled: false
+	},
+	book: {
+		font: "Georgia",
+		startOnPage: 0,
+		pageWidth: $(".well.page").width(),
+		pageHeight: Math.max($(".well.page").height(), 450),
+		previousPageButton: {
+			url: "images/prev-page-button.png",
+			x: 1,
+			y: 50,
+			width: "50px",
+			height: "50px"
+		},
+		nextPageButton: {
+			url: "images/next-page-button.png",
+			horizontalAlign: "RIGHT",
+			x: 1,
+			y: 50,
+			width: "50px",
+			height: "50px"
+		},
+		pageBackground: {
+			color: "#fefefe"
+		},
+		oddPageBackground: {
+			color: "#fdfdfd"
+		},
+		evenPageBackground: {
+			color: "#f9f9f9"
+		},
+		pageTurnDuration: 500,
+		pageSlideDuration: 200
+	},
+	cover: {
+		background: {
+			url: "images/frog_2546.png"
+		},
+		content: [
+		]
+	},
+	pages: []
+};
+
+PBS.KIDS.storybook.config.pages.push({
+	content: [
+		{
+			type: "TextArea",
+			x: 10,
+			y: 30,
+			width: 80,
+			align: "left",
+			color: "#222222",
+			size: 28,
+			font: "Droid Serif",
+			text: "This storybook will give examples of the functionality of the Storybook Engine. See the configuration files in the config folder to see how the examples were implemented."
+		}
+	]
+});
+
+PBS.KIDS.storybook.config.pages.push({
+  content: [
+    {
+      type: "TextArea",
+      x: 10,
+      y: 30,
+      width: 80,
+      align: "left",
+      color: "#222222",
+      size: 28,
+      font: "Droid Serif",
+      text: "Page Two"
+    }
+  ]
+});
+
+(function (GLOBAL, PBS) {
+
+	// Create the storybook
+	var book = PBS.KIDS.storybook.book(GLOBAL, PBS, $(".well.page")[0], PBS.KIDS.storybook.config);
+
+  // Load the storybook resources
+	book.load();
+
+	// Example of how to listen for book's layout changes ("SINGLE-PAGE" or "TWO-PAGE")
+	book.addEventListener("LAYOUT_CHANGE", function (layoutType) {
+	  console.log("Layout Change Event Dispatched: " + layoutType);
+	});
+
+} (window, PBS));

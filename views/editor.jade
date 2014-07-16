@@ -8,6 +8,7 @@ html
     link(href="/antihighlight/jquery.antihighlight.css", rel="stylesheet", type="text/css")
     link(href="/bootstrap.min.css", rel="stylesheet", type="text/css")
     link(href="/jqime/css/jquery.ime.css", rel="stylesheet", type="text/css")
+    link(href="/pbs/engine/css/engine.css", rel="stylesheet", type="text/css")
 
     // custom style
     link(href="/main.css", rel="stylesheet", type="text/css")
@@ -97,7 +98,6 @@ html
             a.btn.btn-success.new-page.translate(href="#") Add Page
             hr
             a.btn.btn-info.pdfify.translate(href="#") Make into PDF
-            a.btn.btn-success.bookify.translate(href="#") Make into Book
             a.btn.btn-info.upload.translate(href="#") Upload
 
             div.clearfix
@@ -179,8 +179,6 @@ html
 
     script(type="text/javascript", src="/jspdf.min.js")
 
-    script(type="text/javascript", src="/turn.min.js")
-
     script(type="text/javascript", src="/bootstrap.min.js")
 
     script(type="text/javascript", src="/polyglot.min.js")
@@ -196,5 +194,17 @@ html
     script(type="text/javascript")
       != 'var outOfChromeApp = true;'
     script(type="text/javascript", src="/localize.js")
+
+    script(type="text/javascript", src="/pbs/engine/js/pbs.js")
+    script(type="text/javascript", src="/pbs/engine/js/eventDispatcher.js")
+    script(type="text/javascript", src="/pbs/engine/js/interaction.js")
+    script(type="text/javascript", src="/pbs/engine/js/resourceLoader.js")
+    script(type="text/javascript", src="/pbs/engine/js/book.js")
+    script(type="text/javascript", src="/pbs/engine/js/page.js")
+    script(type="text/javascript", src="/pbs/engine/js/textArea.js")
+    script(type="text/javascript", src="/pbs/engine/js/view.js")
+    script(type="text/javascript", src="/pbs/engine/js/sprite.js")
+    script(type="text/javascript", src="/pbs/engine/js/cycler.js")
+
     script(type="text/javascript", src="/test.js")
     script(type="text/javascript", src="/guide.js")
