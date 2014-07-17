@@ -1,21 +1,3 @@
-// highlight unknown letters and words with jQuery.antihighlight
-var highlighter;
-$(document).ready(function () {
-  if (typeof outOfChromeApp === "undefined" || !outOfChromeApp) {
-    $("textarea").width(650).height(100);
-  }
-
-  // activate antihighlight
-  highlighter = $("textarea").antihighlight({
-    words: ['hello', 'world', 'नेपाल'],
-    letters: ['abcdefghijklmnopqrstuvw'],
-    caseSensitive: false
-  });
-
-  // multilingual input with jQuery.IME
-  $("textarea").ime();
-});
-
 // CSRF token
 var csrf_token = $('#csrf').val();
 
@@ -472,6 +454,9 @@ PBS.KIDS.storybook.config.pages.push({
   ]
 });
 
+// highlight unknown letters and words with jQuery.antihighlight
+var highlighter;
+
 (function (GLOBAL, PBS) {
 
 	// Create the storybook
@@ -484,5 +469,17 @@ PBS.KIDS.storybook.config.pages.push({
 	book.addEventListener("LAYOUT_CHANGE", function (layoutType) {
 	  console.log("Layout Change Event Dispatched: " + layoutType);
 	});
+
+  book.addEventListener("PAGE_CHANGE", function () {
+    // activate antihighlight
+    /*highlighter = $("textarea").antihighlight({
+      words: ['hello', 'world', 'नेपाल'],
+      letters: ['abcdefghijklmnopqrstuvw'],
+      caseSensitive: false
+    });*/
+
+    // multilingual input with jQuery.IME
+    $("textarea").ime();
+  });
 
 } (window, PBS));
