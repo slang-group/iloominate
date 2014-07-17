@@ -9,7 +9,7 @@ var current_image = null;
 function saveCurrentPage(callback) {
   var page_text = $("textarea").val();
   pages[current_page].text = page_text;
-  $($(".page-list p")[current_page]).text(page_text.substring(0,18));
+  //$($(".page-list p")[current_page]).text(page_text.substring(0,18));
 
   if(current_image){
     pages[current_page].image = current_image;
@@ -35,40 +35,18 @@ function setCurrentPage(p) {
     $(".page-list a").removeClass("active");
     $($(".page-list a")[p]).addClass("active");
 
-    // set text and highlighting
-    $("textarea").val(pages[p].text);
-    $("textarea").trigger("input");
-
-    // read page
-    if(current_image){
-      // set up image on page
-      $(".filedrop")
-        .removeClass("bordered")
-        .html("");
-
-      $(".image_area")
-        .addClass("fullsize")
-        .css({
-          "background": "-webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(75%,rgba(0,0,0,0)), color-stop(100%,#fff)), url(" + current_image + ")",
-          "width": $("textarea").width()
-        })
-        .find("h4").hide();
-    }
-    else{
-      // remove any existing image on page
-      $(".filedrop")
-        .addClass("bordered")
-        .html("");
-
-      $(".image_area")
-        .removeClass("fullsize")
-        .css({
-          "background": "none",
-          "width": "50%"
-        })
-        .find("h4").show();
-    }
+    makePageJumps(p, -1);
   });
+}
+
+function makePageJumps(p, pagejumps) {
+  if(pagejumps < p) {
+    pagejumps += 2;
+    var ev = book.addEventListener("PAGE_CHANGE", function() {
+      book.removeEventListener(ev);
+      book.nextPage(p, pagejumps);
+    });
+  }
 }
 
 // drop an image onto the page
@@ -368,6 +346,25 @@ $(".new-page").on("click", function() {
     setCurrentPage(myPageNum);
   });
 
+  // add layout page
+  PBS.KIDS.storybook.config.pages.push({
+    content: [
+      {
+        type: "TextArea",
+        x: 10,
+        y: 30,
+        width: 80,
+        align: "left",
+        color: "#222222",
+        size: 28,
+        font: "Droid Serif",
+        text: "This storybook will give examples of the functionality of the Storybook Engine. See the configuration files in the config folder to see how the examples were implemented."
+      }
+    ]
+  });
+  $(".page.well").html("");
+  renderBook(window, PBS);
+
   // show new page
   setCurrentPage(myPageNum);
 });
@@ -383,7 +380,7 @@ PBS.KIDS.storybook.config = {
 	book: {
 		font: "Georgia",
 		startOnPage: 0,
-		pageWidth: $(".well.page").width(),
+		pageWidth: $(".well.page").width() - 50,
 		pageHeight: Math.max($(".well.page").height(), 450),
 		previousPageButton: {
 			url: "images/prev-page-button.png",
@@ -438,29 +435,13 @@ PBS.KIDS.storybook.config.pages.push({
 	]
 });
 
-PBS.KIDS.storybook.config.pages.push({
-  content: [
-    {
-      type: "TextArea",
-      x: 10,
-      y: 30,
-      width: 80,
-      align: "left",
-      color: "#222222",
-      size: 28,
-      font: "Droid Serif",
-      text: "Page Two"
-    }
-  ]
-});
-
 // highlight unknown letters and words with jQuery.antihighlight
-var highlighter;
+var book, highlighter;
 
-(function (GLOBAL, PBS) {
+function renderBook(GLOBAL, PBS) {
 
 	// Create the storybook
-	var book = PBS.KIDS.storybook.book(GLOBAL, PBS, $(".well.page")[0], PBS.KIDS.storybook.config);
+	book = PBS.KIDS.storybook.book(GLOBAL, PBS, $(".well.page")[0], PBS.KIDS.storybook.config);
 
   // Load the storybook resources
 	book.load();
@@ -481,5 +462,6 @@ var highlighter;
     // multilingual input with jQuery.IME
     $("textarea").ime();
   });
+}
 
-} (window, PBS));
+renderBook(window, PBS);
