@@ -7,8 +7,8 @@ var current_page = 0;
 var current_image = null;
 
 function saveCurrentPage(callback) {
-  var page_text = $("textarea").val();
-  pages[current_page].text = page_text;
+  //var page_text = $("textarea").val();
+  //pages[current_page].text = page_text;
   //$($(".page-list p")[current_page]).text(page_text.substring(0,18));
 
   if(current_image){
@@ -29,18 +29,22 @@ function saveCurrentPage(callback) {
 
 function setCurrentPage(p) {
   saveCurrentPage(function(){
-    current_page = p;
-    current_image = pages[p].image;
 
     $(".page-list a").removeClass("active");
-    $($(".page-list a")[p+1]).addClass("active");
+    $($(".page-list a")[p]).addClass("active");
 
-    if(p < current_page) {
-      book.gotoPage(Math.floor(p / 2) + 1);
+    if(p == current_page) {
+      return;
+    }
+    //current_image = pages[p].image;
+
+    if(current_page > -1) {
+      book.gotoPage(p);
     }
     else {
       makePageJumps(p, -1);
     }
+    current_page = p;
   });
 }
 
@@ -346,13 +350,11 @@ $(".new-page").on("click", function() {
   $($(".page-list .list-group-item")[pages.length-2]).after(addPage);
 
   // activate page link
-  var myPageNum = PBS.KIDS.storybook.config.pages.length - 1;
+  var myPageNum = pages.length - 1;
   addPage.on("click", function(){
-    $(".page-list a").removeClass("active");
-    $(addPage).addClass("active");
-
-    var doublePage = Math.floor(myPageNum / 2) + 1;
-    book.gotoPage(doublePage);
+    //var doublePage = Math.floor(myPageNum / 2) + 1;
+    console.log("trying " + myPageNum);
+    setCurrentPage(myPageNum);
   });
 
   // add layout page
@@ -375,6 +377,7 @@ $(".new-page").on("click", function() {
   renderBook(window, PBS);
 
   // show new page
+  current_page = -1;
   setCurrentPage(myPageNum);
 });
 
@@ -456,6 +459,8 @@ function renderBook(GLOBAL, PBS) {
 	book.load();
 
   book.addEventListener("PAGE_CHANGE", function () {
+    current_page = book.getPage();
+
     // activate antihighlight
     /*highlighter = $("textarea").antihighlight({
       words: ['hello', 'world', 'नेपाल'],
