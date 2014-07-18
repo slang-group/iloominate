@@ -33,9 +33,14 @@ function setCurrentPage(p) {
     current_image = pages[p].image;
 
     $(".page-list a").removeClass("active");
-    $($(".page-list a")[p]).addClass("active");
+    $($(".page-list a")[p+1]).addClass("active");
 
-    makePageJumps(p, -1);
+    if(p < current_page) {
+      book.gotoPage(Math.floor(p / 2) + 1);
+    }
+    else {
+      makePageJumps(p, -1);
+    }
   });
 }
 
@@ -341,9 +346,13 @@ $(".new-page").on("click", function() {
   $($(".page-list .list-group-item")[pages.length-2]).after(addPage);
 
   // activate page link
-  var myPageNum = pages.length-1;
+  var myPageNum = PBS.KIDS.storybook.config.pages.length - 1;
   addPage.on("click", function(){
-    setCurrentPage(myPageNum);
+    $(".page-list a").removeClass("active");
+    $(addPage).addClass("active");
+
+    var doublePage = Math.floor(myPageNum / 2) + 1;
+    book.gotoPage(doublePage);
   });
 
   // add layout page
@@ -445,11 +454,6 @@ function renderBook(GLOBAL, PBS) {
 
   // Load the storybook resources
 	book.load();
-
-	// Example of how to listen for book's layout changes ("SINGLE-PAGE" or "TWO-PAGE")
-	book.addEventListener("LAYOUT_CHANGE", function (layoutType) {
-	  console.log("Layout Change Event Dispatched: " + layoutType);
-	});
 
   book.addEventListener("PAGE_CHANGE", function () {
     // activate antihighlight
