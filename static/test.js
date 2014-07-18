@@ -7,20 +7,43 @@ var current_page = 0;
 var current_image = null;
 
 function saveCurrentPage(callback) {
-  //var page_text = $("textarea").val();
-  //pages[current_page].text = page_text;
-  //$($(".page-list p")[current_page]).text(page_text.substring(0,18));
+  // skip cover
+  if(current_page == -1) {
+    callback();
+    return;
+  }
+
+  current_page = Math.floor(current_page / 2) * 2;
+
+  page_text = $("#pbsLeftPage textarea").val();
+  pages[current_page].text = page_text;
+
+  console.log("saving " + page_text + " to " + current_page);
+
+  PBS.KIDS.storybook.config.pages[current_page].content[0].text = page_text;
+
+  $($(".page-list p")[current_page]).text(page_text.substring(0,18));
+
+  // right page
+  if(pages.length > current_page + 1) {
+    page_text = $("#pbsRightPage textarea").val();
+    PBS.KIDS.storybook.config.pages[current_page+1].content[0].text = page_text;
+    $($(".page-list p")[current_page+1]).text(page_text.substring(0,18));
+
+    console.log("saving " + page_text + " to " + current_page);
+
+  }
 
   if(current_image){
-    pages[current_page].image = current_image;
-    var img = new Image();
-    img.onload = function(){
-      pages[current_page].image_width = img.width;
-      pages[current_page].image_height = img.height;
-      img = null;
-      callback();
-    };
-    img.src = current_image;
+    //pages[current_page].image = current_image;
+    //var img = new Image();
+    //img.onload = function(){
+    //  pages[current_page].image_width = img.width;
+    //  pages[current_page].image_height = img.height;
+    //  img = null;
+    //  callback();
+    //};
+    //img.src = current_image;
   }
   else{
     callback();
@@ -470,6 +493,7 @@ function renderBook(GLOBAL, PBS) {
 
     // multilingual input with jQuery.IME
     $("textarea").ime();
+    $("textarea").on("blur", saveCurrentPage);
   });
 }
 
