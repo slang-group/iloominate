@@ -6,9 +6,12 @@ var pages = [{ text: "", image: null }];
 var current_page = 0;
 var current_image = null;
 
+var book = null;
+var highlighter = null;
+
 function saveCurrentPage(callback) {
   // skip cover
-  if(current_page == -1) {
+  if(current_page === -1) {
     callback();
     return;
   }
@@ -17,8 +20,6 @@ function saveCurrentPage(callback) {
 
   page_text = $("#pbsLeftPage textarea").val();
   pages[current_page].text = page_text;
-
-  console.log("saving " + page_text + " to " + current_page);
 
   PBS.KIDS.storybook.config.pages[current_page].content[0].text = page_text;
 
@@ -29,9 +30,6 @@ function saveCurrentPage(callback) {
     page_text = $("#pbsRightPage textarea").val();
     PBS.KIDS.storybook.config.pages[current_page+1].content[0].text = page_text;
     $($(".page-list p")[current_page+1]).text(page_text.substring(0,18));
-
-    console.log("saving " + page_text + " to " + current_page);
-
   }
 
   if(current_image){
@@ -50,13 +48,23 @@ function saveCurrentPage(callback) {
   }
 }
 
+function makePageJumps(p, pagejumps) {
+  if(pagejumps < p) {
+    pagejumps += 2;
+    var ev = book.addEventListener("PAGE_CHANGE", function() {
+      book.removeEventListener(ev);
+      book.nextPage(p, pagejumps);
+    });
+  }
+}
+
 function setCurrentPage(p) {
   saveCurrentPage(function(){
 
     $(".page-list a").removeClass("active");
     $($(".page-list a")[p]).addClass("active");
 
-    if(p == current_page) {
+    if(p === current_page) {
       return;
     }
     //current_image = pages[p].image;
@@ -69,16 +77,6 @@ function setCurrentPage(p) {
     }
     current_page = p;
   });
-}
-
-function makePageJumps(p, pagejumps) {
-  if(pagejumps < p) {
-    pagejumps += 2;
-    var ev = book.addEventListener("PAGE_CHANGE", function() {
-      book.removeEventListener(ev);
-      book.nextPage(p, pagejumps);
-    });
-  }
 }
 
 // drop an image onto the page
@@ -361,6 +359,30 @@ $($(".page-list").children()[0]).on("click", function() {
   setCurrentPage(0);
 });
 
+function renderBook(GLOBAL, PBS) {
+
+  // Create the storybook
+  book = PBS.KIDS.storybook.book(GLOBAL, PBS, $(".well.page")[0], PBS.KIDS.storybook.config);
+
+  // Load the storybook resources
+  book.load();
+
+  book.addEventListener("PAGE_CHANGE", function () {
+    current_page = book.getPage();
+
+    // activate antihighlight
+    highlighter = $("textarea").antihighlight({
+      words: ['hello', 'world', 'नेपाल'],
+      letters: ['abcdefghijklmnopqrstuvw'],
+      caseSensitive: false
+    });
+
+    // multilingual input with jQuery.IME
+    $("textarea").ime();
+    $("textarea").on("blur", saveCurrentPage);
+  });
+}
+
 // adding a new page
 $(".new-page").on("click", function() {
   // create new page listing
@@ -375,8 +397,6 @@ $(".new-page").on("click", function() {
   // activate page link
   var myPageNum = pages.length - 1;
   addPage.on("click", function(){
-    //var doublePage = Math.floor(myPageNum / 2) + 1;
-    console.log("trying " + myPageNum);
     setCurrentPage(myPageNum);
   });
 
@@ -469,32 +489,5 @@ PBS.KIDS.storybook.config.pages.push({
 		}
 	]
 });
-
-// highlight unknown letters and words with jQuery.antihighlight
-var book, highlighter;
-
-function renderBook(GLOBAL, PBS) {
-
-	// Create the storybook
-	book = PBS.KIDS.storybook.book(GLOBAL, PBS, $(".well.page")[0], PBS.KIDS.storybook.config);
-
-  // Load the storybook resources
-	book.load();
-
-  book.addEventListener("PAGE_CHANGE", function () {
-    current_page = book.getPage();
-
-    // activate antihighlight
-    highlighter = $("textarea").antihighlight({
-      words: ['hello', 'world', 'नेपाल'],
-      letters: ['abcdefghijklmnopqrstuvw'],
-      caseSensitive: false
-    });
-
-    // multilingual input with jQuery.IME
-    $("textarea").ime();
-    $("textarea").on("blur", saveCurrentPage);
-  });
-}
 
 renderBook(window, PBS);
