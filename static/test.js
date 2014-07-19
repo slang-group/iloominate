@@ -1,21 +1,3 @@
-// highlight unknown letters and words with jQuery.antihighlight
-var highlighter;
-$(document).ready(function () {
-  if (typeof outOfChromeApp === "undefined" || !outOfChromeApp) {
-    $("textarea").width(650).height(100);
-  }
-
-  // activate antihighlight
-  highlighter = $("textarea").antihighlight({
-    words: ['hello', 'world', 'नेपाल'],
-    letters: ['abcdefghijklmnopqrstuvw'],
-    caseSensitive: false
-  });
-
-  // multilingual input with jQuery.IME
-  $("textarea").ime();
-});
-
 // CSRF token
 var csrf_token = $('#csrf').val();
 
@@ -24,68 +6,76 @@ var pages = [{ text: "", image: null }];
 var current_page = 0;
 var current_image = null;
 
+var book = null;
+var highlighter = null;
+
 function saveCurrentPage(callback) {
-  var page_text = $("textarea").val();
+  // skip cover
+  if(current_page === -1) {
+    callback();
+    return;
+  }
+
+  current_page = Math.floor(current_page / 2) * 2;
+
+  page_text = $("#pbsLeftPage textarea").val();
   pages[current_page].text = page_text;
+
+  PBS.KIDS.storybook.config.pages[current_page].content[0].text = page_text;
+
   $($(".page-list p")[current_page]).text(page_text.substring(0,18));
 
+  // right page
+  if(pages.length > current_page + 1) {
+    page_text = $("#pbsRightPage textarea").val();
+    PBS.KIDS.storybook.config.pages[current_page+1].content[0].text = page_text;
+    $($(".page-list p")[current_page+1]).text(page_text.substring(0,18));
+  }
+
   if(current_image){
-    pages[current_page].image = current_image;
-    var img = new Image();
-    img.onload = function(){
-      pages[current_page].image_width = img.width;
-      pages[current_page].image_height = img.height;
-      img = null;
-      callback();
-    };
-    img.src = current_image;
+    //pages[current_page].image = current_image;
+    //var img = new Image();
+    //img.onload = function(){
+    //  pages[current_page].image_width = img.width;
+    //  pages[current_page].image_height = img.height;
+    //  img = null;
+    //  callback();
+    //};
+    //img.src = current_image;
   }
   else{
     callback();
   }
 }
 
+function makePageJumps(p, pagejumps) {
+  if(pagejumps < p) {
+    pagejumps += 2;
+    var ev = book.addEventListener("PAGE_CHANGE", function() {
+      book.removeEventListener(ev);
+      book.nextPage(p, pagejumps);
+    });
+  }
+}
+
 function setCurrentPage(p) {
   saveCurrentPage(function(){
-    current_page = p;
-    current_image = pages[p].image;
 
     $(".page-list a").removeClass("active");
     $($(".page-list a")[p]).addClass("active");
 
-    // set text and highlighting
-    $("textarea").val(pages[p].text);
-    $("textarea").trigger("input");
-
-    // read page
-    if(current_image){
-      // set up image on page
-      $(".filedrop")
-        .removeClass("bordered")
-        .html("");
-
-      $(".image_area")
-        .addClass("fullsize")
-        .css({
-          "background": "-webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(75%,rgba(0,0,0,0)), color-stop(100%,#fff)), url(" + current_image + ")",
-          "width": $("textarea").width()
-        })
-        .find("h4").hide();
+    if(p === current_page) {
+      return;
     }
-    else{
-      // remove any existing image on page
-      $(".filedrop")
-        .addClass("bordered")
-        .html("");
+    //current_image = pages[p].image;
 
-      $(".image_area")
-        .removeClass("fullsize")
-        .css({
-          "background": "none",
-          "width": "50%"
-        })
-        .find("h4").show();
+    if(current_page > -1) {
+      book.gotoPage(p);
     }
+    else {
+      makePageJumps(p, -1);
+    }
+    current_page = p;
   });
 }
 
@@ -327,50 +317,6 @@ function pdfify() {
 
 $(".pdfify").on("click", pdfify);
 
-// book preview
-function bookify() {
-  saveCurrentPage(function(){
-
-    // generate book preview
-    if(rightToLeft){
-      pages.reverse();
-    }
-
-    $(".book").html("");
-    for(var p=0;p<pages.length;p++){
-      var page = $("<div>");
-
-      if(pages[p].image){
-        var img = $("<img/>").attr("src", pages[p].image);
-        page.append(img);
-      }
-
-      var content = $("<span>").text(pages[p].text);
-      page.append(content);
-
-      $(".book").append(page);
-    }
-    $(".book").turn({
-      display: 'double',
-      gradients: true,
-      acceleration: true,
-      elevation: 50,
-      peel: 'tr',
-      turnCorners: 'bl,br',
-      corners: 'forward'
-    });
-
-    // show book preview
-    $($(".container").children()[0]).hide();
-    $(".book").removeClass("hide");
-
-    if(rightToLeft){
-      pages.reverse();
-    }
-  });
-}
-$(".bookify").on("click", bookify);
-
 // books can be created and updated
 var book_id = null;
 
@@ -413,6 +359,30 @@ $($(".page-list").children()[0]).on("click", function() {
   setCurrentPage(0);
 });
 
+function renderBook(GLOBAL, PBS) {
+
+  // Create the storybook
+  book = PBS.KIDS.storybook.book(GLOBAL, PBS, $(".well.page")[0], PBS.KIDS.storybook.config);
+
+  // Load the storybook resources
+  book.load();
+
+  book.addEventListener("PAGE_CHANGE", function () {
+    current_page = book.getPage();
+
+    // activate antihighlight
+    highlighter = $("textarea").antihighlight({
+      words: ['hello', 'world', 'नेपाल'],
+      letters: ['abcdefghijklmnopqrstuvw'],
+      caseSensitive: false
+    });
+
+    // multilingual input with jQuery.IME
+    $("textarea").ime();
+    $("textarea").on("blur", saveCurrentPage);
+  });
+}
+
 // adding a new page
 $(".new-page").on("click", function() {
   // create new page listing
@@ -425,11 +395,99 @@ $(".new-page").on("click", function() {
   $($(".page-list .list-group-item")[pages.length-2]).after(addPage);
 
   // activate page link
-  var myPageNum = pages.length-1;
+  var myPageNum = pages.length - 1;
   addPage.on("click", function(){
     setCurrentPage(myPageNum);
   });
 
+  // add layout page
+  PBS.KIDS.storybook.config.pages.push({
+    content: [
+      {
+        type: "TextArea",
+        x: 10,
+        y: 30,
+        width: 80,
+        align: "left",
+        color: "#222222",
+        size: 28,
+        font: "Droid Serif",
+        text: "This storybook will give examples of the functionality of the Storybook Engine. See the configuration files in the config folder to see how the examples were implemented."
+      }
+    ]
+  });
+  $(".page.well").html("");
+  renderBook(window, PBS);
+
   // show new page
+  current_page = -1;
   setCurrentPage(myPageNum);
 });
+
+
+PBS.KIDS.storybook.config = {
+	background: {
+		color: "#ababab"
+	},
+	audio: {
+		enabled: false
+	},
+	book: {
+		font: "Georgia",
+		startOnPage: 0,
+		pageWidth: $(".well.page").width() - 50,
+		pageHeight: Math.max($(".well.page").height(), 450),
+		previousPageButton: {
+			url: "images/prev-page-button.png",
+			x: 1,
+			y: 50,
+			width: "50px",
+			height: "50px"
+		},
+		nextPageButton: {
+			url: "images/next-page-button.png",
+			horizontalAlign: "RIGHT",
+			x: 1,
+			y: 50,
+			width: "50px",
+			height: "50px"
+		},
+		pageBackground: {
+			color: "#fefefe"
+		},
+		oddPageBackground: {
+			color: "#fdfdfd"
+		},
+		evenPageBackground: {
+			color: "#f9f9f9"
+		},
+		pageTurnDuration: 500,
+		pageSlideDuration: 200
+	},
+	cover: {
+		background: {
+			url: "images/frog_2546.png"
+		},
+		content: [
+		]
+	},
+	pages: []
+};
+
+PBS.KIDS.storybook.config.pages.push({
+	content: [
+		{
+			type: "TextArea",
+			x: 10,
+			y: 30,
+			width: 80,
+			align: "left",
+			color: "#222222",
+			size: 28,
+			font: "Droid Serif",
+			text: "This storybook will give examples of the functionality of the Storybook Engine. See the configuration files in the config folder to see how the examples were implemented."
+		}
+	]
+});
+
+renderBook(window, PBS);

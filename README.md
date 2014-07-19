@@ -47,13 +47,14 @@ Includes:
 * [antihighlight](https://github.com/mapmeld/jQuery-antihighlight) fork of [highlightTextarea](http://www.strangeplanet.fr/work/jquery-highlighttextarea/) - GPL/MIT licenses
 * [Blockee](https://github.com/codeforamerica/blockee) - sprite code, BSD license
 * [Bootstrap / Bootswatch](http://bootswatch.com/lumen/) - MIT license
+* [HTML5-Storybook](https://github.com/PBS-KIDS/HTML5-Storybook/) - BSD license
 * [JavaScript-MD5](https://github.com/blueimp/JavaScript-MD5) - MIT license
 * [jQuery 1.x](https://github.com/jquery/jquery/tree/1.x-master) - MIT license
 * [jQuery.IME](https://github.com/wikimedia/jquery.ime) - GPL/MIT licenses
 * [jsPDF](https://github.com/MrRio/jsPDF) - MIT license
 * [KineticJS](https://github.com/ericdrowell/KineticJS/) - GPL/MIT licenses
 * [polyglot.js](https://github.com/airbnb/polyglot.js) - BSD license
-* [turn.js](https://github.com/blasten/turn.js) - non-commercial BSD license
+* [Simple HTML5 Drawing App](https://github.com/williammalone/Simple-HTML5-Drawing-App) - Apache license
 
 Public Domain icons from [The Noun Project](http://thenounproject.com/).
 
