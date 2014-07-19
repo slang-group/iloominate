@@ -485,11 +485,11 @@ function renderBook(GLOBAL, PBS) {
     current_page = book.getPage();
 
     // activate antihighlight
-    /*highlighter = $("textarea").antihighlight({
+    highlighter = $("textarea").antihighlight({
       words: ['hello', 'world', 'नेपाल'],
       letters: ['abcdefghijklmnopqrstuvw'],
       caseSensitive: false
-    });*/
+    });
 
     // multilingual input with jQuery.IME
     $("textarea").ime();
