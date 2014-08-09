@@ -63,12 +63,23 @@ html
       div.row
         div.span12#stage
 
+    canvas.color-change.hide(width="164", height="164")
+
     #addmodal.modal.fade
       div.modal-dialog
         div.modal-content
           div.modal-header
             button.close(type="button", data-dismiss="modal", aria-hidden="true") x
-            h3.translate Add Icon
+            h3
+              span.translate Add Icon
+              div.color-bar
+                span.pink __
+                span.red __
+                span.orange __
+                span.yellow __
+                span.green __
+                span.blue __
+                span.purple __
           div.modal-body
             div.row
               img.col-md-4(src="/images/teacher_14016.png")

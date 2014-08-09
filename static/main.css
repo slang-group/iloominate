@@ -129,9 +129,44 @@ body#imager {
   font-size: 25px;
 }
 
+.color-bar {
+  float: right;
+  text-size: 14pt;
+  margin-right: 35px;
+  cursor: pointer;
+}
+.color-bar span.pink {
+  background-color: pink;
+  color: pink;
+}
+.color-bar span.red {
+  background-color: red;
+  color: red;
+}
+.color-bar span.orange {
+  background-color: orange;
+  color: orange;
+}
+.color-bar span.yellow {
+  background-color: yellow;
+  color: yellow;
+}
+.color-bar span.green {
+  background-color: green;
+  color: green;
+}
+.color-bar span.blue {
+  background-color: blue;
+  color: blue;
+}
+.color-bar span.purple {
+  background-color: purple;
+  color: purple;
+}
 
 .homepage {
   background: url('/images/cover.jpg') 100% 100% no-repeat;
+  background-position: top center;
 }
 .homepage h1 {
   font-size: 30pt;

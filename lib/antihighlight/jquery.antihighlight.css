@@ -47,3 +47,7 @@
   bottom: 13px;
   right: 1px;
 }
+
+.highlighterContainer {
+  background: transparent !important;
+}

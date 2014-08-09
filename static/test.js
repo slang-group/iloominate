@@ -43,7 +43,7 @@ function saveCurrentPage(callback) {
     //};
     //img.src = current_image;
   }
-  else{
+  else if (callback) {
     callback();
   }
 }
@@ -272,7 +272,7 @@ window.addEventListener('drop', dropFile, false);
 function pdfify() {
   saveCurrentPage(function(){
 
-    var ctx = $("canvas")[0].getContext("2d");
+    var ctx = $("canvas.preview")[0].getContext("2d");
     ctx.font = "20px sans-serif";
     ctx.fillStyle = "#000";
 
@@ -296,9 +296,9 @@ function pdfify() {
       }
 
       // add internationalized text as an image
-      $("canvas").attr("width", 500);
+      $("canvas.preview").attr("width", 500);
       ctx.fillText(pages[p].text, 0, 40);
-      var imgData = $("canvas")[0].toDataURL();
+      var imgData = $("canvas.preview")[0].toDataURL();
       doc.addImage(imgData, 'PNG', 20, 40 + img_offset, 125, 75);
 
       if(p !== pages.length - 1){
@@ -333,7 +333,7 @@ $(".upload").on("click", upload);
 
 // choose icon
 $(".chooseicon").on("click", function() {
-  $('#iconmodal').modal('show').find('.modal-body').html('');
+  $('#iconmodal').modal('show').find('.modal-body');
   $.getJSON("/image/inteam", function (imagelist) {
     for(var i = 0; i < imagelist.length; i++) {
       var img = $('<img/>').attr('src', imagelist[i].url).addClass('col-md-3');
@@ -341,9 +341,10 @@ $(".chooseicon").on("click", function() {
     }
     $('#iconmodal .modal-body').append($('<div></div>').addClass('clearfix'));
     $('#iconmodal .modal-body img').on('click', function(e) {
-      // highlight only the selected image
-      $('#iconmodal .modal-body img').removeClass('highlight');
-      $(e.target).addClass('highlight');
+      // add to current page
+      var ctx = $(".pbsPageContainer canvas")[0].getContext('2d');
+      ctx.drawImage(e.target, 0, 0, 100, 100);
+      $('#iconmodal').modal('hide');
     });
   });
 });
@@ -411,8 +412,8 @@ $(".new-page").on("click", function() {
         align: "left",
         color: "#222222",
         size: 28,
-        font: "Droid Serif",
-        text: "This storybook will give examples of the functionality of the Storybook Engine. See the configuration files in the config folder to see how the examples were implemented."
+        font: "Arial",
+        text: _("new_page_message")
       }
     ]
   });
@@ -484,8 +485,8 @@ PBS.KIDS.storybook.config.pages.push({
 			align: "left",
 			color: "#222222",
 			size: 28,
-			font: "Droid Serif",
-			text: "This storybook will give examples of the functionality of the Storybook Engine. See the configuration files in the config folder to see how the examples were implemented."
+			font: "Arial",
+			text: _("first_page_message")
 		}
 	]
 });
