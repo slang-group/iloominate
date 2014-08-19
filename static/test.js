@@ -453,7 +453,6 @@ $(".new-page").on("click", function() {
   setCurrentPage(myPageNum);
 });
 
-
 PBS.KIDS.storybook.config = {
 	background: {
 		color: "#ababab"

@@ -48,9 +48,17 @@ html
       .row
         h1 Profile Page
       .row
-        .span6
+        .col-md-6
+          h3.translate Welcome to iLoominate!
+          h3.translate You are signed in.
+          a.btn.btn-large.btn-info(href="/user/#{user._id}") My Books
+          br
+          br
+          a.btn.btn-large.btn-success(href="/edit") New Book
+
+        .col-md-6
           .well
-            h3 Test User
+            h3.translate About this user
             ul
               li ID #{user._id}
               li email #{user.local.email}
@@ -75,6 +83,9 @@ html
               input.translate(type="input", name="teamname" placeholder="Team name")
               input.btn.btn-success.translate(type="submit" value="Ask to Join")
 
+            br
+            br
+            
             h4.translate Lead new team
             form(action="/team/create", method="POST")
               input(type='hidden', name='_csrf', value=token)

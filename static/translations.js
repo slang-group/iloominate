@@ -22,7 +22,9 @@ var allTranslations = {
     "Log Out": "Log Out",
     "ltr": "ltr", // left-to-right or right-to-left?
     "Make into PDF": "Make into PDF",
+    "My Books": "My Books",
     "Name": "Name",
+    "New Book": "New Book",
     "New Icon": "New Icon",
     "new_page_message": "You made a new page. Write this page, and keep this story going!",
     "Next": "Next",
@@ -39,8 +41,10 @@ var allTranslations = {
     "Team name": "Team name",
     "Type first page": "Type first page",
     "Upload": "Upload",
+    "Welcome to iLoominate": "Welcome to iLoominate",
     "What is the story?": "What is the story?",
-    "Word List": "Word List"
+    "Word List": "Word List",
+    "You are signed in.": "You are signed in."
   },
   "es": {
     "About the team": "El equipo",
@@ -65,7 +69,9 @@ var allTranslations = {
     "Log Out": "Log Out",
     "ltr": "ltr",
     "Make into PDF": "Crear PDF",
+    "My Books": "Mis Libros",
     "Name": "Nombre",
+    "New Book": "Libro Nuevo",
     "New Icon": "Imagen Nuevo",
     "new_page_message": "Creas una página nueva.\n¡Escribe y continua su historia!",
     "Next": "Siguiente",
@@ -82,8 +88,10 @@ var allTranslations = {
     "Team name": "Nombre del equipo",
     "Type first page": "Escriba la primera página",
     "Upload": "Subir",
+    "Welcome to iLoominate": "Bienvenidos a iLoominate",
     "What is the story?": "¿Qué es su historia?",
-    "Word List": "Lista de Palabras"
+    "Word List": "Lista de Palabras",
+    "You are signed in.": "You are signed in."
   },
   "ht": {
     "About the team": "About the team",
@@ -108,7 +116,9 @@ var allTranslations = {
     "Log Out": "Log Out",
     "ltr": "ltr",
     "Make into PDF": "Fè PDF",
+    "My Books": "Mon Liv",
     "Name": "Name",
+    "New Book": "New Book",
     "New Icon": "New Icon",
     "new_page_message": "You made a new page. Write this page, and keep this story going!",
     "Next": "Next",
@@ -125,8 +135,10 @@ var allTranslations = {
     "Team name": "Team name",
     "Type first page": "Tipe premye paj la",
     "Upload": "Upload",
+    "Welcome to iLoominate": "Welcome to iLoominate",
     "What is the story?": "Kisa istwa a ye?",
-    "Word List": "Word List"
+    "Word List": "Word List",
+    "You are signed in.": "You are signed in."
   },
   /* not actual translations below - still proof of concept */
   "ar": {
