@@ -65,9 +65,14 @@ html
       div.row
         div.col-xs-2
           div.list-group.page-list
-            a.list-group-item.active(href="#")
-              h4.list-group-item-heading.translate Page 1
-              p.list-group-item-text.translate What is the story?
+            if book
+              - for (var page_num = 1; page_num <= book.pages.length; page_num++)
+                a.list-group-item(href="#")
+                  h4.list-group-item-heading.translate Page #{page_num}
+            else
+              a.list-group-item.active(href="#")
+                h4.list-group-item-heading.translate Page 1
+                p.list-group-item-text.translate What is the story?
             div.list-group-item
               a.btn.btn-success.new-page.translate(href="#") Add Page
 
@@ -219,6 +224,11 @@ html
     script(type="text/javascript", src="/pbs/engine/js/view.js")
     script(type="text/javascript", src="/pbs/engine/js/sprite.js")
     script(type="text/javascript", src="/pbs/engine/js/cycler.js")
+
+    if book
+      script(type="text/javascript") var load_book_id = "#{book._id}"; var load_book = !{JSON.stringify(book.pages)};
+    else
+      script(type="text/javascript") var load_book;
 
     script(type="text/javascript", src="/test.js")
     script(type="text/javascript", src="/guide.js")

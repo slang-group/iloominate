@@ -25,9 +25,9 @@ html
             ul
               for book in books
                 li
-                  a(href="/book/#{book._id}")
-                    span.translate Book
-                    span : #{book.name}
+                  h4 #{book.name}
+                  a.btn.translate(href="/book/#{book._id}") View
+                  a.btn.translate(href="/edit?id={book._id}") Edit
 
     // 3rd party libraries
     script(type="text/javascript", src="/jquery-1.11.0.min.js")

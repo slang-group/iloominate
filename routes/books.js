@@ -7,7 +7,7 @@ var t = require('../static/translations');
 // helper function to store multiple pages
 function uploadPages (res, book, pages, start_index) {
   // reached end of book - return book ID
-  if (start_index >= pages.length) {
+  if (start_index >= book.pages.length) {
     return book.save(function (err) {
       if (err) {
         throw err;
@@ -70,7 +70,7 @@ exports.save = function (req, res) {
       for (var i=0; i<req.body.pages.length; i++) {
         var page = req.body.pages[i];
 
-        if (book.pages.length > i) {
+        if (book.pages.length >= i) {
           // new page
           book.pages.push({ text: page.text, hash: "" });
         }

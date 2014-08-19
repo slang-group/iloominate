@@ -1,4 +1,5 @@
 var t = require('../static/translations');
+var Book = require('../models/book');
 
 exports.home = function (req, res) {
   res.render('home', {
@@ -8,10 +9,24 @@ exports.home = function (req, res) {
 };
 
 exports.editor = function (req, res) {
-  res.render('editor', {
-    translations: t.getTranslations(req, res),
-    loggedin: req.isAuthenticated()
-  });
+  if(req.query.id) {
+    Book.findById(req.query.id, function (err, book) {
+      if (err) {
+        return res.json(err);
+      }
+      res.render('editor', {
+        translations: t.getTranslations(req, res),
+        loggedin: req.isAuthenticated(),
+        book: book
+      });
+    });
+  } else {
+    res.render('editor', {
+      translations: t.getTranslations(req, res),
+      loggedin: req.isAuthenticated(),
+      book: null
+    });
+  }
 };
 
 exports.users = require('./users');

@@ -30,11 +30,12 @@ function saveCurrentPage(callback) {
     page_text = $("#pbsRightPage textarea").val();
     PBS.KIDS.storybook.config.pages[current_page+1].content[0].text = page_text;
     $($(".page-list p")[current_page+1]).text(page_text.substring(0,19));
+    pages[current_page + 1].text = page_text;
   }
 
   if(current_image){
   }
-  else if (callback) {
+  else if (typeof callback === "function") {
     callback();
   }
 }
@@ -502,20 +503,53 @@ PBS.KIDS.storybook.config = {
 	pages: []
 };
 
-PBS.KIDS.storybook.config.pages.push({
-	content: [
-		{
-			type: "TextArea",
-			x: 10,
-			y: 30,
-			width: 80,
-			align: "left",
-			color: "#222222",
-			size: 28,
-			font: "Arial",
-			text: _("first_page_message")
-		}
-	]
-});
+
+if (load_book && load_book.length) {
+  book_id = load_book_id;
+  pages = load_book;
+  for (var p = 0; p < pages.length; p++) {
+    PBS.KIDS.storybook.config.pages.push({
+      content: [
+        {
+          type: "TextArea",
+          x: 10,
+          y: 30,
+          width: 80,
+          align: "left",
+          color: "#222222",
+          size: 28,
+          font: "Arial",
+          text: pages[p].text
+        }
+      ]
+    });
+  }
+
+  $.each($(".page-list").find("a.list-group-item"), function(p, page_link) {
+    if (p === 0) {
+      $(page_link).addClass("active");
+    }
+    $(page_link).on("click", function(){
+      setCurrentPage(p);
+    });
+  });
+
+} else {
+  PBS.KIDS.storybook.config.pages.push({
+    content: [
+      {
+        type: "TextArea",
+        x: 10,
+        y: 30,
+        width: 80,
+        align: "left",
+        color: "#222222",
+        size: 28,
+        font: "Arial",
+        text: _("first_page_message")
+      }
+    ]
+  });
+}
 
 renderBook(window, PBS);
