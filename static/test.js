@@ -23,25 +23,16 @@ function saveCurrentPage(callback) {
 
   PBS.KIDS.storybook.config.pages[current_page].content[0].text = page_text;
 
-  $($(".page-list p")[current_page]).text(page_text.substring(0,18));
+  $($(".page-list p")[current_page]).text(page_text.substring(0,19));
 
   // right page
   if(pages.length > current_page + 1) {
     page_text = $("#pbsRightPage textarea").val();
     PBS.KIDS.storybook.config.pages[current_page+1].content[0].text = page_text;
-    $($(".page-list p")[current_page+1]).text(page_text.substring(0,18));
+    $($(".page-list p")[current_page+1]).text(page_text.substring(0,19));
   }
 
   if(current_image){
-    //pages[current_page].image = current_image;
-    //var img = new Image();
-    //img.onload = function(){
-    //  pages[current_page].image_width = img.width;
-    //  pages[current_page].image_height = img.height;
-    //  img = null;
-    //  callback();
-    //};
-    //img.src = current_image;
   }
   else if (callback) {
     callback();
@@ -67,7 +58,6 @@ function setCurrentPage(p) {
     if(p === current_page) {
       return;
     }
-    //current_image = pages[p].image;
 
     if(current_page > -1) {
       book.gotoPage(p);
@@ -353,6 +343,44 @@ $('.iconchooser').on('click', function() {
   if(highlighted_icons.length) {
     processImage({ target: { result: $(highlighted_icons[0]).attr("src") } });
   }
+});
+
+// color changer on icons
+var rgb_of = {
+  "pink": [255, 105, 180],
+  "red": [255, 0, 0],
+  "orange": [255, 165, 0],
+  "yellow": [255, 255, 0],
+  "green": [0, 255, 0],
+  "blue": [0, 0, 255],
+  "purple": [200, 0, 200]
+};
+
+$(".color-bar span").on("click", function(e){
+  var color = $(e.target).attr("class");
+  var canvas = $("canvas.color-change")[0];
+  var ctx = canvas.getContext('2d');
+  $.each($("#iconmodal img"), function(x, img) {
+    // clear canvas
+    ctx.clearRect(0, 0, 164, 164);
+
+    // draw black icon
+    ctx.drawImage(img, 0, 0, 164, 164);
+
+    // pixel replace
+    var imageData = ctx.getImageData(0, 0, 164, 164);
+    for (var i = 0; i < imageData.data.length; i += 4) {
+      if(imageData.data[i+3]) {
+        imageData.data[i] = rgb_of[color][0];
+        imageData.data[i+1] = rgb_of[color][1];
+        imageData.data[i+2] = rgb_of[color][2];
+      }
+    }
+    ctx.putImageData(imageData,0,0);
+
+    // replace icon
+    img.src = canvas.toDataURL();
+  });
 });
 
 // activate existing page links
