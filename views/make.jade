@@ -1,0 +1,212 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title iLoominate: Storybook App
+
+    // 3rd party libraries
+    link(href="/bootstrap.min.css", rel="stylesheet", type="text/css")
+    link(href="/jqime/css/jquery.ime.css", rel="stylesheet", type="text/css")
+
+    // custom style
+    link(href="/main.css", rel="stylesheet", type="text/css")
+
+  body
+    input#csrf(type='hidden', name='_csrf', value=token)
+    div.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
+      div.container
+        div.navbar-header
+
+        ul.nav.navbar-nav
+          li.active
+            a(href="/")
+              span iLoominate&nbsp;&nbsp;
+              span.translate Online
+
+        ul.nav.navbar-nav.pull-right
+          li
+            a(href="#", data-toggle="dropdown")
+              span.translate Language
+              span &nbsp;▽
+            ul#languageselect.dropdown-menu(role="menu", aria-labelledby="dLabel")
+              li.en(role="presentation")
+                a(href="/?language=en", role="menuitem") English
+              li.es(role="presentation")
+                a(href="/?language=es", role="menuitem") Español
+              li.ht(role="presentation")
+                a(href="/?language=ht", role="menuitem") Kreyòl Ayisyen
+              li.ne(role="presentation")
+                a(href="/?language=ne", role="menuitem") नेपाली
+              li.ar(role="presentation")
+                a(href="/?language=ar", role="menuitem") العربية
+          if loggedin
+            li
+              a#logout.translate(href="/logout") Log Out
+          else
+              li
+                a.translate(href="/login") Log In
+              li
+                a.translate(href="/signup") Sign Up
+
+    br
+    br
+    br
+    br
+
+    div.container
+      div.row
+        div.col-xs-2
+          div.list-group.page-list.follow-page
+            a.list-group-item(href="#paper")
+              h4.list-group-item-heading.translate Paper
+            a.list-group-item(href="#cover")
+              h4.list-group-item-heading.translate Cover
+            a.list-group-item(href="#writing")
+              h4.list-group-item-heading.translate Writing
+            a.list-group-item(href="#layout")
+              h4.list-group-item-heading.translate Layout
+
+        div.col-lg-10
+          noscript Enable JavaScript!
+
+          a(name="paper")
+          h3.translate Paper Size
+
+          div.row
+            div.col-lg-6
+              label
+                input(type="radio", name="paper-size", checked="checked")
+                span 8.5 x 11
+
+            div.col-lg-6
+              label
+                input(type="radio", name="paper-size")
+                span 5.5 x 8.5 (fold an 8.5 x 11)
+
+          hr
+          a(name="cover")
+          h3.translate Cover
+
+          div.row
+            div.col-lg-6
+              h4.translate Title and Author
+              input.translate(name="title", placeholder="Title")
+              br
+              br
+              input.translate(name="author", placeholder="Author")
+
+            div.col-lg-6
+              h4.translate Picture
+              a.btn.btn-info.translate(href="#") Add Icon
+              br
+              br
+              a.btn.btn-info.translate(href="#") Upload
+
+          hr
+          a(name="writing")
+          h3.translate Writing
+
+          div.row
+            div.col-lg-6
+              h4.translate Fonts and Letters
+
+            div.col-lg-6
+              h4.translate Sentences
+
+          hr
+          a(name="layout")
+          h3.translate Layout
+
+          div.row.line-labels
+            div.col-lg-6
+              h4.translate Text
+              p.translate Allow:
+              label
+                input(type="checkbox", name="full-page")
+                span.translate full page
+              label
+                input(type="checkbox", name="span-page")
+                span.translate span both pages
+              label
+                input(type="checkbox", name="top-page")
+                span.translate top of page
+              label
+                input(type="checkbox", name="middle-page")
+                span.translate middle of page
+              label
+                input(type="checkbox", name="bottom-page")
+                span.translate bottom of page
+
+            div.col-lg-6
+              h4.translate Images
+              p.translate Allow:
+              label
+                input(type="checkbox", name="bg-image")
+                span.translate background image (one page)
+              label
+                input(type="checkbox", name="span-image")
+                span.translate span both pages
+              label
+                input(type="checkbox", name="top-image")
+                span.translate top of page
+              label
+                input(type="checkbox", name="middle-image")
+                span.translate middle of page
+              label
+                input(type="checkbox", name="bottom-image")
+                span.translate bottom of page
+
+      canvas.color-change.hide(width="164", height="164")
+
+    #iconmodal.modal.fade
+      div.modal-dialog
+        div.modal-content
+          div.modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true") x
+            h3
+              span.translate Add Icon
+              div.color-bar
+                span.pink __
+                span.red __
+                span.orange __
+                span.yellow __
+                span.green __
+                span.blue __
+                span.purple __
+          div.modal-body
+            div.row
+              img.col-md-4(src="/images/teacher_14016.png")
+              img.col-md-4(src="/images/penguin_1986.png")
+              img.col-md-4(src="/images/mosquito_19603.png")
+            div.row
+              img.col-md-4(src="/images/deer_103.png")
+              img.col-md-4(src="/images/lobster_7165.png")
+              img.col-md-4(src="/images/pig_1575.png")
+            div.row
+              img.col-md-4(src="/images/fish_12563.png")
+              img.col-md-4(src="/images/frog_2546.png")
+              img.col-md-4(src="/images/duck_12535.png")
+            div.clearfix
+
+          div.modal-footer
+            button.btn.btn-default.translate(type="button", data-dismiss="modal") Cancel
+            button.btn.btn-success.translate.iconadder(type="button", data-dismiss="modal") Add Icon
+
+    // 3rd party libraries
+    script(type="text/javascript", src="/jquery-1.11.0.min.js")
+    script(type="text/javascript", src="/bootstrap.min.js")
+    script(type="text/javascript", src="/polyglot.min.js")
+
+    script(type="text/javascript", src="/jqime/libs/rangy/rangy-core.js")
+    script(type="text/javascript", src="/jqime/src/jquery.ime.js")
+    script(type="text/javascript", src="/jqime/src/jquery.ime.selector.js")
+    script(type="text/javascript", src="/jqime/src/jquery.ime.preferences.js")
+    script(type="text/javascript", src="/jqime/src/jquery.ime.inputmethods.js")
+
+    // custom script
+    script(type="text/javascript") var translations = !{translations};
+    script(type="text/javascript")
+      != 'var outOfChromeApp = true;'
+    script(type="text/javascript", src="/localize.js")
+
+    script(type="text/javascript", src="/make.js")

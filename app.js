@@ -51,6 +51,7 @@ var routes = require('./routes');
 
 // homepage and editor pages
 app.get('/', routes.home);
+app.get('/make', routes.maker);
 app.get('/edit', routes.editor);
 
 // book pages

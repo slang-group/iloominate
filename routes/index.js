@@ -8,6 +8,18 @@ exports.home = function (req, res) {
   });
 };
 
+exports.maker = function (req, res) {
+  if(req.query.id) {
+    // editing layout of book? not currently supported
+  } else {
+    res.render('make', {
+      translations: t.getTranslations(req, res),
+      loggedin: req.isAuthenticated(),
+      book: null
+    });
+  }
+};
+
 exports.editor = function (req, res) {
   if(req.query.id) {
     Book.findById(req.query.id, function (err, book) {

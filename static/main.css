@@ -174,3 +174,19 @@ body#imager {
 .homepage .blank {
   background: #fff;
 }
+
+
+// cover / make book page
+
+.follow-page {
+  position: fixed !important;
+  top: 60px !important;
+}
+
+.line-labels label {
+  display: block;
+}
+
+label span {
+  margin-left: 10px;
+}
