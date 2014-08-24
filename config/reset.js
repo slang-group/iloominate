@@ -23,7 +23,7 @@ exports.reset_mail = function(req, res) {
       "From": "ndoiron@mapmeld.com",
       "To": user_email,
       "Subject": "Password reset from iLoominate",
-      "TextBody": "Hello! We heard that you had a problem with your password. Reset it at http://iloominate.herokuapp.com/reset?reset_time=" + reset_time + "&email=" + user_email
+      "TextBody": "Hello! We heard that you had a problem with your password. Reset it at http://iloominate.org/reset?reset_time=" + reset_time + "&email=" + user_email
     }, function(err, success) {
       if(err) {
         console.log(err);
@@ -37,10 +37,29 @@ exports.reset_mail = function(req, res) {
 };
 
 exports.reset_confirm = function(req, res) {
-  User.find({ "local.email": req.body.email }).exec(function(err, users) {
+  User.find({ "local.email": req.query.email }).exec(function(err, users) {
     if(users.length) {
-      if (req.query.reset_time * 1 === users[0].reset_time * 1) {
-        res.send('Confirmed!')
+      var user = users[0];
+      if (req.query.reset_time * 1 && req.query.reset_time * 1 === user.reset_time * 1) {
+        postmark.send({
+          "From": "ndoiron@mapmeld.com",
+          "To": user.local.email,
+          "Subject": "New Password from iLoominate",
+          "TextBody": "Hello! You just reset your password. Your new password is " + user.local.password
+        }, function(err, success) {
+          if(err) {
+            res.send('Reset e-mail failed.');
+          }
+          else {
+            res.send('Confirmed! A new password was sent to your e-mail address.');
+
+            // unset user's reset_time param
+            user.reset_time = 0;
+            var reset = user.local.password + "";
+            user.local.password = user.generateHash(reset);
+            user.save();
+          }
+        });
       }
       else {
         res.send('False or expired password reset link');

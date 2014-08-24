@@ -33,9 +33,6 @@ textarea.form-control {
 .page-list {
   z-index: 10;
 }
-.page.well {
-  width: 90%;
-}
 
 /* buttons */
 .col-xs-3 {
