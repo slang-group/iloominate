@@ -1,0 +1,24 @@
+@font-face {
+  font-family: 'NotoKufiArabic';
+  src: url('/noto-fonts/NotoKufiArabic-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'NotoNaskhArabic';
+  src: url('/noto-fonts/NotoNaskhArabic-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'NotoDevanagari';
+  src: url('/noto-fonts/NotoSansDevanagari-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'NotoSans';
+  src: url('/noto-fonts/NotoSans-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'NotoSerif';
+  src: url('/noto-fonts/NotoSerif-Regular.ttf') format('truetype');
+}

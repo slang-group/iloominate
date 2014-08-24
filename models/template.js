@@ -6,10 +6,10 @@ var templateSchema = mongoose.Schema({
   team: String,
   font: {
     name: String,
-    size: Number,
-    wordSpace: Number,
-    lineSpace: Number
+    size: Number
   },
+  wordSpace: Number,
+  lineSpace: Number,
   pageWords: Number,
   sentenceWords: Number,
   layout: Object

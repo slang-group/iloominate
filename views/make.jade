@@ -12,7 +12,6 @@ html
     link(href="/main.css", rel="stylesheet", type="text/css")
 
   body
-    input#csrf(type='hidden', name='_csrf', value=token)
     div.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
       div.container
         div.navbar-header
@@ -53,7 +52,8 @@ html
     br
     br
 
-    div.container
+    form.container(action="/make", method="POST")
+      input#csrf(type='hidden', name='_csrf', value=token)
       div.row
         div.col-xs-2
           div.list-group.page-list.follow-page
@@ -101,6 +101,7 @@ html
               br
               br
               a.btn.btn-info.translate(href="#") Upload
+              input#cover-image.hide(type="file", name="cover-image")
 
           hr
           a(name="writing")
@@ -109,9 +110,27 @@ html
           div.row
             div.col-lg-6
               h4.translate Fonts and Letters
+              select(name="font")
+                option(value="arial") Arial
+                option(value="courier") Courier
+                option(value="georgia") Georgia
+                option(value="helvetica") Helvetica
+                option(value="NotoKufiArabic") Noto Kufi Arabic
+                option(value="NotoNaskhArabic") Noto Naskh Arabic
+                option(value="NotoSans") Noto Sans
+                option(value="NotoDevanagari") Noto Sans Devanagari
+                option(value="NotoSerif") Noto Serif
+                option(value="times") Times
+                option(value="verdana") Verdana
 
             div.col-lg-6
               h4.translate Sentences
+              label Sentences per page
+              input(name="per-page")
+              br
+              br
+              label Words per sentences
+              input(name="per-sentence")
 
           hr
           a(name="layout")
@@ -155,6 +174,15 @@ html
               label
                 input(type="checkbox", name="bottom-image")
                 span.translate bottom of page
+
+      div.row
+        br
+        br
+        br
+        input(type="submit", value="Create Book")
+        br
+        br
+        br
 
       canvas.color-change.hide(width="164", height="164")
 

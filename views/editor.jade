@@ -13,6 +13,13 @@ html
     // custom style
     link(href="/main.css", rel="stylesheet", type="text/css")
 
+    if book && book.layout && book.layout.font && book.layout.font.name
+      script(type="text/javascript") var font_name = "#{book.layout.font.name}";
+      if book.layout.font.name.indexOf('Noto') > -1
+        link(href="/noto-fonts.css", rel="stylesheet", type="text/css")
+    else
+      script(type="text/javascript") var font_name = "Arial";
+
   body
     input#csrf(type='hidden', name='_csrf', value=token)
     div.navbar.navbar-inverse.navbar-fixed-top(role="navigation")

@@ -118,6 +118,7 @@ function setWhitelist (whitelist) {
 
   highlighter.antihighlight('setLetters', [letterWhitelist.join('')]);
   highlighter.antihighlight('setWords', wordWhitelist);
+  $('.highlighter').css({ 'font-family': font_name });
 
   return wordWhitelist;
 }
@@ -444,7 +445,7 @@ $(".new-page").on("click", function() {
         align: "left",
         color: "#222222",
         size: 28,
-        font: "Arial",
+        font: font_name,
         text: _("new_page_message")
       }
     ]
@@ -509,7 +510,7 @@ PBS.KIDS.storybook.config = {
         align: "center",
         color: "#fff",
         size: 28,
-        font: "Arial",
+        font: font_name,
         text: "Title"
       }
 		]
@@ -518,8 +519,12 @@ PBS.KIDS.storybook.config = {
 };
 
 
-if (load_book && load_book.length) {
+// restore a book edit in progress
+if (load_book_id) {
   book_id = load_book_id;
+}
+
+if (load_book && load_book.length) {
   pages = load_book;
   for (var p = 0; p < pages.length; p++) {
     PBS.KIDS.storybook.config.pages.push({
@@ -532,7 +537,7 @@ if (load_book && load_book.length) {
           align: "left",
           color: "#222222",
           size: 28,
-          font: "Arial",
+          font: font_name,
           text: pages[p].text
         }
       ]
@@ -559,7 +564,7 @@ if (load_book && load_book.length) {
         align: "left",
         color: "#222222",
         size: 28,
-        font: "Arial",
+        font: font_name,
         text: _("first_page_message")
       }
     ]

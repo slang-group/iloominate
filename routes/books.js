@@ -93,11 +93,26 @@ exports.save = function (req, res) {
       book.user_id = "536e934decbddf2809fa32a0";
     }
     book.pages = [];
-    for(var i=0; i<req.body.pages.length; i++){
-      var page = req.body.pages[i];
-      book.pages.push({ text: page.text, hash: "" });
-    }
 
-    uploadPages(res, book, req.body.pages, 0);
+    if (req.body.pages && req.body.pages.length) {
+      // uploading pages from editor
+      for(var i=0; i<req.body.pages.length; i++){
+        var page = req.body.pages[i];
+        book.pages.push({ text: page.text, hash: "" });
+      }
+
+      uploadPages(res, book, req.body.pages, 0);
+    } else {
+      // creating book
+      book.layout = {};
+      book.layout.font = {};
+      book.layout.font.name = req.body.font;
+      book.save(function(err) {
+        if (err) {
+          throw err;
+        }
+        res.redirect('/edit?id=' + book._id);
+      });
+    }
   }
 };
