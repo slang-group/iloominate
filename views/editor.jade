@@ -150,47 +150,48 @@ html
             button.btn.btn-default.translate(type="button", data-dismiss="modal") Cancel
             button.btn.btn-success.translate.iconadder(type="button", data-dismiss="modal") Add Icon
 
-    #guidemodal.modal.fade
-      div.modal-dialog
-        div.modal-content
-          div.modal-header
-            button.close(type="button", data-dismiss="modal", aria-hidden="true") x
-            h3.translate Guide
-          div.modal-body
-            div.form-group
-              p Every story needs a hero. Use the beginning to introduce the main character of your story.
-              label(for="maincharacter") Who is this story about?
-              div.row.pickcharacter
-                ul.col-xs-4
-                  li
-                    strong Names
-                  li
-                    a(href="#") Pam
-                  li
-                    a(href="#") Sam
-                  li
-                    a(href="#") Dad
-                ul.col-xs-4
-                  li
-                    strong Animals
-                  li
-                    a(href="#") bird
-                  li
-                    a(href="#") cat
-                  li
-                    a(href="#") bat
-              input#maincharacter.form-control(type="hidden", name="maincharacter")
-            div.form-group.hide
-              p
-                span Describe&nbsp;
-                span.aboutcharacter
-                span . Choose a word for how he / she / it is.
-              input#aboutcharacter.form-control(name="aboutcharacter")
+    //
+      #guidemodal.modal.fade
+        div.modal-dialog
+          div.modal-content
+            div.modal-header
+              button.close(type="button", data-dismiss="modal", aria-hidden="true") x
+              h3.translate Guide
+            div.modal-body
+              div.form-group
+                p Every story needs a hero. Use the beginning to introduce the main character of your story.
+                label(for="maincharacter") Who is this story about?
+                div.row.pickcharacter
+                  ul.col-xs-4
+                    li
+                      strong Names
+                    li
+                      a(href="#") Pam
+                    li
+                      a(href="#") Sam
+                    li
+                      a(href="#") Dad
+                  ul.col-xs-4
+                    li
+                      strong Animals
+                    li
+                      a(href="#") bird
+                    li
+                      a(href="#") cat
+                    li
+                      a(href="#") bat
+                input#maincharacter.form-control(type="hidden", name="maincharacter")
+              div.form-group.hide
+                p
+                  span Describe&nbsp;
+                  span.aboutcharacter
+                  span . Choose a word for how he / she / it is.
+                input#aboutcharacter.form-control(name="aboutcharacter")
 
-            button.btn.btn-info.translate.next(type="button") Next
+              button.btn.btn-info.translate.next(type="button") Next
 
-          div.modal-footer
-            button.btn.btn-default.translate(type="button", data-dismiss="modal") Cancel
+            div.modal-footer
+              button.btn.btn-default.translate(type="button", data-dismiss="modal") Cancel
 
     // 3rd party libraries
     script(type="text/javascript", src="/jquery-1.11.0.min.js")
@@ -228,7 +229,8 @@ html
     if book
       script(type="text/javascript") var load_book_id = "#{book._id}"; var load_book = !{JSON.stringify(book.pages)};
     else
-      script(type="text/javascript") var load_book;
+      script(type="text/javascript") var load_book_id, load_book;
 
     script(type="text/javascript", src="/test.js")
-    script(type="text/javascript", src="/guide.js")
+
+    // script(type="text/javascript", src="/guide.js")
