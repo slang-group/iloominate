@@ -10,9 +10,12 @@ var book = null;
 var highlighter = null;
 
 function saveCurrentPage(callback) {
-  // skip cover
+  // get cover
   if(current_page === -1) {
-    callback();
+    var title = $(".pbsPage0TextArea1").text();
+    if (typeof callback === "function") {
+      callback();
+    }
     return;
   }
 
@@ -498,6 +501,17 @@ PBS.KIDS.storybook.config = {
 			url: "images/frog_2546.png"
 		},
 		content: [
+      {
+        type: "TextArea",
+        x: 10,
+        y: 30,
+        width: 90,
+        align: "center",
+        color: "#fff",
+        size: 28,
+        font: "Arial",
+        text: "Title"
+      }
 		]
 	},
 	pages: []
