@@ -212,10 +212,10 @@ function addImage(png_url, pos, scale) {
 
 // add new icons from modal
 $('.addicon').parent().on('click', function() {
-  $('#addmodal').modal('show');
+  $('#iconmodal').modal('show');
 });
-$('#addmodal img').on('click', function(e) {
-  $('#addmodal').modal('hide');
+$('#iconmodal img').on('click', function(e) {
+  $('#iconmodal').modal('hide');
   addImage(e.target.src);
 });
 
@@ -296,7 +296,7 @@ $(".color-bar span").on("click", function(e){
   var color = $(e.target).attr("class");
   var canvas = $("canvas.color-change")[0];
   var ctx = canvas.getContext('2d');
-  $.each($("#addmodal img"), function(x, img) {
+  $.each($("#iconmodal img"), function(x, img) {
     // clear canvas
     ctx.clearRect(0, 0, 164, 164);
 

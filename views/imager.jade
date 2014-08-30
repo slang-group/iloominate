@@ -12,44 +12,8 @@ html
 
   body#imager
     input#csrf(type='hidden', name='_csrf', value=token)
-    div.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
-      div.container
-        div.navbar-header
 
-        ul.nav.navbar-nav
-          li.active
-            a(href="/")
-              span iLoominate&nbsp;&nbsp;
-              span.translate Online
-
-        ul.nav.navbar-nav.pull-right
-          li
-            a(href="#", data-toggle="dropdown")
-              span.translate Language
-              span &nbsp;▽
-            ul#languageselect.dropdown-menu(role="menu", aria-labelledby="dLabel")
-              li.en(role="presentation")
-                a(href="?language=en", role="menuitem") English
-              li.es(role="presentation")
-                a(href="?language=es", role="menuitem") Español
-              li.ht(role="presentation")
-                a(href="?language=ht", role="menuitem") Kreyòl Ayisyen
-              li.ne(role="presentation")
-                a(href="?language=ne", role="menuitem") नेपाली
-              li.ar(role="presentation")
-                a(href="?language=ar", role="menuitem") العربية
-          if loggedin
-            li
-              a#logout.translate(href="/logout") Log Out
-          else
-              li
-                a.translate(href="/login") Log In
-              li
-                a.translate(href="/signup") Sign Up
-
-    br
-    br
-    br
+    include partials/main_menu
 
     div.container
       div.row.imagerbar
@@ -65,36 +29,7 @@ html
 
     canvas.color-change.hide(width="164", height="164")
 
-    #addmodal.modal.fade
-      div.modal-dialog
-        div.modal-content
-          div.modal-header
-            button.close(type="button", data-dismiss="modal", aria-hidden="true") x
-            h3
-              span.translate Add Icon
-              div.color-bar
-                span.pink __
-                span.red __
-                span.orange __
-                span.yellow __
-                span.green __
-                span.blue __
-                span.purple __
-          div.modal-body
-            div.row
-              img.col-md-4(src="/images/teacher_14016.png")
-              img.col-md-4(src="/images/penguin_1986.png")
-              img.col-md-4(src="/images/mosquito_19603.png")
-            div.row
-              img.col-md-4(src="/images/deer_103.png")
-              img.col-md-4(src="/images/lobster_7165.png")
-              img.col-md-4(src="/images/pig_1575.png")
-            div.row
-              img.col-md-4(src="/images/fish_12563.png")
-              img.col-md-4(src="/images/frog_2546.png")
-              img.col-md-4(src="/images/duck_12535.png")
-            div.clearfix
-
+    include partials/icon_modal
 
     // 3rd party libraries
     script(type="text/javascript", src="/jquery-1.11.0.min.js")
@@ -102,11 +37,9 @@ html
     script(type="text/javascript", src="/polyglot.min.js")
     script(type="text/javascript" src="/kinetic-v5.1.0.min.js")
 
-    // custom script
-    script(type="text/javascript") var translations = !{translations};
-    script(type="text/javascript")
-      != 'var outOfChromeApp = true;'
-    script(type="text/javascript", src="/localize.js")
+    include partials/translate_page
 
     script(type="text/javascript") var image = !{image};
     script(type="text/javascript" src="/imager.js")
+
+    include partials/analytics

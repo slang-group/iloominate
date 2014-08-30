@@ -11,45 +11,7 @@ html
     link(href="/main.css", rel="stylesheet", type="text/css")
 
   body
-    div.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
-      div.container
-        div.navbar-header
-
-        ul.nav.navbar-nav
-          li.active
-            a(href="/")
-              span iLoominate&nbsp;&nbsp;
-              span.translate Online
-
-        ul.nav.navbar-nav.pull-right
-          li
-            a(href="#", data-toggle="dropdown")
-              span.translate Language
-              span &nbsp;▽
-            ul#languageselect.dropdown-menu(role="menu", aria-labelledby="dLabel")
-              li.en(role="presentation")
-                a(href="?language=en", role="menuitem") English
-              li.es(role="presentation")
-                a(href="?language=es", role="menuitem") Español
-              li.ht(role="presentation")
-                a(href="?language=ht", role="menuitem") Kreyòl Ayisyen
-              li.ne(role="presentation")
-                a(href="?language=ne", role="menuitem") नेपाली
-              li.ar(role="presentation")
-                a(href="?language=ar", role="menuitem") العربية
-
-          if user
-            li
-              a#logout.translate(href="/logout") Log Out
-          else
-              li
-                a.translate(href="/login") Log In
-              li
-                a.translate(href="/signup") Sign Up
-
-    br
-    br
-    br
+    include partials/main_menu
 
     div.container
       .row
@@ -80,8 +42,6 @@ html
     script(type="text/javascript", src="/bootstrap.min.js")
     script(type="text/javascript", src="/polyglot.min.js")
 
-    // custom script
-    script(type="text/javascript") var translations = !{translations};
-    script(type="text/javascript")
-      != 'var outOfChromeApp = true;'
-    script(type="text/javascript", src="/localize.js")
+    include partials/translate_page
+
+    include partials/analytics

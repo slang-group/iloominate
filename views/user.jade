@@ -11,6 +11,8 @@ html
     link(href="/main.css", rel="stylesheet", type="text/css")
 
   body
+    include partials/main_menu
+
     div.container
       .row
         h1 User Page
@@ -34,8 +36,6 @@ html
 
     script(type="text/javascript", src="/polyglot.min.js")
 
-    // custom script
-    script(type="text/javascript") var translations = !{translations};
-    script(type="text/javascript")
-      != 'var outOfChromeApp = true;'
-    script(type="text/javascript", src="/localize.js")
+    include partials/translate_page
+
+    include partials/analytics

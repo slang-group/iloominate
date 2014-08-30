@@ -11,12 +11,10 @@ html
     link(href="/main.css", rel="stylesheet", type="text/css")
 
   body
+    include partials/main_menu
+    
     div.container
       .row
-        .user-login
-          a.translate(href="/login") Log In
-          span &nbsp;&nbsp;|&nbsp;&nbsp;
-          a.translate(href="/signup") Sign Up
 
         .col-xs-3.list-group.page-list
           - for (var page_num = 1; page_num <= book.pages.length; page_num++)
@@ -48,17 +46,12 @@ html
 
     // 3rd party libraries
     script(type="text/javascript", src="/jquery-1.11.0.min.js")
-
     script(type="text/javascript", src="/jspdf.min.js")
-
     script(type="text/javascript", src="/turn.min.js")
-
     script(type="text/javascript", src="/polyglot.min.js")
 
-    // custom script
-    script(type="text/javascript") var pages = !{JSON.stringify(book.pages)};
-    script(type="text/javascript") var translations = !{translations};
-    script(type="text/javascript")
-      != 'var outOfChromeApp = true;'
-    script(type="text/javascript", src="/localize.js")
+    include partials/translate_page
+
     script(type="text/javascript", src="/bookbrowse.js")
+
+    include partials/analytics
