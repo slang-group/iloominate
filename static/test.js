@@ -467,6 +467,7 @@ PBS.KIDS.storybook.config = {
 	},
 	book: {
 		font: "Georgia",
+		direction: _("ltr"),
 		startOnPage: 0,
 		pageWidth: $(".well.page").width() - 50,
 		pageHeight: Math.max($(".well.page").height(), 450),
