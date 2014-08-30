@@ -21,19 +21,28 @@ function saveCurrentPage(callback) {
 
   current_page = Math.floor(current_page / 2) * 2;
 
-  page_text = $("#pbsLeftPage textarea").val();
-  pages[current_page].text = page_text;
+  if($("#pbsLeftPage").html()) {
+    page_text = $("#pbsLeftPage textarea").val();
+    pages[current_page].text = page_text;
 
-  PBS.KIDS.storybook.config.pages[current_page].content[0].text = page_text;
+    PBS.KIDS.storybook.config.pages[current_page].content[0].text = page_text;
 
-  $($(".page-list p")[current_page]).text(page_text.substring(0,19));
+    var page_lister = current_page;
+    var page_lister_right = current_page + 1;
+    if (_("ltr") === "rtl") {
+      page_lister = pages.length - page_lister - 1;
+      page_lister_right = page_lister - 1;
+    }
+  
+    $($(".page-list p")[page_lister]).text(page_text.substring(0,19));
 
-  // right page
-  if(pages.length > current_page + 1) {
-    page_text = $("#pbsRightPage textarea").val();
-    PBS.KIDS.storybook.config.pages[current_page+1].content[0].text = page_text;
-    $($(".page-list p")[current_page+1]).text(page_text.substring(0,19));
-    pages[current_page + 1].text = page_text;
+    // right page
+    if(pages.length > current_page + 1) {
+      page_text = $("#pbsRightPage textarea").val();
+      PBS.KIDS.storybook.config.pages[current_page+1].content[0].text = page_text;
+      $($(".page-list p")[page_lister_right]).text(page_text.substring(0,19));
+      pages[current_page + 1].text = page_text;
+    }
   }
 
   if(current_image){
@@ -48,18 +57,32 @@ function makePageJumps(p, pagejumps) {
     pagejumps += 2;
     var ev = book.addEventListener("PAGE_CHANGE", function() {
       book.removeEventListener(ev);
-      book.nextPage(p, pagejumps);
+      if (_("ltr") === "rtl") {
+        book.previousPage();
+      } else {
+        book.nextPage(p, pagejumps);
+      }
     });
   }
 }
 
-function setCurrentPage(p) {
+function setCurrentPage(p, isAddingPage) {
   saveCurrentPage(function(){
-
+  
+    var list_index = p;
+    if (_("ltr") === "rtl") {
+      if(isAddingPage) {
+        list_index = pages.length - 1;
+      } else {
+        list_index = pages.length - p - 1;
+      }
+    }
     $(".page-list a").removeClass("active");
-    $($(".page-list a")[p]).addClass("active");
+    $($(".page-list a")[list_index]).addClass("active");
 
     if(p === current_page) {
+      return;
+    } else if (_("ltr") === "rtl" && (p % 2) && (current_page === p - 1)) {
       return;
     }
 
@@ -390,7 +413,11 @@ $(".color-bar span").on("click", function(e){
 
 // activate existing page links
 $($(".page-list").children()[0]).on("click", function() {
-  setCurrentPage(0);
+  if (_("ltr") === "rtl") {
+    setCurrentPage(pages.length - 1);  
+  } else {
+    setCurrentPage(0);
+  }
 });
 
 function renderBook(GLOBAL, PBS) {
@@ -431,10 +458,15 @@ $(".new-page").on("click", function() {
   // activate page link
   var myPageNum = pages.length - 1;
   addPage.on("click", function(){
-    setCurrentPage(myPageNum);
+    var clickPageNum = myPageNum;
+    if (_("ltr") === "rtl") {
+      clickPageNum = pages.length - myPageNum - 1;
+    }
+    setCurrentPage(clickPageNum);
   });
 
   // add layout page
+  PBS.KIDS.storybook.config.pages.reverse();
   PBS.KIDS.storybook.config.pages.push({
     content: [
       {
@@ -455,7 +487,7 @@ $(".new-page").on("click", function() {
 
   // show new page
   current_page = -1;
-  setCurrentPage(myPageNum);
+  setCurrentPage(myPageNum, true);
 });
 
 PBS.KIDS.storybook.config = {
