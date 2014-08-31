@@ -57,6 +57,7 @@ Includes:
 * [KineticJS](https://github.com/ericdrowell/KineticJS/) - GPL/MIT licenses
 * [polyglot.js](https://github.com/airbnb/polyglot.js) - BSD license
 * [Simple HTML5 Drawing App](https://github.com/williammalone/Simple-HTML5-Drawing-App) - Apache license
+* Wikipedia translations for sample Arabic and Devanagari text - CC-BY-SA license
 
 Public Domain icons from [The Noun Project](http://thenounproject.com/).
 

@@ -1,7 +1,7 @@
 // update font sample
 $("#fontSize, #fontName").on('change select', function() {
   $("#fontSample").css({
-    fontFamily: $("#fontName").val(),
+    fontFamily: $("#fontName").val().replace("web_", ""),
     fontSize: $("#fontSize").val() + "pt"
   });
 });

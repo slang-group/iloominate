@@ -1,9 +1,21 @@
 /* from https://www.google.com/fonts/earlyaccess */
 
-// Arabic fonts under SIL Open Font License
-@import url(http://fonts.googleapis.com/earlyaccess/amiri.css);
-@import url(http://fonts.googleapis.com/earlyaccess/lateef.css);
-@import url(http://fonts.googleapis.com/earlyaccess/thabit.css);
+/* Arabic fonts under SIL Open Font License */
+@font-face {
+  font-family: 'Amiri';
+  src: url('/web-fonts/Amiri-Regular.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Lateef';
+  src: url('/web-fonts/LateefRegOT.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Thabit';
+  src: url('/web-fonts/Thabit.ttf') format('truetype');
+}
 
-// Devanagari fonts under SIL Open Font License
-@import url(http://fonts.googleapis.com/earlyaccess/lohitdevanagari.css);
+/* Devanagari fonts under SIL Open Font License */
+@font-face {
+  font-family: 'Lohit Devanagari';
+  src: url('/web-fonts/Lohit-Devanagari.ttf') format('truetype');
+}
