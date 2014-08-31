@@ -554,7 +554,7 @@ PBS.KIDS.storybook.config = {
 	},
 	cover: {
 		background: {
-			url: cover.image || "images/frog_2546.png"
+			url: cover.url || "images/frog_2546.png"
 		},
 		content: [
       {

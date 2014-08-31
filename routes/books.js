@@ -1,3 +1,4 @@
+var fs = require('fs');
 var cloudinary = require('cloudinary');
 var md5 = require('MD5');
 
@@ -136,28 +137,20 @@ exports.save = function (req, res) {
         author: req.body.author || ""
       };
 
-      if (req.body.coverImage && req.body.coverImage.indexOf("iloominate.org/icons") === -1) {
-        // should check hash to make sure we're using a new image
-        // for now just store it
-        var hash = "";
-        try {
-          hash = md5(req.body.coverImage+"")+"";
-        }
-        catch(e) {
-          hash = md5.digest_s(req.body.coverImage+"")+"";
-        }
-        book.layout.cover.hash = hash;
-
+      if (req.files.coverImage) {
         // upload image and then load book
-        cloudinary.uploader.upload(req.body.coverImage, function (result) {
-          book.layout.cover.image = result.url;
+        var imageStream = fs.createReadStream(req.files.coverImage.path, { encoding: 'binary' });
+        var cloudStream = cloudinary.uploader.upload_stream(function(result){
+          book.layout.cover.url = result.url;
           book.save(function(err) {
             if (err) {
               throw err;
             }
-            res.redirect('/edit?id=' + book._id);
+            res.redirect('/edit?id=' + book._id + '&url=' + result.url);
           });
         });
+
+        imageStream.on('data', cloudStream.write).on('end', cloudStream.end);
 
       } else {
         // book has no image on cover, or uses image from server
