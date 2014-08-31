@@ -1,0 +1,9 @@
+/* from https://www.google.com/fonts/earlyaccess */
+
+// Arabic fonts under SIL Open Font License
+@import url(http://fonts.googleapis.com/earlyaccess/amiri.css);
+@import url(http://fonts.googleapis.com/earlyaccess/lateef.css);
+@import url(http://fonts.googleapis.com/earlyaccess/thabit.css);
+
+// Devanagari fonts under SIL Open Font License
+@import url(http://fonts.googleapis.com/earlyaccess/lohitdevanagari.css);

@@ -109,11 +109,14 @@ exports.save = function (req, res) {
       // creating book from layout
       book.layout = {
         pageWords: (req.body["per-page"] * 1) || 0,
-        sentenceWords: (req.body["per-sentence"] * 1) || 0
+        sentenceWords: (req.body["per-sentence"] * 1) || 0,
+        wordSpace: (req.body["word-spacing"] * 1) || 0,
+        lineSpace: (req.body["line-height"] * 1) || 0
       };
 
       book.layout.font = {
-        name: req.body.font
+        name: req.body.font,
+        size: req.body.fontSize
       };
 
       book.layout.text = {

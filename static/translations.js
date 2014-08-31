@@ -28,6 +28,7 @@ var allTranslations = {
     "Layout": "Layout",
     "Lead new team": "Lead new team",
     "leader": "leader",
+    "line size": "line size",
     "Log In": "Log In",
     "Log Out": "Log Out",
     "ltr": "ltr", // left-to-right or right-to-left?
@@ -66,7 +67,9 @@ var allTranslations = {
     "Welcome to iLoominate": "Welcome to iLoominate",
     "What is the story?": "What is the story?",
     "Word List": "Word List",
+    "word spacing": "word spacing",
     "words per page": "words per page",
+    "words per sentence": "words per sentence",
     "Writing": "Writing", // Writing menu
     "You are signed in.": "You are signed in."
   },
@@ -99,6 +102,7 @@ var allTranslations = {
     "Layout": "Diseño",
     "Lead new team": "Lead new team",
     "leader": "líder",
+    "line size": "line size",
     "Log In": "Iniciar Sesión",
     "Log Out": "Desconectar",
     "ltr": "ltr",
@@ -137,7 +141,9 @@ var allTranslations = {
     "Welcome to iLoominate": "Bienvenidos a iLoominate",
     "What is the story?": "¿Qué es su historia?",
     "Word List": "Lista de Palabras",
+    "word spacing": "word spacing",
     "words per page": "words per page",
+    "words per sentence": "words per sentence",
     "Writing": "Escribiendo",
     "You are signed in.": "Ha iniciado su sesión."
   },
@@ -170,6 +176,7 @@ var allTranslations = {
     "Layout": "Layout",
     "Lead new team": "Lead new team",
     "leader": "leader",
+    "line size": "line size",
     "Log In": "Log In",
     "Log Out": "Log Out",
     "ltr": "ltr",
@@ -207,8 +214,10 @@ var allTranslations = {
     "View": "View",
     "Welcome to iLoominate": "Welcome to iLoominate",
     "What is the story?": "Kisa istwa a ye?",
+    "word spacing": "word spacing",
     "Word List": "Word List",
     "words per page": "words per page",
+    "words per sentence": "words per sentence",
     "Writing": "Writing", // writing menu
     "You are signed in.": "You are signed in."
   },

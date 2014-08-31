@@ -14,11 +14,10 @@ html
     link(href="/main.css", rel="stylesheet", type="text/css")
 
     if book && book.layout && book.layout.font && book.layout.font.name
-      script(type="text/javascript") var font_name = "#{book.layout.font.name}";
       if book.layout.font.name.indexOf('Noto') > -1
         link(href="/noto-fonts.css", rel="stylesheet", type="text/css")
-    else
-      script(type="text/javascript") var font_name = "Arial";
+      if book.layout.font.name.indexOf('web_') > -1
+        link(href="/webfont-fonts.css", rel="stylesheet", type="text/css")
 
   body
     input#csrf(type='hidden', name='_csrf', value=token)
@@ -177,9 +176,9 @@ html
     if book
       script(type="text/javascript") var load_book_id = "#{book._id}"; var load_book = !{JSON.stringify(book.pages)};
       if book.layout && book.layout.cover
-        script(type="text/javascript") var cover = !{JSON.stringify(book.layout.cover)};
+        script(type="text/javascript") var cover = !{JSON.stringify(book.layout.cover)}; var font = !{JSON.stringify(book.layout.font)};
     else
-      script(type="text/javascript") var load_book_id, load_book, cover;
+      script(type="text/javascript") var load_book_id, load_book, cover, font;
 
     script(type="text/javascript", src="/test.js")
 

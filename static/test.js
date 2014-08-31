@@ -8,6 +8,12 @@ var current_image = null;
 
 var book = null;
 var highlighter = null;
+cover = cover || {};
+
+font = font || {};
+if(font && font.name) {
+  font.name = font.name.replace("web_", "");
+}
 
 function saveCurrentPage(callback) {
   // get cover
@@ -150,7 +156,7 @@ function setWhitelist (whitelist) {
   highlighter.antihighlight('setWords', wordWhitelist);
 
   // make sure fonts have same properties, so highlights match words in textbox
-  $('.highlighter').css({ 'font-family': font_name });
+  $('.highlighter').css({ 'font-family': font.name });
 
   return wordWhitelist;
 }
@@ -494,8 +500,8 @@ $(".new-page").on("click", function() {
         width: 80,
         align: "left",
         color: "#222222",
-        size: 28,
-        font: font_name,
+        size: font.size || 28,
+        font: font.name || "Arial",
         text: _("new_page_message")
       }
     ]
@@ -510,8 +516,6 @@ $(".new-page").on("click", function() {
 });
 
 // set initial storybook
-cover = cover || {};
-
 PBS.KIDS.storybook.config = {
 	background: {
 		color: "#ababab"
@@ -520,7 +524,7 @@ PBS.KIDS.storybook.config = {
 		enabled: false
 	},
 	book: {
-		font: font_name,
+		font: font.name,
 		direction: _("ltr"),
 		startOnPage: 0,
 		pageWidth: $(".well.page").width() - 50,
@@ -564,8 +568,8 @@ PBS.KIDS.storybook.config = {
         width: 90,
         align: "center",
         color: "#fff",
-        size: 28,
-        font: font_name,
+        size: font.size || 28,
+        font: font.name || "Arial",
         text: cover.title || ""
       }
 		]
@@ -598,8 +602,8 @@ if (load_book && load_book.length) {
           width: 80,
           align: "left",
           color: "#222222",
-          size: 28,
-          font: font_name,
+          size: font.size || 28,
+          font: font.name || "Arial",
           text: pages[p].text
         }
       ]
@@ -626,8 +630,8 @@ if (load_book && load_book.length) {
         width: 80,
         align: "left",
         color: "#222222",
-        size: 28,
-        font: font_name,
+        size: font.size || 28,
+        font: font.name || "Arial",
         text: _("first_page_message")
       }
     ]

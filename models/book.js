@@ -7,8 +7,7 @@ var bookSchema = mongoose.Schema({
     cover: {
       title: String,
       author: String,
-      url: String,
-      hash: String
+      url: String
     },
     text: {
       top: Boolean,

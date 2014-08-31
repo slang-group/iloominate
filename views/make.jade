@@ -11,6 +11,10 @@ html
     // custom style
     link(href="/main.css", rel="stylesheet", type="text/css")
 
+    // fonts for sample
+    link(href="/noto-fonts.css", rel="stylesheet", type="text/css")
+    link(href="/webfont-fonts.css", rel="stylesheet", type="text/css")
+
   body
     include partials/main_menu
     br
@@ -73,27 +77,47 @@ html
           div.row
             div.col-md-6
               h4.translate Fonts and Letters
-              select(name="font")
+              select#fontName(name="font")
                 option(value="arial") Arial
+                option(value="web_Amiri") Amiri (Arabic)
                 option(value="courier") Courier
                 option(value="georgia") Georgia
                 option(value="helvetica") Helvetica
+                option(value="web_Lateef") Lateef (Arabic)
+                option(value="web_Lohit Devanagari") Lohit Devanagari
                 option(value="NotoKufiArabic") Noto Kufi Arabic
                 option(value="NotoNaskhArabic") Noto Naskh Arabic
                 option(value="NotoSans") Noto Sans
                 option(value="NotoDevanagari") Noto Sans Devanagari
                 option(value="NotoSerif") Noto Serif
+                option(value="web_Thabit") Thabit (Arabic)
                 option(value="times") Times
                 option(value="verdana") Verdana
 
-            div.col-md-6
+              br
+              br
+              input#fontSize(type="number", name="fontSize", value="28", min="10", max="60")
+
+              br
+              br
+              span#fontSample.translate(style="font-family: Arial; font-size: 28pt;") Fonts and Letters
+
+            div.col-md-6.line-labels
               h4.translate Difficulty
               label.translate sentences per page
-              input(name="per-page")
+              input(type="number", name="per-page", value="10", min="1", max="10")
               br
               br
               label.translate words per sentence
-              input(name="per-sentence")
+              input(type="number", name="per-sentence", value="30", min="1", max="50")
+              br
+              br
+              label.translate word spacing
+              input(type="number", name="word-spacing", value="1", min="1", max="5")
+              br
+              br
+              label.translate line size
+              input#lineSize(type="number", name="line-height", value="28", min="10", max="60")
 
           hr
           a(name="layout")
