@@ -15,10 +15,10 @@ html
     include partials/main_menu
     br
 
-    form.container(action="/make", method="POST")
+    form.container(action="/make", method="POST", enctype="multipart/form-data")
       input#csrf(type='hidden', name='_csrf', value=token)
       div.row
-        div.col-xs-2
+        div.col-md-2
           div.list-group.page-list.follow-page
             a.list-group-item(href="#paper")
               h4.list-group-item-heading.translate Paper
@@ -29,21 +29,21 @@ html
             a.list-group-item(href="#layout")
               h4.list-group-item-heading.translate Layout
 
-        div.col-lg-10
+        div.col-md-10
           noscript Enable JavaScript!
 
           a(name="paper")
           h3.translate Paper Size
 
           div.row
-            div.col-lg-6
+            div.col-md-6
               label
-                input(type="radio", name="paper-size", checked="checked")
+                input(type="radio", name="paper-size", value="8.5x11", checked="checked")
                 span 8.5 x 11
 
-            div.col-lg-6
+            div.col-md-6
               label
-                input(type="radio", name="paper-size")
+                input(type="radio", name="paper-size", value="5.5x8.5")
                 span 5.5 x 8.5 (fold an 8.5 x 11)
 
           hr
@@ -51,27 +51,27 @@ html
           h3.translate Cover
 
           div.row
-            div.col-lg-6
+            div.col-md-6
               h4.translate Title and Author
               input.translate(name="title", placeholder="Title")
               br
               br
               input.translate(name="author", placeholder="Author")
 
-            div.col-lg-6
+            div.col-md-6
               h4.translate Picture
               a.btn.btn-info.translate(href="#") Add Icon
               br
               br
               a.btn.btn-info.translate(href="#") Upload
-              input#cover-image.hide(type="file", name="cover-image")
+              input#cover-image(type="file", name="coverImage")
 
           hr
           a(name="writing")
           h3.translate Writing
 
           div.row
-            div.col-lg-6
+            div.col-md-6
               h4.translate Fonts and Letters
               select(name="font")
                 option(value="arial") Arial
@@ -86,13 +86,13 @@ html
                 option(value="times") Times
                 option(value="verdana") Verdana
 
-            div.col-lg-6
-              h4.translate Sentences
-              label Sentences per page
+            div.col-md-6
+              h4.translate Difficulty
+              label.translate sentences per page
               input(name="per-page")
               br
               br
-              label Words per sentences
+              label.translate words per sentence
               input(name="per-sentence")
 
           hr
@@ -100,7 +100,7 @@ html
           h3.translate Layout
 
           div.row.line-labels
-            div.col-lg-6
+            div.col-md-6
               h4.translate Text
               p.translate Allow:
               label
@@ -119,7 +119,7 @@ html
                 input(type="checkbox", name="bottom-page")
                 span.translate bottom of page
 
-            div.col-lg-6
+            div.col-md-6
               h4.translate Images
               p.translate Allow:
               label
@@ -149,39 +149,7 @@ html
 
       canvas.color-change.hide(width="164", height="164")
 
-    #iconmodal.modal.fade
-      div.modal-dialog
-        div.modal-content
-          div.modal-header
-            button.close(type="button", data-dismiss="modal", aria-hidden="true") x
-            h3
-              span.translate Add Icon
-              div.color-bar
-                span.pink __
-                span.red __
-                span.orange __
-                span.yellow __
-                span.green __
-                span.blue __
-                span.purple __
-          div.modal-body
-            div.row
-              img.col-md-4(src="/images/teacher_14016.png")
-              img.col-md-4(src="/images/penguin_1986.png")
-              img.col-md-4(src="/images/mosquito_19603.png")
-            div.row
-              img.col-md-4(src="/images/deer_103.png")
-              img.col-md-4(src="/images/lobster_7165.png")
-              img.col-md-4(src="/images/pig_1575.png")
-            div.row
-              img.col-md-4(src="/images/fish_12563.png")
-              img.col-md-4(src="/images/frog_2546.png")
-              img.col-md-4(src="/images/duck_12535.png")
-            div.clearfix
-
-          div.modal-footer
-            button.btn.btn-default.translate(type="button", data-dismiss="modal") Cancel
-            button.btn.btn-success.translate.iconadder(type="button", data-dismiss="modal") Add Icon
+    include partials/icon_modal
 
     // 3rd party libraries
     script(type="text/javascript", src="/jquery-1.11.0.min.js")

@@ -60,9 +60,9 @@ html
 
     div.container
       div.row
-        div.col-xs-2
+        div.col-md-2
           div.list-group.page-list
-            if book
+            if book && book.pages.length
               - for (var page_num = 1; page_num <= book.pages.length; page_num++)
                 a.list-group-item(href="#")
                   h4.list-group-item-heading.translate Page #{page_num}
@@ -90,8 +90,8 @@ html
               .clearfix
 
 
-        div.col-lg-10
-          noscript.translate Enable JavaScript!
+        div.col-md-10
+          noscript Enable JavaScript!
 
           div.well.page
 
@@ -176,8 +176,10 @@ html
 
     if book
       script(type="text/javascript") var load_book_id = "#{book._id}"; var load_book = !{JSON.stringify(book.pages)};
+      if book.layout && book.layout.cover
+        script(type="text/javascript") var cover = !{JSON.stringify(book.layout.cover)};
     else
-      script(type="text/javascript") var load_book_id, load_book;
+      script(type="text/javascript") var load_book_id, load_book, cover;
 
     script(type="text/javascript", src="/test.js")
 

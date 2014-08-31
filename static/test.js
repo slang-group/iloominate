@@ -12,16 +12,13 @@ var highlighter = null;
 function saveCurrentPage(callback) {
   // get cover
   if(current_page === -1) {
-    var title = $(".pbsPage0TextArea1").text();
-    if (typeof callback === "function") {
-      callback();
-    }
     return;
   }
 
   current_page = Math.floor(current_page / 2) * 2;
 
   if($("#pbsLeftPage").html()) {
+    // save content from the left page (if it exists)
     page_text = $("#pbsLeftPage textarea").val();
     pages[current_page].text = page_text;
 
@@ -33,10 +30,10 @@ function saveCurrentPage(callback) {
       page_lister = pages.length - page_lister - 1;
       page_lister_right = page_lister - 1;
     }
-  
+
     $($(".page-list p")[page_lister]).text(page_text.substring(0,19));
 
-    // right page
+    // save content from the right page (if it exists)
     if(pages.length > current_page + 1) {
       page_text = $("#pbsRightPage textarea").val();
       PBS.KIDS.storybook.config.pages[current_page+1].content[0].text = page_text;
@@ -46,13 +43,16 @@ function saveCurrentPage(callback) {
   }
 
   if(current_image){
+    // upload image and then issue callback
   }
   else if (typeof callback === "function") {
+    // nothing to async upload - make callback now
     callback();
   }
 }
 
 function makePageJumps(p, pagejumps) {
+  // helps automatically move user off of the cover page
   if(pagejumps < p) {
     pagejumps += 2;
     var ev = book.addEventListener("PAGE_CHANGE", function() {
@@ -68,9 +68,10 @@ function makePageJumps(p, pagejumps) {
 
 function setCurrentPage(p, isAddingPage) {
   saveCurrentPage(function(){
-  
+    // highlight the current page in the menu
     var list_index = p;
     if (_("ltr") === "rtl") {
+      // special rules for right-to-left books
       if(isAddingPage) {
         list_index = pages.length - 1;
       } else {
@@ -80,6 +81,7 @@ function setCurrentPage(p, isAddingPage) {
     $(".page-list a").removeClass("active");
     $($(".page-list a")[list_index]).addClass("active");
 
+    // don't move if user requests the current two-page spread
     if(p === current_page) {
       return;
     } else if (_("ltr") === "rtl" && (p % 2) && (current_page === p - 1)) {
@@ -87,16 +89,18 @@ function setCurrentPage(p, isAddingPage) {
     }
 
     if(current_page > -1) {
+      // regular page - use library's gotoPage function
       book.gotoPage(p);
     }
     else {
+      // cover page - use callbacks
       makePageJumps(p, -1);
     }
     current_page = p;
   });
 }
 
-// drop an image onto the page
+// drop a file onto the page
 var files, fileindex;
 
 var blockHandler = function (e) {
@@ -104,6 +108,7 @@ var blockHandler = function (e) {
   e.preventDefault();
 };
 
+// process an image upload
 var processImage = function (e) {
   current_image = e.target.result;
   $(".filedrop")
@@ -119,6 +124,7 @@ var processImage = function (e) {
     .find("h4").hide();
 };
 
+// process a word list upload
 function setWhitelist (whitelist) {
   // reset existing whitelists
   var wordWhitelist = [];
@@ -126,29 +132,33 @@ function setWhitelist (whitelist) {
   for (var w=0; w<whitelist.length; w++) {
     var word = whitelist[w];
 
-    // all letters in letter list?
+    // add all letters to letter list
     for(var i=0;i<word.length;i++){
       if(letterWhitelist.indexOf(word[i]) === -1){
         letterWhitelist.push(word[i]);
       }
     }
 
-    // add to word list?
+    // include words in word list
     if(wordWhitelist.indexOf(word) === -1){
       wordWhitelist.push(word);
     }
   }
 
+  // update antihighlighter plugin
   highlighter.antihighlight('setLetters', [letterWhitelist.join('')]);
   highlighter.antihighlight('setWords', wordWhitelist);
+
+  // make sure fonts have same properties, so highlights match words in textbox
   $('.highlighter').css({ 'font-family': font_name });
 
   return wordWhitelist;
 }
 
-// logged in - load word lists
+// when online and logged in
 if ($("#logout").length) {
-  // set original list
+
+  // set default letter and word lists
   var menuItem = $(".user-login .dropdown-menu li");
   menuItem.find("a").on("click", function() {
     $(".dropdown-menu.wordlists li").removeClass("active");
@@ -156,7 +166,7 @@ if ($("#logout").length) {
     setWhitelist(['hello', 'world', 'नेपाल', 'abcdefghijklmnopqrstuvw']);
   });
 
-  // download a copy of all word lists, add to a menu
+  // download a copy of all user + team word lists, add to a menu
   var wordlists_by_id = {};
   $.getJSON("/wordlist/inteam", function (metalist) {
     $.each(metalist, function(i, list) {
@@ -167,7 +177,7 @@ if ($("#logout").length) {
         $(".dropdown-menu.wordlists li").removeClass("active");
         menuItem.addClass("active");
 
-        // AJAX to download the actual wordlist once
+        // AJAX to download the actual wordlist once selected
         if(!wordlists_by_id[list._id]) {
           $.getJSON("/wordlist/" + list._id, function(detail_list) {
             wordlists_by_id[detail_list._id] = detail_list.words;
@@ -182,11 +192,11 @@ if ($("#logout").length) {
   });
 }
 
-// offline - load previous word lists
+// when offline - load previous word lists from app storage
 if (typeof outOfChromeApp === "undefined" || !outOfChromeApp) {
   chrome.storage.local.get(null, function (items) {
     $.each(items, function(hash, list){
-      // only look at word lists
+      // filter storage for word lists
       if(!list.type || list.type !== "wordlist") {
         return;
       }
@@ -194,6 +204,8 @@ if (typeof outOfChromeApp === "undefined" || !outOfChromeApp) {
       var menuItem = $("<li role='presentation'>");
       menuItem.append($("<a href='#' role='menuitem'>").text(list.name));
       $(".user-login .dropdown-menu").append(menuItem);
+
+      // make word list selectable
       menuItem.find("a").on("click", function() {
         $(".dropdown-menu.wordlists li").removeClass("active");
         menuItem.addClass("active");
@@ -239,13 +251,14 @@ $("#wordmodal .save").on("click", function() {
     });
 
   } else {
-    // online - post to server
+    // online - post word list to server
     $.post("/wordlist", {name: name, wordlist: wordlist, _csrf: csrf_token}, function(response) {
       console.log(response);
     });
   }
 });
 
+// process a dropped file into letter and word lists
 var processWhitelist = function (e) {
   var whitelist = e.target.result;
   // reduce to lowercase words separated by spaces
@@ -253,12 +266,14 @@ var processWhitelist = function (e) {
 
   whitelist = setWhitelist(whitelist);
 
-  // display and save whitelist
+  // display and save whitelist for final approval
   $("#wordmodal .modal-body input").val("");
   $("#wordmodal .modal-body p").text(whitelist.join(" ").substring(0,500));
   $("#wordmodal").modal('show');
 };
 
+
+// file drop handlers
 var dropFile = function (e) {
   e.stopPropagation();
   e.preventDefault();
@@ -335,7 +350,7 @@ function pdfify() {
 
 $(".pdfify").on("click", pdfify);
 
-// books can be created and updated
+// books can be created and updated on online site
 var book_id = null;
 
 function upload() {
@@ -349,7 +364,7 @@ function upload() {
 }
 $(".upload").on("click", upload);
 
-// choose icon
+// add icon from iconmodal
 $(".chooseicon").on("click", function() {
   $('#iconmodal').modal('show').find('.modal-body');
   $.getJSON("/image/inteam", function (imagelist) {
@@ -411,10 +426,10 @@ $(".color-bar span").on("click", function(e){
   });
 });
 
-// activate existing page links
+// activate first page link
 $($(".page-list").children()[0]).on("click", function() {
   if (_("ltr") === "rtl") {
-    setCurrentPage(pages.length - 1);  
+    setCurrentPage(pages.length - 1);
   } else {
     setCurrentPage(0);
   }
@@ -428,6 +443,7 @@ function renderBook(GLOBAL, PBS) {
   // Load the storybook resources
   book.load();
 
+  // wait for page to load before reactivating plugins
   book.addEventListener("PAGE_CHANGE", function () {
     current_page = book.getPage();
 
@@ -440,22 +456,22 @@ function renderBook(GLOBAL, PBS) {
 
     // multilingual input with jQuery.IME
     $("textarea").ime();
+
+    // when user leaves the textarea, save its contents
     $("textarea").on("blur", saveCurrentPage);
   });
 }
 
 // adding a new page
 $(".new-page").on("click", function() {
-  // create new page listing
+  // create new page in left menu
   pages.push({ text: "", image: null });
   var addPage = $("<a class='list-group-item' href='#'></a>");
   addPage.append($("<h4 class='list-group-item-heading'>" + _("page_num", { page: pages.length }) + "</h4>"));
   addPage.append($("<p class='list-group-item-text'></p>"));
-
-  // insert after last page
   $($(".page-list .list-group-item")[pages.length-2]).after(addPage);
 
-  // activate page link
+  // activate link to page in left menu
   var myPageNum = pages.length - 1;
   addPage.on("click", function(){
     var clickPageNum = myPageNum;
@@ -465,8 +481,10 @@ $(".new-page").on("click", function() {
     setCurrentPage(clickPageNum);
   });
 
-  // add layout page
-  PBS.KIDS.storybook.config.pages.reverse();
+  // add data page to end
+  if (_("ltr") === "rtl") {
+    PBS.KIDS.storybook.config.pages.reverse();
+  }
   PBS.KIDS.storybook.config.pages.push({
     content: [
       {
@@ -485,10 +503,14 @@ $(".new-page").on("click", function() {
   $(".page.well").html("");
   renderBook(window, PBS);
 
-  // show new page
+  // show cover
+  // library will advance to new page once book reloads
   current_page = -1;
   setCurrentPage(myPageNum, true);
 });
+
+// set initial storybook
+cover = cover || {};
 
 PBS.KIDS.storybook.config = {
 	background: {
@@ -498,7 +520,7 @@ PBS.KIDS.storybook.config = {
 		enabled: false
 	},
 	book: {
-		font: "Georgia",
+		font: font_name,
 		direction: _("ltr"),
 		startOnPage: 0,
 		pageWidth: $(".well.page").width() - 50,
@@ -532,7 +554,7 @@ PBS.KIDS.storybook.config = {
 	},
 	cover: {
 		background: {
-			url: "images/frog_2546.png"
+			url: cover.image || "images/frog_2546.png"
 		},
 		content: [
       {
@@ -544,7 +566,7 @@ PBS.KIDS.storybook.config = {
         color: "#fff",
         size: 28,
         font: font_name,
-        text: "Title"
+        text: cover.title || ""
       }
 		]
 	},
@@ -558,8 +580,15 @@ if (load_book_id) {
 }
 
 if (load_book && load_book.length) {
+  // load created book
   pages = load_book;
-  for (var p = 0; p < pages.length; p++) {
+
+  // when loading a book with no pages - create first one
+  if(!pages.length) {
+    pages.push({ text: _("first_page_message") });
+  }
+
+  for (var p = 0; p < pageCap; p++) {
     PBS.KIDS.storybook.config.pages.push({
       content: [
         {
@@ -587,6 +616,7 @@ if (load_book && load_book.length) {
   });
 
 } else {
+  // starting new book
   PBS.KIDS.storybook.config.pages.push({
     content: [
       {

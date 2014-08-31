@@ -1,7 +1,7 @@
 {
   "author": "UnleashKids",
-  "name": "iluminate",
-  "version": "0.0.2",
+  "name": "iLoominate",
+  "version": "0.0.3",
   "dependencies": {
     "request": "2.34.X",
     "node-polyglot": "0.3.X",

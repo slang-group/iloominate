@@ -62,6 +62,7 @@ exports.byid = function (req, res) {
 
 exports.save = function (req, res) {
   if (req.body.book_id) {
+    // updating book (currently no user check)
     Book.findById(req.body.book_id, function (err, book) {
       if (err) {
         throw err;
@@ -84,6 +85,7 @@ exports.save = function (req, res) {
     });
   }
   else{
+    // creating new book
     var book = new Book();
     book.name = "hello";
     if(req.isAuthenticated()){
@@ -103,16 +105,70 @@ exports.save = function (req, res) {
 
       uploadPages(res, book, req.body.pages, 0);
     } else {
-      // creating book
-      book.layout = {};
-      book.layout.font = {};
-      book.layout.font.name = req.body.font;
-      book.save(function(err) {
-        if (err) {
-          throw err;
+      // creating book from layout
+      book.layout = {
+        pageWords: (req.body["per-page"] * 1) || 0,
+        sentenceWords: (req.body["per-sentence"] * 1) || 0
+      };
+
+      book.layout.font = {
+        name: req.body.font
+      };
+
+      book.layout.text = {
+        top: (req.body["top-page"] === "on"),
+        middle: (req.body["middle-page"] === "on"),
+        bottom: (req.body["bottom-page"] === "on"),
+        bg: (req.body["full-page"] === "on"),
+        span: (req.body["span-page"] === "on")
+      };
+
+      book.layout.image = {
+        top: (req.body["top-image"] === "on"),
+        middle: (req.body["middle-image"] === "on"),
+        bottom: (req.body["bottom-image"] === "on"),
+        bg: (req.body["bg-image"] === "on"),
+        span: (req.body["span-image"] === "on")
+      };
+
+      book.layout.cover = {
+        title: req.body.title || "",
+        author: req.body.author || ""
+      };
+
+      if (req.body.coverImage && req.body.coverImage.indexOf("iloominate.org/icons") === -1) {
+        // should check hash to make sure we're using a new image
+        // for now just store it
+        var hash = "";
+        try {
+          hash = md5(req.body.coverImage+"")+"";
         }
-        res.redirect('/edit?id=' + book._id);
-      });
+        catch(e) {
+          hash = md5.digest_s(req.body.coverImage+"")+"";
+        }
+        book.layout.cover.hash = hash;
+
+        // upload image and then load book
+        cloudinary.uploader.upload(req.body.coverImage, function (result) {
+          book.layout.cover.image = result.url;
+          book.save(function(err) {
+            if (err) {
+              throw err;
+            }
+            res.redirect('/edit?id=' + book._id);
+          });
+        });
+
+      } else {
+        // book has no image on cover, or uses image from server
+        book.layout.cover.image = req.body.coverImage;
+        book.save(function(err) {
+          if (err) {
+            throw err;
+          }
+          res.redirect('/edit?id=' + book._id);
+        });
+      }
     }
   }
 };
