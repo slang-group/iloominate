@@ -138,7 +138,7 @@ exports.save = function (req, res) {
         author: req.body.author || ""
       };
 
-      if (req.files.coverImage && req.files.coverImage.size) {
+      if (!req.body.coverUrl && req.files.coverImage && req.files.coverImage.size) {
         // upload image and then load book
         var imageStream = fs.createReadStream(req.files.coverImage.path, { encoding: 'binary' });
         var cloudStream = cloudinary.uploader.upload_stream(function(result){
@@ -155,7 +155,7 @@ exports.save = function (req, res) {
 
       } else {
         // book has no image on cover, or uses image from server
-        book.layout.cover.image = req.body.coverImage;
+        book.layout.cover.url = req.body.coverUrl || "";
         book.save(function(err) {
           if (err) {
             throw err;

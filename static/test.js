@@ -8,6 +8,7 @@ var current_image = null;
 
 var book = null;
 var highlighter = null;
+var twoPageOn = false;
 
 if(font && font.name) {
   font.name = font.name.replace("web_", "");
@@ -535,8 +536,6 @@ function getFullPageText(text) {
   return box;
 }
 
-var twoPageOn = false;
-
 function getTwoPageText(text) {
   if (layout && layout.text && !layout.text.span) {
     return false;
@@ -550,11 +549,7 @@ function getTwoPageText(text) {
 
 function makeFirstPage(text) {
   text = text || _("first_page_message");
-  return (getTopText(text)
-    || getBottomText(text)
-    || getFullPageText(text)
-    || getTwoPageText(text)
-  );
+  return (getTopText(text) || getBottomText(text) || getFullPageText(text) || getTwoPageText(text));
 }
 
 // adding a new page

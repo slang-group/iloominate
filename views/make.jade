@@ -64,11 +64,12 @@ html
 
             div.col-md-6
               h4.translate Picture
-              a.btn.btn-info.translate(href="#") Add Icon
+              a.btn.btn-info.translate.addicon(href="#") Add Icon
+              input.iconurl(type="hidden", name="coverUrl", value="")
               br
               br
               a.btn.btn-info.translate(href="#") Upload
-              input#cover-image(type="file", name="coverImage")
+              input#cover-image.hide(type="file", name="coverImage")
 
           hr
           a(name="writing")
@@ -156,14 +157,14 @@ html
                 input(type="checkbox", name="bottom-image", checked)
                 span.translate bottom of page
 
-      div.row
-        br
-        br
-        br
-        input(type="submit", value="Create Book")
-        br
-        br
-        br
+          div.row
+            br
+            br
+            br
+            input.btn.btn-large.btn-success(type="submit", value="Create Book")
+            br
+            br
+            br
 
       canvas.color-change.hide(width="164", height="164")
 
