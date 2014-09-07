@@ -219,5 +219,5 @@ em {
 }
 
 .pbsTextArea {
-	height: 220px;
+	min-height: 220px;
 }

@@ -128,19 +128,16 @@ html
               h4.translate Text
               p.translate Allow:
               label
-                input(type="checkbox", name="full-page")
+                input.pagetext(type="checkbox", name="full-page")
                 span.translate full page
               label
-                input(type="checkbox", name="span-page")
+                input.pagetext(type="checkbox", name="span-page")
                 span.translate span both pages
               label
-                input(type="checkbox", name="top-page")
+                input.pagetext(type="checkbox", name="top-page", checked)
                 span.translate top of page
               label
-                input(type="checkbox", name="middle-page")
-                span.translate middle of page
-              label
-                input(type="checkbox", name="bottom-page")
+                input.pagetext(type="checkbox", name="bottom-page", checked)
                 span.translate bottom of page
 
             div.col-md-6
@@ -153,13 +150,10 @@ html
                 input(type="checkbox", name="span-image")
                 span.translate span both pages
               label
-                input(type="checkbox", name="top-image")
+                input(type="checkbox", name="top-image", checked)
                 span.translate top of page
               label
-                input(type="checkbox", name="middle-image")
-                span.translate middle of page
-              label
-                input(type="checkbox", name="bottom-image")
+                input(type="checkbox", name="bottom-image", checked)
                 span.translate bottom of page
 
       div.row

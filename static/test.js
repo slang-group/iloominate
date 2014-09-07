@@ -16,6 +16,9 @@ if(font && font.name) {
 function saveCurrentPage(callback) {
   // get cover
   if(current_page === -1) {
+    if (typeof callback === 'function') {
+      callback();
+    }
     return;
   }
 
@@ -475,12 +478,83 @@ function renderBook(GLOBAL, PBS) {
       'line-height': layout.lineSpace + "pt"
     });
 
+    // full-page and two-page text areas
+    if(twoPageOn) {
+      $("textarea").css({ "z-index": 999 });
+      $(".antihighlight").width($("textarea").width());
+    }
+    $("textarea").resize();
+
     // multilingual input with jQuery.IME
     $("textarea").ime();
 
     // when user leaves the textarea, save its contents
     $("textarea").on("blur", saveCurrentPage);
   });
+}
+
+function getGenericText(text) {
+  return {
+    type: "TextArea",
+    x: 5,
+    width: 95,
+    align: "left",
+    color: "#222",
+    size: font.size || 18,
+    font: font.name || "Arial",
+    lineHeight: layout.lineSpace || "120%",
+    text: text
+  };
+}
+
+function getTopText(text) {
+  if (layout && layout.text && !layout.text.top) {
+    return false;
+  }
+  var box = getGenericText(text);
+  box.y = 30;
+  return box;
+}
+
+function getBottomText(text) {
+  if (layout && layout.text && !layout.text.bottom) {
+    return false;
+  }
+  var box = getGenericText(text);
+  box.y = 100;
+  return box;
+}
+
+function getFullPageText(text) {
+  if (layout && layout.text && !layout.text.bg) {
+    return false;
+  }
+  var box = getGenericText(text);
+  box.y = 10;
+  box.height = 400;
+  return box;
+}
+
+var twoPageOn = false;
+
+function getTwoPageText(text) {
+  if (layout && layout.text && !layout.text.span) {
+    return false;
+  }
+  var box = getGenericText(text);
+  box.y = 10;
+  box.width = 120;
+  twoPageOn = true;
+  return box;
+}
+
+function makeFirstPage(text) {
+  text = text || _("first_page_message");
+  return (getTopText(text)
+    || getBottomText(text)
+    || getFullPageText(text)
+    || getTwoPageText(text)
+  );
 }
 
 // adding a new page
@@ -502,26 +576,21 @@ $(".new-page").on("click", function() {
     setCurrentPage(clickPageNum);
   });
 
-  // add data page to end
+  // rtl: flip the pages to add this page to the 'end'
   if (_("ltr") === "rtl") {
     PBS.KIDS.storybook.config.pages.reverse();
   }
+
+  var newPageItems = [];
+  if(!twoPageOn || (pages.length % 2) ) {
+    newPageItems.push( makeFirstPage(_("new_page_message")) );
+  }
+
   PBS.KIDS.storybook.config.pages.push({
-    content: [
-      {
-        type: "TextArea",
-        x: 5,
-        y: 30,
-        width: 95,
-        align: "left",
-        color: "#222222",
-        size: font.size || 18,
-        font: font.name || "Arial",
-        lineHeight: layout.lineSpace || "120%",
-        text: _("new_page_message")
-      }
-    ]
+    content: newPageItems
   });
+
+  // clear and rebuild book
   $(".page.well").html("");
   renderBook(window, PBS);
 
@@ -594,7 +663,6 @@ PBS.KIDS.storybook.config = {
 	pages: []
 };
 
-
 // restore a book edit in progress
 if (load_book_id) {
   book_id = load_book_id;
@@ -610,21 +678,9 @@ if (load_book && load_book.length) {
   }
 
   for (var p = 0; p < pages.length; p++) {
+    var reloadPage = getTopText(pages[p].text) || getBottomText(pages[p].text);
     PBS.KIDS.storybook.config.pages.push({
-      content: [
-        {
-          type: "TextArea",
-          x: 5,
-          y: 30,
-          width: 95,
-          align: "left",
-          color: "#222222",
-          size: font.size || 18,
-          font: font.name || "Arial",
-          lineHeight: layout.lineSpace || "120%",
-          text: pages[p].text
-        }
-      ]
+      content: [reloadPage]
     });
   }
 
@@ -640,20 +696,7 @@ if (load_book && load_book.length) {
 } else {
   // starting new book
   PBS.KIDS.storybook.config.pages.push({
-    content: [
-      {
-        type: "TextArea",
-        x: 5,
-        y: 30,
-        width: 95,
-        align: "left",
-        color: "#222222",
-        size: font.size || 18,
-        font: font.name || "Arial",
-        lineHeight: layout.lineSpace || "120%",
-        text: _("first_page_message")
-      }
-    ]
+    content: [makeFirstPage()]
   });
 }
 

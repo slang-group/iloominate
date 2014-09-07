@@ -2,9 +2,17 @@
 implement layout
   save a page template to user and team
   build from a page template
-  top/mid/bottom
+  top/bottom
   single page or double page
   restricted by template
+
+text
+  antihighlight starting on first letter and word
+  antihighlight avoiding problems with comma
+  word spacing
+  words in sentence
+  sentences in page
+something wrong in LTR page jump clicks? can't do cover either
 
 no more drop in images?
   use blank images with file select
@@ -36,7 +44,6 @@ cleaner look and feel
   less or eliminate auto-text on initial pages
   use the white fading thing around images to make text look better?
     possible on PDF? use Canvas
-  antihighlight starting on first letter and word
 
 cleaner code
   better docs

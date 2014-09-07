@@ -121,7 +121,6 @@ exports.save = function (req, res) {
 
       book.layout.text = {
         top: (req.body["top-page"] === "on"),
-        middle: (req.body["middle-page"] === "on"),
         bottom: (req.body["bottom-page"] === "on"),
         bg: (req.body["full-page"] === "on"),
         span: (req.body["span-page"] === "on")
@@ -129,7 +128,6 @@ exports.save = function (req, res) {
 
       book.layout.image = {
         top: (req.body["top-image"] === "on"),
-        middle: (req.body["middle-image"] === "on"),
         bottom: (req.body["bottom-image"] === "on"),
         bg: (req.body["bg-image"] === "on"),
         span: (req.body["span-image"] === "on")

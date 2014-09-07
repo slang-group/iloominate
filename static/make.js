@@ -26,3 +26,19 @@ $("#lineSize").on('change', function() {
     $("#fontSize").val(lineSize);
   }
 });
+
+// don't let user remove all text
+$(".pagetext").on('change', function(e) {
+  var oneChecked = false;
+  $(".pagetext").each(function(i, checkbox) {
+    if(checkbox.checked) {
+      oneChecked = true;
+    }
+  });
+
+  if (!oneChecked) {
+    e.preventDefault();
+    e.target.checked = true;
+    return false;
+  }
+});
