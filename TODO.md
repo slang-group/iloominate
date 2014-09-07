@@ -36,6 +36,7 @@ cleaner look and feel
   less or eliminate auto-text on initial pages
   use the white fading thing around images to make text look better?
     possible on PDF? use Canvas
+  antihighlight starting on first letter and word
 
 cleaner code
   better docs

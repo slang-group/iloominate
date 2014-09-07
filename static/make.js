@@ -1,3 +1,6 @@
+// multilingual text input
+$("textarea").ime();
+
 // update font sample
 $("#fontSize, #fontName").on('change select', function() {
   $("#fontSample").css({

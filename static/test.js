@@ -131,10 +131,13 @@ var processImage = function (e) {
 };
 
 // process a word list upload
+var wordWhitelist = ['', 'world', 'नेपाल', 'this', 'is', 'your', 'first', 'page'];
+var letterWhitelist = ['abcdefghijklmnopqrstuvw.?!'];
+
 function setWhitelist (whitelist) {
   // reset existing whitelists
-  var wordWhitelist = [];
-  var letterWhitelist = [];
+  wordWhitelist = [];
+  letterWhitelist = [];
   for (var w=0; w<whitelist.length; w++) {
     var word = whitelist[w];
 
@@ -150,13 +153,18 @@ function setWhitelist (whitelist) {
       wordWhitelist.push(word);
     }
   }
+  letterWhitelist = [letterWhitelist.join('')];
 
   // update antihighlighter plugin
-  highlighter.antihighlight('setLetters', [letterWhitelist.join('')]);
+  highlighter.antihighlight('setLetters', letterWhitelist);
   highlighter.antihighlight('setWords', wordWhitelist);
 
   // make sure fonts have same properties, so highlights match words in textbox
-  $('.highlighter').css({ 'font-family': font.name });
+  $('.highlighter').css({
+    'font-family': font.name,
+    'font-size': font.size,
+    'line-height': layout.lineSpace
+  });
 
   return wordWhitelist;
 }
@@ -169,7 +177,7 @@ if ($("#logout").length) {
   menuItem.find("a").on("click", function() {
     $(".dropdown-menu.wordlists li").removeClass("active");
     menuItem.addClass("active");
-    setWhitelist(['hello', 'world', 'नेपाल', 'abcdefghijklmnopqrstuvw']);
+    setWhitelist(['hello', 'world', 'नेपाल', 'abcdefghijklmnopqrstuvw.?!']);
   });
 
   // download a copy of all user + team word lists, add to a menu
@@ -455,9 +463,16 @@ function renderBook(GLOBAL, PBS) {
 
     // activate antihighlight
     highlighter = $("textarea").antihighlight({
-      words: ['hello', 'world', 'नेपाल'],
-      letters: ['abcdefghijklmnopqrstuvw'],
+      words: wordWhitelist,
+      letters: letterWhitelist,
       caseSensitive: false
+    });
+
+    // match styling on antihighlight and textareas
+    $('.highlighter, textarea').css({
+      'font-family': font.name,
+      'font-size': font.size,
+      'line-height': layout.lineSpace
     });
 
     // multilingual input with jQuery.IME

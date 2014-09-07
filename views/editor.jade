@@ -173,12 +173,14 @@ html
 
     include partials/pbs_engine
 
+
+    script(type="text/javascript") var load_book_id, load_book, cover, layout, font;
     if book
-      script(type="text/javascript") var load_book_id = "#{book._id}"; var load_book = !{JSON.stringify(book.pages)};
-      if book.layout && book.layout.cover
-        script(type="text/javascript") var cover = !{JSON.stringify(book.layout.cover)}; var font = !{JSON.stringify(book.layout.font)};
-    else
-      script(type="text/javascript") var load_book_id, load_book, cover, font;
+      script(type="text/javascript") load_book_id = "#{book._id}"; load_book = !{JSON.stringify(book.pages)};
+      if book.layout
+        script(type="text/javascript") layout = !{JSON.stringify(book.layout.font)}; font = layout.font;
+        if book.layout.cover
+          script(type="text/javascript") cover = !{JSON.stringify(book.layout.cover)};
 
     script(type="text/javascript", src="/test.js")
 

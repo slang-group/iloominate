@@ -140,7 +140,7 @@ exports.save = function (req, res) {
         author: req.body.author || ""
       };
 
-      if (req.files.coverImage) {
+      if (req.files.coverImage && req.files.coverImage.size) {
         // upload image and then load book
         var imageStream = fs.createReadStream(req.files.coverImage.path, { encoding: 'binary' });
         var cloudStream = cloudinary.uploader.upload_stream(function(result){
