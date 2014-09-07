@@ -178,7 +178,7 @@ html
     if book
       script(type="text/javascript") load_book_id = "#{book._id}"; load_book = !{JSON.stringify(book.pages)};
       if book.layout
-        script(type="text/javascript") layout = !{JSON.stringify(book.layout.font)}; font = layout.font;
+        script(type="text/javascript") layout = !{JSON.stringify(book.layout)}; font = layout.font;
         if book.layout.cover
           script(type="text/javascript") cover = !{JSON.stringify(book.layout.cover)};
 

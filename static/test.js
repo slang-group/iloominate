@@ -8,9 +8,7 @@ var current_image = null;
 
 var book = null;
 var highlighter = null;
-cover = cover || {};
 
-font = font || {};
 if(font && font.name) {
   font.name = font.name.replace("web_", "");
 }
@@ -37,13 +35,13 @@ function saveCurrentPage(callback) {
       page_lister_right = page_lister - 1;
     }
 
-    $($(".page-list p")[page_lister]).text(page_text.substring(0,19));
+    $($(".page-list p")[page_lister]).text(page_text.substring(0, 19));
 
     // save content from the right page (if it exists)
     if(pages.length > current_page + 1) {
       page_text = $("#pbsRightPage textarea").val();
       PBS.KIDS.storybook.config.pages[current_page+1].content[0].text = page_text;
-      $($(".page-list p")[page_lister_right]).text(page_text.substring(0,19));
+      $($(".page-list p")[page_lister_right]).text(page_text.substring(0, 19));
       pages[current_page + 1].text = page_text;
     }
   }
@@ -162,8 +160,8 @@ function setWhitelist (whitelist) {
   // make sure fonts have same properties, so highlights match words in textbox
   $('.highlighter').css({
     'font-family': font.name,
-    'font-size': font.size,
-    'line-height': layout.lineSpace
+    'font-size': font.size + "pt",
+    'line-height': layout.lineSpace + "pt"
   });
 
   return wordWhitelist;
@@ -371,8 +369,10 @@ function upload() {
   saveCurrentPage(function(){
     $.post("/book", {pages: pages, book_id: book_id, _csrf: csrf_token}, function(response) {
       // redirect to newly created or updated book
-      book_id = response.id;
-      window.location = "/book/" + book_id;
+      if(!book_id || book_id !== response.id) {
+        book_id = response.id;
+        history.replaceState({}, "", "/edit?id=" + book_id);
+      }
     });
   });
 }
@@ -469,10 +469,10 @@ function renderBook(GLOBAL, PBS) {
     });
 
     // match styling on antihighlight and textareas
-    $('.highlighter, textarea').css({
+    $('.highlighter').css({
       'font-family': font.name,
-      'font-size': font.size,
-      'line-height': layout.lineSpace
+      'font-size': font.size + "pt",
+      'line-height': layout.lineSpace + "pt"
     });
 
     // multilingual input with jQuery.IME
@@ -510,13 +510,14 @@ $(".new-page").on("click", function() {
     content: [
       {
         type: "TextArea",
-        x: 10,
+        x: 5,
         y: 30,
-        width: 80,
+        width: 95,
         align: "left",
         color: "#222222",
-        size: font.size || 28,
+        size: font.size || 18,
         font: font.name || "Arial",
+        lineHeight: layout.lineSpace || "120%",
         text: _("new_page_message")
       }
     ]
@@ -583,8 +584,9 @@ PBS.KIDS.storybook.config = {
         width: 90,
         align: "center",
         color: "#fff",
-        size: font.size || 28,
+        size: font.size || 18,
         font: font.name || "Arial",
+        lineHeight: layout.lineSpace || "120%",
         text: cover.title || ""
       }
 		]
@@ -607,18 +609,19 @@ if (load_book && load_book.length) {
     pages.push({ text: _("first_page_message") });
   }
 
-  for (var p = 0; p < pageCap; p++) {
+  for (var p = 0; p < pages.length; p++) {
     PBS.KIDS.storybook.config.pages.push({
       content: [
         {
           type: "TextArea",
-          x: 10,
+          x: 5,
           y: 30,
-          width: 80,
+          width: 95,
           align: "left",
           color: "#222222",
-          size: font.size || 28,
+          size: font.size || 18,
           font: font.name || "Arial",
+          lineHeight: layout.lineSpace || "120%",
           text: pages[p].text
         }
       ]
@@ -640,13 +643,14 @@ if (load_book && load_book.length) {
     content: [
       {
         type: "TextArea",
-        x: 10,
+        x: 5,
         y: 30,
-        width: 80,
+        width: 95,
         align: "left",
         color: "#222222",
-        size: font.size || 28,
+        size: font.size || 18,
         font: font.name || "Arial",
+        lineHeight: layout.lineSpace || "120%",
         text: _("first_page_message")
       }
     ]
