@@ -65,6 +65,9 @@ app.get('/wordlist/inteam', routes.wordlists.inteam);
 app.get('/wordlist/:id', routes.wordlists.byid);
 app.post('/wordlist', routes.wordlists.save);
 
+// templates
+app.get('/template/:id', routes.templates.byid);
+
 // image editor
 app.get('/image/new', routes.images.create);
 app.get('/image/all', routes.images.all);

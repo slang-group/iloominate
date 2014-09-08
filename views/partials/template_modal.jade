@@ -1,0 +1,17 @@
+#templatemodal.modal.fade
+  div.modal-dialog
+    div.modal-content
+      div.modal-header
+        button.close(type="button", data-dismiss="modal", aria-hidden="true") x
+        h3.translate Template
+      div.modal-body
+        p.translate Save a new template
+        span.templatesample
+        div.form-group
+          label.translate(for="templatename") Name
+          input#templatename.form-control
+        div.clearfix
+
+      div.modal-footer
+        button.btn.btn-default.translate(type="button", data-dismiss="modal") Cancel
+        button.btn.btn-success.translate(type="button", data-dismiss="modal") Save

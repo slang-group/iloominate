@@ -21,6 +21,8 @@ html
 
     form.container(action="/make", method="POST", enctype="multipart/form-data")
       input#csrf(type='hidden', name='_csrf', value=token)
+      input#templatestore(type='hidden', name='templatename', value='')
+
       div.row
         div.col-md-2
           div.list-group.page-list.follow-page
@@ -36,18 +38,25 @@ html
         div.col-md-10
           noscript Enable JavaScript!
 
+          if loggedin && templates && templates.length
+            h3.translate Use Existing Template
+            select#loadtemplate(name="oldtemplate")
+              option.translate(value="") New Template
+              for template in templates
+                option(value="#{template._id}") #{template.name}
+
           a(name="paper")
           h3.translate Paper Size
 
           div.row
             div.col-md-6
               label
-                input(type="radio", name="paper-size", value="8.5x11", checked="checked")
+                input#fullpage(type="radio", name="paper-size", value="8.5x11", checked="checked")
                 span 8.5 x 11
 
             div.col-md-6
               label
-                input(type="radio", name="paper-size", value="5.5x8.5")
+                input#halfpage(type="radio", name="paper-size", value="5.5x8.5")
                 span 5.5 x 8.5 (fold an 8.5 x 11)
 
           hr
@@ -106,15 +115,15 @@ html
             div.col-md-6.line-labels
               h4.translate Difficulty
               label.translate sentences per page
-              input(type="number", name="per-page", value="10", min="1", max="10")
+              input#pageWords(type="number", name="per-page", value="10", min="1", max="10")
               br
               br
               label.translate words per sentence
-              input(type="number", name="per-sentence", value="30", min="1", max="50")
+              input#sentenceWords(type="number", name="per-sentence", value="30", min="1", max="50")
               br
               br
               label.translate word spacing
-              input(type="number", name="word-spacing", value="1", min="1", max="5")
+              input#wordSpace(type="number", name="word-spacing", value="1", min="1", max="5")
               br
               br
               label.translate line size
@@ -129,39 +138,39 @@ html
               h4.translate Text
               p.translate Allow:
               label
-                input.pagetext(type="checkbox", name="full-page")
+                input#textbg.pagetext(type="checkbox", name="full-page")
                 span.translate full page
               label
-                input.pagetext(type="checkbox", name="span-page")
+                input#textspan.pagetext(type="checkbox", name="span-page")
                 span.translate span both pages
               label
-                input.pagetext(type="checkbox", name="top-page", checked)
+                input#texttop.pagetext(type="checkbox", name="top-page", checked)
                 span.translate top of page
               label
-                input.pagetext(type="checkbox", name="bottom-page", checked)
+                input#textbottom.pagetext(type="checkbox", name="bottom-page", checked)
                 span.translate bottom of page
 
             div.col-md-6
               h4.translate Images
               p.translate Allow:
               label
-                input(type="checkbox", name="bg-image")
+                input#imagebg(type="checkbox", name="bg-image")
                 span.translate background image (one page)
               label
-                input(type="checkbox", name="span-image")
+                input#imagespan(type="checkbox", name="span-image")
                 span.translate span both pages
               label
-                input(type="checkbox", name="top-image", checked)
+                input#imagetop(type="checkbox", name="top-image", checked)
                 span.translate top of page
               label
-                input(type="checkbox", name="bottom-image", checked)
+                input#imagebottom(type="checkbox", name="bottom-image", checked)
                 span.translate bottom of page
 
           div.row
             br
             br
             br
-            input.btn.btn-large.btn-success(type="submit", value="Create Book")
+            a.translate.postbook.btn.btn-large.btn-success(href="#") Create Book
             br
             br
             br
@@ -169,6 +178,9 @@ html
       canvas.color-change.hide(width="164", height="164")
 
     include partials/icon_modal
+
+    if loggedin
+      include partials/template_modal
 
     // 3rd party libraries
     script(type="text/javascript", src="/jquery-1.11.0.min.js")

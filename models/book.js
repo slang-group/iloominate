@@ -27,6 +27,7 @@ var bookSchema = mongoose.Schema({
       name: String,
       size: Number
     },
+    paperSize: String,
     wordSpace: Number,
     lineSpace: Number,
     pageWords: Number,

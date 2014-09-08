@@ -1,10 +1,6 @@
 
 implement layout
-  save a page template to user and team
-  build from a page template
-  top/bottom
-  single page or double page
-  restricted by template
+  add things to top/bottom, single page or double page
 
 text
   antihighlight starting on first letter and word
@@ -12,7 +8,7 @@ text
   word spacing
   words in sentence
   sentences in page
-something wrong in LTR page jump clicks? can't do cover either
+  something wrong in LTR page jump clicks? can't do cover either
 
 no more drop in images?
   use blank images with file select

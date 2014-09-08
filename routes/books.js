@@ -3,6 +3,7 @@ var cloudinary = require('cloudinary');
 var md5 = require('MD5');
 
 var Book = require('../models/book');
+var Template = require('../models/template');
 var t = require('../static/translations');
 
 // helper function to store multiple pages
@@ -137,6 +138,25 @@ exports.save = function (req, res) {
         title: req.body.title || "",
         author: req.body.author || ""
       };
+
+      book.layout.paperSize = req.body["paper-size"];
+
+      if (req.body.templatename) {
+        // save template
+        var template = new Template();
+        template.layout = JSON.parse(JSON.stringify(book.layout));
+        template.name = req.body.templatename;
+        template.user_id = book.user_id;
+        if (req.user.teams.length) {
+          template.team = req.user.teams[0];
+        }
+
+        template.save(function(err) {
+          if (err) {
+            throw err;
+          }
+        });
+      }
 
       if (!req.body.coverUrl && req.files.coverImage && req.files.coverImage.size) {
         // upload image and then load book

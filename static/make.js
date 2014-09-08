@@ -43,7 +43,7 @@ $(".pagetext").on('change', function(e) {
   }
 });
 
-// let user select an icon for the cover
+// let user select a colorable icon for the cover
 $('.addicon').click(function() {
   $('#iconmodal').modal('show');
 });
@@ -88,4 +88,64 @@ $(".color-bar span").on("click", function(e){
 $('#iconmodal img').on('click', function(e) {
   $('#iconmodal').modal('hide');
   $('.iconurl').val(e.target.src);
+});
+
+$(".postbook").click(function(e) {
+  // if the user is logged in, give them the option to save as a template
+  // also possible the user is working from an existing template
+  // otherwise post now
+  if($('#templatemodal').length && $("#loadtemplate").val() === "") {
+    $('.templatesample').text();
+    $("#templatemodal").modal('show');
+  } else {
+    $("form").submit();
+  }
+});
+
+$('#templatename').on('change blur', function() {
+  // constantly update template name
+  $('#templatestore').val($('#templatename').val());
+});
+
+$("#templatemodal .btn-success").click(function(e) {
+  // create book and template together
+  $("form").submit();
+});
+
+$("#loadtemplate").on("change", function() {
+  $.getJSON("/template/" + $("#loadtemplate").val(), function(layout) {
+
+    // set all properties from loaded template
+    $("#fontName").val(layout.font.name);
+    $("#fontSize").val(layout.font.size);
+    $("#lineSize").val(layout.lineSpace);
+
+    if(layout.paperSize === "8.5x11") {
+      $("#fullpage")[0].checked = true;
+    } else {
+      $("#halfpage")[0].checked = true;
+    }
+
+    var fromLayout = function(name) {
+      $("#" + name).val(layout[name]);
+    };
+
+    fromLayout("pageWords");
+    fromLayout("sentenceWords");
+    fromLayout("wordSpace");
+
+    var setCheckbox = function(id, value) {
+      $("#" + id).attr("checked", value);
+    };
+
+    setCheckbox("textbg", layout.text.bg);
+    setCheckbox("textbottom", layout.text.bottom);
+    setCheckbox("textspan", layout.text.span);
+    setCheckbox("texttop", layout.text.top);
+
+    setCheckbox("imagebg", layout.image.bg);
+    setCheckbox("imagebottom", layout.image.bottom);
+    setCheckbox("imagespan", layout.image.span);
+    setCheckbox("imagetop", layout.image.top);
+  });
 });

@@ -1,5 +1,6 @@
 var t = require('../static/translations');
 var Book = require('../models/book');
+var Template = require('../models/template');
 
 exports.home = function (req, res) {
   res.render('home', {
@@ -12,11 +13,25 @@ exports.maker = function (req, res) {
   if(req.query.id) {
     // editing layout of book? not currently supported
   } else {
-    res.render('make', {
-      translations: t.getTranslations(req, res),
-      loggedin: req.isAuthenticated(),
-      book: null
-    });
+    if(req.user) {
+      Template.find().select('name').exec(function(err, templates) {
+        if(err) {
+          throw err;
+        }
+        res.render('make', {
+          translations: t.getTranslations(req, res),
+          loggedin: req.isAuthenticated(),
+          templates: templates,
+          book: null
+        });
+      });
+    } else {
+      res.render('make', {
+        translations: t.getTranslations(req, res),
+        loggedin: req.isAuthenticated(),
+        book: null
+      });
+    }
   }
 };
 
@@ -46,3 +61,4 @@ exports.teams = require('./teams');
 exports.books = require('./books');
 exports.wordlists = require('./wordlists');
 exports.images = require('./images');
+exports.templates = require('./templates');
