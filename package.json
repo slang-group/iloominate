@@ -14,7 +14,8 @@
     "bcrypt-nodejs": "latest",
     "cloudinary": "1.0.X",
     "MD5": "1.2.X",
-    "postmark": "0.2.X"
+    "postmark": "0.2.X",
+    "rhyme-plus": "0.0.6"
   },
   "devDependencies": {
     "jshint": "2.5.X",

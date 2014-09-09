@@ -47,6 +47,7 @@ Includes:
 * [antihighlight](https://github.com/mapmeld/jQuery-antihighlight) fork of [highlightTextarea](http://www.strangeplanet.fr/work/jquery-highlighttextarea/) - GPL/MIT licenses
 * [Blockee](https://github.com/codeforamerica/blockee) - sprite code, BSD license
 * [Bootstrap / Bootswatch](http://bootswatch.com/lumen/) - MIT license
+* [CMU Pronouncing Dictionary](http://en.wikipedia.org/wiki/CMU_Pronouncing_Dictionary) - public domain
 * [Google Noto Fonts](http://www.google.com/get/noto) - Apache License
 * [Google Web Fonts](https://www.google.com/fonts/earlyaccess) - SIL Open Font License
 * [HTML5-Storybook](https://github.com/PBS-KIDS/HTML5-Storybook/) - BSD license
@@ -55,6 +56,7 @@ Includes:
 * [jQuery.IME](https://github.com/wikimedia/jquery.ime) - GPL/MIT licenses
 * [jsPDF](https://github.com/MrRio/jsPDF) - MIT license
 * [KineticJS](https://github.com/ericdrowell/KineticJS/) - GPL/MIT licenses
+* [node-rhyme-plus](https://github.com/mapmeld/node-rhyme) - MIT license
 * [polyglot.js](https://github.com/airbnb/polyglot.js) - BSD license
 * [Simple HTML5 Drawing App](https://github.com/williammalone/Simple-HTML5-Drawing-App) - Apache license
 * Wikipedia translations for sample Arabic and Devanagari text - CC-BY-SA license

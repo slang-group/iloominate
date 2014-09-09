@@ -3,6 +3,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var flash = require('connect-flash');
+var rhyme = require('rhyme-plus');
 
 // connect to MongoDB for user account support
 var User = require('./models/user');
@@ -83,6 +84,13 @@ app.post('/reset', password_reset.reset_mail);
 app.get('/reset', password_reset.reset_confirm);
 app.get('/profile', isLoggedIn, routes.users.profile);
 app.get('/user/:id', routes.users.byid);
+
+// rhyme test
+rhyme(function(r) {
+  app.get('/rhyme/:word', function(req, res) {
+    res.json(r.rhyme(req.params.word));
+  });
+}, (__dirname + '/lib/dictionary/cmudict.0.7a'));
 
 app.post('/signup', passport.authenticate('local-signup', {
   successRedirect: '/profile',
