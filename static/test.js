@@ -9,6 +9,7 @@ var current_image = null;
 var book = null;
 var highlighter = null;
 var twoPageOn = false;
+var phonicsWhitelist = [];
 
 if(font && font.name) {
   font.name = font.name.replace("web_", "");
@@ -156,11 +157,7 @@ function loadPhonics(textBlurb, callback) {
   });
 }
 
-// process a word list upload
-var wordWhitelist = ['', 'world', 'नेपाल', 'this', 'is', 'your', 'first', 'page'];
-var letterWhitelist = ['abcdefghijklmnopqrstuvw.?!'];
-var phonicsWhitelist = [];
-loadPhonics(wordWhitelist.join(' '), function(wordlist) {
+function loadPhonicsIntoWorksheet(wordlist) {
   // add each word
   for(var word in wordlist) {
     if (wordlist.hasOwnProperty(word)) {
@@ -176,7 +173,12 @@ loadPhonics(wordWhitelist.join(' '), function(wordlist) {
       }
     }
   }
-});
+}
+
+// process a word list upload
+var wordWhitelist = ['', 'world', 'नेपाल', 'this', 'is', 'your', 'first', 'page'];
+var letterWhitelist = ['abcdefghijklmnopqrstuvw.?!'];
+loadPhonics(wordWhitelist.join(' '), loadPhonicsIntoWorksheet);
 
 function setWhitelist (whitelist) {
   // reset existing whitelists
@@ -197,6 +199,7 @@ function setWhitelist (whitelist) {
       wordWhitelist.push(word);
     }
   }
+  loadPhonics(wordWhitelist.join(' '), loadPhonicsIntoWorksheet);
   letterWhitelist = [letterWhitelist.join('')];
 
   // update antihighlighter plugin
@@ -567,13 +570,33 @@ function renderBook(GLOBAL, PBS) {
 
     // when user leaves the textarea, do more difficult check for phonics
     // only English words are currently in the system
-    if (_("en") === "en") {
+    if ((_("en") === "en") && (layout.grader && layout.grader === "phonics")) {
       $("textarea").on("blur", function (e) {
         if (phonicsWhitelist && phonicsWhitelist.length) {
           var text = $(e.target).val();
           checkPhonics(text);
         }
       });
+    }
+
+    // when user leave the textarea, make sure words have good spacing
+    if(layout.wordSpace) {
+      if (typeof layout.wordSpace === "number") {
+        var spacer = "  ";
+        for (var i = 2; i < layout.wordSpace; i++) {
+          spacer += " ";
+        }
+        layout.wordSpace = spacer;
+      }
+      if ((typeof layout.wordSpace === "string") && (layout.wordSpace.length > 1)) {
+        $("textarea").on("blur", function (e) {
+          var text = $(e.target).val();
+          text = text.replace(/\s+/g, layout.wordSpace);
+          $(e.target).val(text);
+          // doesn't work on right page
+          highlighter.antihighlight('highlight');
+        });
+      }
     }
 
     // when user leaves the textarea, save its contents

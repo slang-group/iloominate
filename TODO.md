@@ -4,8 +4,7 @@ implement layout
 
 text
   antihighlight starting on first letter and word
-  antihighlight avoiding problems with comma
-  word spacing
+  antihighlight avoiding problems with punctuation
   words in sentence
   sentences in page
   something wrong in LTR page jump clicks? can't do cover either
