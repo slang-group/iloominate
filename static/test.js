@@ -12,6 +12,13 @@ var twoPageOn = false;
 
 if(font && font.name) {
   font.name = font.name.replace("web_", "");
+} else {
+  font = {
+    name: "arial",
+    size: 18
+  };
+  cover = {};
+  layout = {};
 }
 
 function saveCurrentPage(callback) {
@@ -132,9 +139,44 @@ var processImage = function (e) {
     .find("h4").hide();
 };
 
+// async: process English text and callback with phonics information
+function loadPhonics(textBlurb, callback) {
+  var text = textBlurb.replace(/(\r|\n)/g, " ").split(' ');
+  var words = [];
+  for(var w = 0; w < text.length; w++) {
+    var word = text[w].replace(/\b[-.,()&$#!\[\]{}"']+\B|\B[-.,()&$#!\[\]{}"']+\b/g, "");
+    if (word) {
+      words.push(word);
+    }
+  }
+  $.getJSON("/phonics?words=" + words.join(","), function (phonics) {
+    if (callback && typeof callback === 'function') {
+      callback(phonics);
+    }
+  });
+}
+
 // process a word list upload
 var wordWhitelist = ['', 'world', 'नेपाल', 'this', 'is', 'your', 'first', 'page'];
 var letterWhitelist = ['abcdefghijklmnopqrstuvw.?!'];
+var phonicsWhitelist = [];
+loadPhonics(wordWhitelist.join(' '), function(wordlist) {
+  // add each word
+  for(var word in wordlist) {
+    if (wordlist.hasOwnProperty(word)) {
+      // for each valid pronunciation
+      for(var p = 0; p < wordlist[word].length; p++) {
+        // add each syllable once
+        for(var s = 0; s < wordlist[word][p].length; s++) {
+          var syllable = wordlist[word][p][s];
+          if (phonicsWhitelist.indexOf(syllable) === -1) {
+            phonicsWhitelist.push(syllable);
+          }
+        }
+      }
+    }
+  }
+});
 
 function setWhitelist (whitelist) {
   // reset existing whitelists
@@ -406,6 +448,40 @@ $('.iconchooser').on('click', function() {
   }
 });
 
+function checkPhonics(textBlurb) {
+  loadPhonics(textBlurb, function(phonics) {
+    var rejectWords = [];
+    for (var word in phonics) {
+      if (phonics.hasOwnProperty(word)) {
+        var wordWorks = false;
+        for (var p = 0; p < phonics[word].length; p++) {
+          var pronunciationWorks = true;
+          for (var s = 0; s < phonics[word][p].length; s++) {
+            var syllable = phonics[word][p][s];
+            if (phonicsWhitelist.indexOf(syllable) === -1) {
+              // unknown phoneme - reject this pronunciation
+              pronunciationWorks = false;
+              break;
+            }
+          }
+          if (pronunciationWorks) {
+            // one of this word's pronunciations works - accept word
+            wordWorks = true;
+          }
+        }
+        if (!wordWorks && phonics[word].length) {
+          // this word is known and it was rejected
+          rejectWords.push(word);
+        }
+      }
+    }
+    if (rejectWords.length) {
+      // highlight these phonics words
+      highlighter.antihighlight('setReject', rejectWords);
+    }
+  });
+}
+
 // color changer on icons
 var rgb_of = {
   "pink": [255, 105, 180],
@@ -488,6 +564,17 @@ function renderBook(GLOBAL, PBS) {
 
     // multilingual input with jQuery.IME
     $("textarea").ime();
+
+    // when user leaves the textarea, do more difficult check for phonics
+    // only English words are currently in the system
+    if (_("en") === "en") {
+      $("textarea").on("blur", function (e) {
+        if (phonicsWhitelist && phonicsWhitelist.length) {
+          var text = $(e.target).val();
+          checkPhonics(text);
+        }
+      });
+    }
 
     // when user leaves the textarea, save its contents
     $("textarea").on("blur", saveCurrentPage);
