@@ -5,7 +5,8 @@ var wordListSchema = mongoose.Schema({
   details: String,
   words: Array,
   hash: String,
-  user: String
+  user: String,
+  grader: String
 });
 
 module.exports = mongoose.model('WordList', wordListSchema);

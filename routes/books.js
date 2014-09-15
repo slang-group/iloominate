@@ -140,6 +140,7 @@ exports.save = function (req, res) {
       };
 
       book.layout.paperSize = req.body["paper-size"];
+      book.layout.grader = req.body.grader;
 
       if (req.body.templatename) {
         // save template

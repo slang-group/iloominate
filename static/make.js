@@ -118,6 +118,7 @@ $("#loadtemplate").on("change", function() {
     // set all properties from loaded template
     $("#fontName").val(layout.font.name);
     $("#fontSize").val(layout.font.size);
+    $("#fontName, #fontSize").trigger('change');
     $("#lineSize").val(layout.lineSpace);
 
     if(layout.paperSize === "8.5x11") {

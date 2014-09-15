@@ -1,6 +1,8 @@
+phonics version of word lists
 
 implement layout
-  add things to top/bottom, single page or double page
+  don't auto-add to next page
+  add things to top/bottom, single page, background through modal
 
 text
   antihighlight starting on first letter and word

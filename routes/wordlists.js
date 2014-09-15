@@ -26,7 +26,7 @@ exports.inteam = function (req, res) {
     if(req.user.teams.length) {
       // select first team for now
       var teamName = req.user.teams[0];
-      Team.findOne({ 'name' :  teamName }, function(err, team) {
+      Team.findOne({ name: teamName, grader: req.query.grader }, function(err, team) {
         if (err) {
           throw err;
         }
@@ -85,6 +85,7 @@ exports.save = function (req, res) {
         list = new WordList();
         list.name = req.body.name;
         list.hash = hash;
+        list.grader = req.body.grader || "words";
         if(req.isAuthenticated()){
           list.user = req.user._id;
         }

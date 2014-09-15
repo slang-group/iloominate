@@ -24,6 +24,7 @@ var templateSchema = mongoose.Schema({
       size: Number
     },
     paperSize: String,
+    grader: String,
     wordSpace: Number,
     lineSpace: Number,
     pageWords: Number,

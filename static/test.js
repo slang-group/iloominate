@@ -199,12 +199,15 @@ function setWhitelist (whitelist) {
       wordWhitelist.push(word);
     }
   }
-  loadPhonics(wordWhitelist.join(' '), loadPhonicsIntoWorksheet);
-  letterWhitelist = [letterWhitelist.join('')];
 
   // update antihighlighter plugin
-  highlighter.antihighlight('setLetters', letterWhitelist);
-  highlighter.antihighlight('setWords', wordWhitelist);
+  if (layout.grader === 'phonics') {
+    loadPhonics(wordWhitelist.join(' '), loadPhonicsIntoWorksheet);
+  } else {
+    letterWhitelist = [letterWhitelist.join('')];
+    highlighter.antihighlight('setLetters', letterWhitelist);
+    highlighter.antihighlight('setWords', wordWhitelist);
+  }
 
   // make sure fonts have same properties, so highlights match words in textbox
   $('.highlighter').css({
@@ -229,7 +232,7 @@ if ($("#logout").length) {
 
   // download a copy of all user + team word lists, add to a menu
   var wordlists_by_id = {};
-  $.getJSON("/wordlist/inteam", function (metalist) {
+  $.getJSON("/wordlist/inteam?grader=" + (layout.grader || "words"), function (metalist) {
     $.each(metalist, function(i, list) {
       var menuItem = $("<li role='presentation'>");
       menuItem.append($("<a href='#' role='menuitem'>").text(list.name));
@@ -313,7 +316,7 @@ $("#wordmodal .save").on("click", function() {
 
   } else {
     // online - post word list to server
-    $.post("/wordlist", {name: name, wordlist: wordlist, _csrf: csrf_token}, function(response) {
+    $.post("/wordlist", {name: name, wordlist: wordlist, _csrf: csrf_token, grader: (layout.grader || "words")}, function(response) {
       console.log(response);
     });
   }
@@ -545,11 +548,17 @@ function renderBook(GLOBAL, PBS) {
     current_page = book.getPage();
 
     // activate antihighlight
-    highlighter = $("textarea").antihighlight({
-      words: wordWhitelist,
-      letters: letterWhitelist,
-      caseSensitive: false
-    });
+    if (layout.grader === "phonics") {
+      highlighter = $("textarea").antihighlight({
+        caseSensitive: false
+      });
+    } else {
+      highlighter = $("textarea").antihighlight({
+        words: wordWhitelist,
+        letters: letterWhitelist,
+        caseSensitive: false
+      });
+    }
 
     // match styling on antihighlight and textareas
     $('.highlighter').css({

@@ -58,6 +58,20 @@ html
               label
                 input#halfpage(type="radio", name="paper-size", value="5.5x8.5")
                 span 5.5 x 8.5 (fold an 8.5 x 11)
+          hr
+
+          h3.translate Grade System
+
+          div.row
+            div.col-md-6
+              label
+                input#words(type="radio", name="grader", value="words", checked="checked")
+                span.translate Word List
+
+            div.col-md-6
+              label
+                input#phonics(type="radio", name="grader", value="phonics")
+                span.translate Phonics
 
           hr
           a(name="cover")
@@ -110,7 +124,7 @@ html
 
               br
               br
-              span#fontSample.translate(style="font-family: Arial; font-size: 28pt;") Fonts and Letters
+              span#fontSample.translate(style="font-family: Arial; font-size: 18pt;") Fonts and Letters
 
             div.col-md-6.line-labels
               h4.translate Difficulty
