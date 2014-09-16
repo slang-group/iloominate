@@ -78,7 +78,29 @@ var allTranslations = {
     "words per page": "words per page",
     "words per sentence": "words per sentence",
     "Writing": "Writing", // Writing menu
-    "You are signed in.": "You are signed in."
+    "You are signed in.": "You are signed in.",
+
+    // homepage
+    "Storybook App": "Storybook App",
+    "An app for writing children's books.": "An app for writing children's books.",
+    "You can write books when you're online or offline.": "You can write books when you're online or offline.",
+    "It's free and easy to use.": "It's free and easy to use.",
+    "Multilingual": "Multilingual",
+    "example_lang": "Examples in English, Spanish, and Haitian Creole.",
+    "unicode": "Tested with Latin, Arabic, and Devanagari scripts. Unicode compatible.",
+    "easy_translate": "Easy to translate UI into new languages.",
+    "Creative and Collaborative": "Creative and Collaborative",
+    "sign_up_users": "Sign up users and create teams online.",
+    "share_with_team": "Share word lists and images with all team members.",
+    "Designed by Educators": "Designed by Educators",
+    "our_team": "Our team is composed of teachers and technologists focused on the future of education.",
+    "Printable and Portable": "Printable and Portable",
+    "work_offline": "Write stories, draw images, and print stories while offline.",
+    "computer_types": "Use with Windows, Mac, or Chromebook computers.",
+    "download_app_store": "Download iLoominate from the Google Chrome App Store.",
+    "Open Source": "Open Source",
+    "built_open": "Our project is built on open source technology, and we have released all of our code with an open source license, too.",
+    "js_coders": "JavaScript coders can join the project on"
   },
   "es": {
     "About the team": "El equipo",
@@ -159,7 +181,29 @@ var allTranslations = {
     "words per page": "words per page",
     "words per sentence": "words per sentence",
     "Writing": "Escribiendo",
-    "You are signed in.": "Ha iniciado su sesión."
+    "You are signed in.": "Ha iniciado su sesión.",
+
+    // homepage
+    "Storybook App": "Aplicación de Libros",
+    "An app for writing children's books.": "An app for writing children's books.",
+    "You can write books when you're online or offline.": "Puede escribir libros mientras que en línea o fuera de línea",
+    "It's free and easy to use.": "Usar es gratis y fácil.",
+    "Multilingual": "Multilingüe",
+    "example_lang": "Ejemplos en ingles, español, y creole haitiano.",
+    "unicode": "Tested with Latin, Arabic, and Devanagari scripts. Unicode compatible.",
+    "easy_translate": "Easy to translate UI into new languages.",
+    "Creative and Collaborative": "Creativa y Colaborativa",
+    "sign_up_users": "Sign up users and create teams online.",
+    "share_with_team": "Share word lists and images with all team members.",
+    "Designed by Educators": "Diseño de Educadores",
+    "our_team": "Our team is composed of teachers and technologists focused on the future of education.",
+    "Printable and Portable": "Imprimible y Portátil",
+    "work_offline": "Escribir cuentos, dibujar, y imprimir fuera de línea.",
+    "computer_types": "Computadoras Windows, Mac, y Chromebook.",
+    "download_app_store": "Descargar iLoominate del Google Chrome App Store.",
+    "Open Source": "Código Abierto",
+    "built_open": "Our project is built on open source technology, and we have released all of our code with an open source license, too.",
+    "js_coders": "JavaScript coders can join the project on"
   },
   "ht": {
     "About the team": "About the team",
@@ -240,7 +284,29 @@ var allTranslations = {
     "words per page": "words per page",
     "words per sentence": "words per sentence",
     "Writing": "Writing", // writing menu
-    "You are signed in.": "You are signed in."
+    "You are signed in.": "You are signed in.",
+
+    // homepage
+    "Storybook App": "Storybook App",
+    "An app for writing children's books.": "An app for writing children's books.",
+    "You can write books when you're online or offline.": "You can write books when you're online or offline.",
+    "It's free and easy to use.": "It's free and easy to use.",
+    "Multilingual": "Multilingual",
+    "example_lang": "Examples in English, Spanish, and Haitian Creole.",
+    "unicode": "Tested with Latin, Arabic, and Devanagari scripts. Unicode compatible.",
+    "easy_translate": "Easy to translate UI into new languages.",
+    "Creative and Collaborative": "Creative and Collaborative",
+    "sign_up_users": "Sign up users and create teams online.",
+    "share_with_team": "Share word lists and images with all team members.",
+    "Designed by Educators": "Designed by Educators",
+    "our_team": "Our team is composed of teachers and technologists focused on the future of education.",
+    "Printable and Portable": "Printable and Portable",
+    "work_offline": "Write stories, draw images, and print stories while offline.",
+    "computer_types": "Use with Windows, Mac, or Chromebook computers.",
+    "download_app_store": "Download iLoominate from the Google Chrome App Store.",
+    "Open Source": "Open Source",
+    "built_open": "Our project is built on open source technology, and we have released all of our code with an open source license, too.",
+    "js_coders": "JavaScript coders can join the project on"
   },
   /* not actual translations below - still proof of concept */
   "ar": {

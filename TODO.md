@@ -1,7 +1,9 @@
 make and edit words lists and phonics lists visually
 Spanish (and hopefully Creole? in phonics)
-save layout
-reload multiple text + image
+save layout - reload multiple text + image
+skip pageModal if user has only one option
+let user create book from existing template, share templates across teams
+more pixels on canvases
 
 text
   antihighlight starting on first letter and word
@@ -38,9 +40,6 @@ revisit PDF-maker
 cleaner code
   better docs
   split up test.js
-
-translations
-  include homepage and other blocks
 
 docs
   writing the manual
