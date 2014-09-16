@@ -2,7 +2,7 @@
 var csrf_token = $('#csrf').val();
 
 // store page content
-var pages = [{ text: "", image: null }];
+var pages = [{ text: [], image: [] }];
 var current_page = 0;
 var current_image = null;
 
@@ -10,6 +10,7 @@ var book = null;
 var highlighter = null;
 var twoPageOn = false;
 var phonicsWhitelist = [];
+var activeImage = null;
 
 if(font && font.name) {
   font.name = font.name.replace("web_", "");
@@ -34,11 +35,30 @@ function saveCurrentPage(callback) {
   current_page = Math.floor(current_page / 2) * 2;
 
   if($("#pbsLeftPage").html()) {
-    // save content from the left page (if it exists)
-    page_text = $("#pbsLeftPage textarea").val();
-    pages[current_page].text = page_text;
+    // save text content from the left page (if it exists)
+    pages[current_page].text = [];
+    var textAreas = $("#pbsLeftPage textarea");
+    textAreas.each(function (i, textArea) {
+      var pageText = $(textArea).val();
+      pages[current_page].text.push(pageText);
+      PBS.KIDS.storybook.config.pages[current_page].content[i].text = pageText;
+    });
 
-    PBS.KIDS.storybook.config.pages[current_page].content[0].text = page_text;
+    // save images
+    pages[current_page].image = [];
+    var imgs = $("#pbsLeftPage .pbsSprite");
+    var img_offset = textAreas.length;
+    imgs.each(function (i, img) {
+      // skip the background canvas unless this page specifically styles it
+      if (!i && !PBS.KIDS.storybook.config.pages[current_page].background.url) {
+        img_offset--;
+        return;
+      }
+
+      var imgURL = img.toDataURL();
+      pages[current_page].image.push(imgURL);
+      PBS.KIDS.storybook.config.pages[current_page].content[i + img_offset].url = imgURL;
+    });
 
     var page_lister = current_page;
     var page_lister_right = current_page + 1;
@@ -47,14 +67,42 @@ function saveCurrentPage(callback) {
       page_lister_right = page_lister - 1;
     }
 
-    $($(".page-list p")[page_lister]).text(page_text.substring(0, 19));
+    // show a snippet of text in the left nav
+    if (pages[current_page].text.length) {
+      $($(".page-list p")[page_lister]).text(pages[current_page].text[0].substring(0, 19));
+    }
 
     // save content from the right page (if it exists)
     if(pages.length > current_page + 1) {
-      page_text = $("#pbsRightPage textarea").val();
-      PBS.KIDS.storybook.config.pages[current_page+1].content[0].text = page_text;
-      $($(".page-list p")[page_lister_right]).text(page_text.substring(0, 19));
-      pages[current_page + 1].text = page_text;
+
+      // update text areas from right page
+      pages[current_page + 1].text = [];
+      var rightTextAreas = $("#pbsRightPage textarea");
+      rightTextAreas.each(function(i, textArea) {
+        var pageText = $(textArea).val();
+        pages[current_page + 1].text.push(pageText);
+        PBS.KIDS.storybook.config.pages[current_page + 1].content[i].text = pageText;
+      });
+
+      // update images from right page
+      pages[current_page + 1].image = [];
+      var rightImgs = $("#pbsRightPage .pbsSprite");
+      var rightImgOffset = rightTextAreas.length;
+      rightImgs.each(function (i, img) {
+        // skip the background canvas unless this page specifically styles it
+        if (!i && !PBS.KIDS.storybook.config.pages[current_page + 1].background.url) {
+          rightImgOffset--;
+          return;
+        }
+
+        var imgURL = img.toDataURL();
+        pages[current_page + 1].image.push(imgURL);
+        PBS.KIDS.storybook.config.pages[current_page + 1].content[i + rightImgOffset].url = imgURL;
+      });
+
+      if (pages[current_page + 1].text.length) {
+        $($(".page-list p")[page_lister_right]).text(pages[current_page + 1].text[0].substring(0, 19));
+      }
     }
   }
 
@@ -432,16 +480,20 @@ $(".upload").on("click", upload);
 
 // add icon from iconmodal
 $(".chooseicon").on("click", function() {
-  $('#iconmodal').modal('show').find('.modal-body');
+  activeImage = null;
   $.getJSON("/image/inteam", function (imagelist) {
+    var modalBody = $('#iconmodal .modal-body');
     for(var i = 0; i < imagelist.length; i++) {
       var img = $('<img/>').attr('src', imagelist[i].url).addClass('col-md-3');
-      $('#iconmodal .modal-body').append(img);
+      modalBody.append(img);
     }
-    $('#iconmodal .modal-body').append($('<div></div>').addClass('clearfix'));
-    $('#iconmodal .modal-body img').on('click', function(e) {
+    modalBody.append($('<div></div>').addClass('clearfix'));
+    modalBody.find('img').on('click', function(e) {
       // add to current page
-      var ctx = $(".pbsPageContainer canvas")[0].getContext('2d');
+      var canvas = $(".pbsPageContainer canvas")[0];
+      var ctx = canvas.getContext('2d');
+      ctx.fillColor = "#fff";
+      ctx.fillRect(0, 0, 100, 100);
       ctx.drawImage(e.target, 0, 0, 100, 100);
       $('#iconmodal').modal('hide');
     });
@@ -608,6 +660,35 @@ function renderBook(GLOBAL, PBS) {
       }
     }
 
+    // make images clickable
+    $(".pbsSprite").click(function (e) {
+      var canvas = e.target;
+      if ($(canvas).hasClass("pbsPageCanvas")) {
+        // clicked on the background canvas - is this customized?
+        var pageID = $("#pbsRightPage .pbsSprite").parent().parent().attr("id");
+        if (pageID === "pbsLeftPage") {
+          if (!PBS.KIDS.storybook.config.pages[current_page].background.url) {
+            return;
+          }
+        } else if (pageID === "pbsRightPage") {
+          if (!PBS.KIDS.storybook.config.pages[current_page + 1].background.url) {
+            return;
+          }
+        } else {
+          // cover?
+          return;
+        }
+      }
+      $("#iconmodal").modal('show');
+      $("#iconmodal .modal-body").find('img').click(function (e) {
+        var ctx = canvas.getContext('2d');
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0, 0, 500, 250);
+        ctx.drawImage(e.target, 0, 0, 300, 300);
+        $("#iconmodal").modal('hide');
+      });
+    });
+
     // when user leaves the textarea, save its contents
     $("textarea").on("blur", saveCurrentPage);
   });
@@ -627,12 +708,21 @@ function getGenericText(text) {
   };
 }
 
+function getGenericImg() {
+  return {
+    type: "Sprite",
+    x: 2.5,
+    width: 95,
+    url: "images/blank.png"
+  };
+}
+
 function getTopText(text) {
   if (layout && layout.text && !layout.text.top) {
     return false;
   }
   var box = getGenericText(text);
-  box.y = 30;
+  box.y = 0;
   return box;
 }
 
@@ -641,7 +731,7 @@ function getBottomText(text) {
     return false;
   }
   var box = getGenericText(text);
-  box.y = 100;
+  box.y = 105;
   return box;
 }
 
@@ -666,6 +756,24 @@ function getTwoPageText(text) {
   return box;
 }
 
+function getTopImg() {
+  if (layout && layout.image && !layout.image.top) {
+    return false;
+  }
+  var box = getGenericImg();
+  box.y = 0;
+  return box;
+}
+
+function getBottomImg() {
+  if (layout && layout.image && !layout.image.bottom) {
+    return false;
+  }
+  var box = getGenericImg();
+  box.y = 50;
+  return box;
+}
+
 function makeFirstPage(text) {
   text = text || _("first_page_message");
   return (getTopText(text) || getBottomText(text) || getFullPageText(text) || getTwoPageText(text));
@@ -673,8 +781,12 @@ function makeFirstPage(text) {
 
 // adding a new page
 $(".new-page").on("click", function() {
+  $("#pagemodal").modal('show');
+});
+
+function addNewPage(e) {
   // create new page in left menu
-  pages.push({ text: "", image: null });
+  pages.push({ text: [], image: [] });
   var addPage = $("<a class='list-group-item' href='#'></a>");
   addPage.append($("<h4 class='list-group-item-heading'>" + _("page_num", { page: pages.length }) + "</h4>"));
   addPage.append($("<p class='list-group-item-text'></p>"));
@@ -696,11 +808,43 @@ $(".new-page").on("click", function() {
   }
 
   var newPageItems = [];
-  if(!twoPageOn || (pages.length % 2) ) {
-    newPageItems.push( makeFirstPage(_("new_page_message")) );
+  var background = {};
+  if (e && e.target) {
+    // arriving from page modal
+    $("#pagemodal .textposition").each(function(i, textPos) {
+      if (textPos.checked) {
+        if (textPos.name === "top") {
+          newPageItems.push( getTopText(_("new_page_message")) );
+        } else if (textPos.name === "bottom") {
+          newPageItems.push( getBottomText(_("new_page_message")) );
+        } else if (textPos.name === "bg") {
+          newPageItems.push( getFullPageText(_("new_page_message")) );
+        }
+      }
+    });
+    $("#pagemodal .imgposition").each(function(i, imgPos) {
+      if (imgPos.checked) {
+        if (imgPos.name === "top") {
+          newPageItems.push( getTopImg() );
+        } else if (imgPos.name === "bottom") {
+          newPageItems.push( getBottomImg() );
+        } else if (imgPos.name === "bg") {
+          background = {
+            color: "#c8c8c8",
+            url: "images/blank.png"
+          };
+        }
+      }
+    });
+  } else {
+    // triggering it directly
+    if(!twoPageOn || (pages.length % 2) ) {
+      newPageItems.push( makeFirstPage(_("new_page_message")) );
+    }
   }
 
   PBS.KIDS.storybook.config.pages.push({
+    background: background,
     content: newPageItems
   });
 
@@ -712,7 +856,8 @@ $(".new-page").on("click", function() {
   // library will advance to new page once book reloads
   current_page = -1;
   setCurrentPage(myPageNum, true);
-});
+}
+$("#pagemodal .save").click(addNewPage);
 
 // set initial storybook
 PBS.KIDS.storybook.config = {
@@ -727,7 +872,7 @@ PBS.KIDS.storybook.config = {
 		direction: _("ltr"),
 		startOnPage: 0,
 		pageWidth: $(".well.page").width() - 50,
-		pageHeight: Math.max($(".well.page").height(), 450),
+		pageHeight: Math.max($(".well.page").height(), 500),
 		previousPageButton: {
 			url: "images/prev-page-button.png",
 			x: 1,
@@ -788,7 +933,7 @@ if (load_book && load_book.length) {
 
   // when loading a book with no pages - create first one
   if(!pages.length) {
-    pages.push({ text: _("first_page_message") });
+    pages.push({ text: [_("first_page_message")], image: [] });
   }
 
   for (var p = 0; p < pages.length; p++) {

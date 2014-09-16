@@ -7,7 +7,7 @@ var Template = require('../models/template');
 var t = require('../static/translations');
 
 // helper function to store multiple pages
-function uploadPages (res, book, pages, start_index) {
+function uploadPages (res, book, pages, start_index, image_index) {
   // reached end of book - return book ID
   if (start_index >= book.pages.length) {
     return book.save(function (err) {
@@ -19,27 +19,34 @@ function uploadPages (res, book, pages, start_index) {
   }
 
   var page = pages[start_index];
-  if (page.image) {
+  if (!image_index) {
+    image_index = 0;
+  }
+  if (page.image.length && page.image[image_index]) {
     // store and update images in Cloudinary
 
     // create a shorter hash to notice when images change
     var hash = "";
-    if (page.image) {
+    if (page.image[image_index]) {
       try {
-        hash = md5(page.image+"")+"";
+        hash = md5(page.image[image_index]+"")+"";
       }
       catch(e) {
-        hash = md5.digest_s(page.image+"")+"";
+        hash = md5.digest_s(page.image[image_index]+"")+"";
       }
     }
 
     if (!book.pages[start_index].hash || book.pages[start_index].hash !== hash) {
       // upload this new or updated image
-      return cloudinary.uploader.upload(page.image, function (result) {
+      return cloudinary.uploader.upload(page.image[image_index], function (result) {
         book.pages[start_index].hash = hash;
-        book.pages[start_index].image = result.url;
-        start_index++;
-        uploadPages(res, book, pages, start_index);
+        book.pages[start_index].image[image_index] = result.url;
+        image_index++;
+        if (image_index >= book.pages[start_index].image.length) {
+          image_index = 0;
+          start_index++;
+        }
+        uploadPages(res, book, pages, start_index, image_index);
       });
     }
   }

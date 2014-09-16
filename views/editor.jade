@@ -114,48 +114,53 @@ html
 
     include partials/icon_modal
 
-    //
-      #guidemodal.modal.fade
-        div.modal-dialog
-          div.modal-content
-            div.modal-header
-              button.close(type="button", data-dismiss="modal", aria-hidden="true") x
-              h3.translate Guide
-            div.modal-body
-              div.form-group
-                p Every story needs a hero. Use the beginning to introduce the main character of your story.
-                label(for="maincharacter") Who is this story about?
-                div.row.pickcharacter
-                  ul.col-xs-4
+    #pagemodal.modal.fade
+      div.modal-dialog
+        div.modal-content
+          div.modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true") x
+            h3.translate Add Page
+          div.modal-body
+            div.row
+              div.col-md-6
+                h4.translate Text
+                ul
+                  if !book || !book.layout || !book.layout.text || book.layout.text.top
                     li
-                      strong Names
+                      label
+                        input.textposition(type="radio", name="top", value="text")
+                        span.translate top of page
+                  if !book || !book.layout || !book.layout.text || book.layout.text.bottom
                     li
-                      a(href="#") Pam
+                      label
+                        input.textposition(type="radio", name="bottom", value="text")
+                        span.translate bottom of page
+                  if !book || !book.layout || !book.layout.text || book.layout.text.bg
                     li
-                      a(href="#") Sam
+                      label
+                        input.textposition(type="radio", name="bg", value="text")
+                        span.translate full page
+              div.col-md-6
+                h4.translate Image
+                ul
+                  if !book || !book.layout || !book.layout.image || book.layout.image.top
                     li
-                      a(href="#") Dad
-                  ul.col-xs-4
+                      label
+                        input.imgposition(type="radio", name="top", value="image")
+                        span.translate top of page
+                  if !book || !book.layout || !book.layout.image || book.layout.image.bottom
                     li
-                      strong Animals
+                      label
+                        input.imgposition(type="radio", name="bottom", value="image")
+                        span.translate bottom of page
+                  if !book || !book.layout || !book.layout.image || book.layout.image.bg
                     li
-                      a(href="#") bird
-                    li
-                      a(href="#") cat
-                    li
-                      a(href="#") bat
-                input#maincharacter.form-control(type="hidden", name="maincharacter")
-              div.form-group.hide
-                p
-                  span Describe&nbsp;
-                  span.aboutcharacter
-                  span . Choose a word for how he / she / it is.
-                input#aboutcharacter.form-control(name="aboutcharacter")
-
-              button.btn.btn-info.translate.next(type="button") Next
-
-            div.modal-footer
-              button.btn.btn-default.translate(type="button", data-dismiss="modal") Cancel
+                      label
+                        input.imgposition(type="radio", name="bg", value="image")
+                        span.translate background image (one page)
+          div.modal-footer
+            button.btn.btn-default.translate(type="button", data-dismiss="modal") Cancel
+            button.save.btn.btn-primary.translate(type="button", data-dismiss="modal") Save
 
     // 3rd party libraries
     script(type="text/javascript", src="/jquery-1.11.0.min.js")

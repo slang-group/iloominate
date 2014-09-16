@@ -1,19 +1,19 @@
-phonics version of word lists
-
-implement layout
-  don't auto-add to next page
-  add things to top/bottom, single page, background through modal
+make and edit words lists and phonics lists visually
+Spanish (and hopefully Creole? in phonics)
+save layout
+reload multiple text + image
 
 text
   antihighlight starting on first letter and word
-  antihighlight avoiding problems with punctuation
+  antihighlight avoiding problems with punctuation, new lines
   words in sentence
   sentences in page
   something wrong in LTR page jump clicks? can't do cover either
 
-no more drop in images?
-  use blank images with file select
-  use Object URL
+images
+  upload images / use Object URL
+  allow image add from page layout
+  overwrite mini images with background image?
 
 using page images
   saved, hashed, and reloaded / viewed
@@ -23,8 +23,6 @@ using page images
   modal with tabs: |My Images|Team|Icons|
 
 image editor
-  other tools in the editor
-  cleaner menu bar
   add more icons
   generated images should stick around
   get this working offline too
@@ -37,17 +35,11 @@ revisit PDF-maker
   both 8.5x11 and 5.5x8.5 sizes - add folding line
   client-side version takes priority - can always be added to website rather than pdfkit
 
-cleaner look and feel
-  less or eliminate auto-text on initial pages
-  use the white fading thing around images to make text look better?
-    possible on PDF? use Canvas
-
 cleaner code
   better docs
   split up test.js
 
 translations
-  include more languages? jQuery.IME and Google Noto + Web Fonts allow this easily
   include homepage and other blocks
 
 docs

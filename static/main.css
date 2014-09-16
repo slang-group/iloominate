@@ -113,6 +113,10 @@ body#imager {
   border: 1px solid pink;
 }
 
+#pagemodal ul, #pagemodal li {
+  list-style-type: none;
+}
+
 .imagerbar .col-md-4 {
   background-color: #ccf;
   text-align: center;
