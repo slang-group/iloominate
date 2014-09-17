@@ -2,7 +2,7 @@
 var csrf_token = $('#csrf').val();
 
 // store page content
-var pages = [{ text: [], image: [] }];
+var pages = [{ text: [], image: [], layout: [] }];
 var current_page = 0;
 var current_image = null;
 
@@ -774,6 +774,19 @@ function getBottomImg() {
   return box;
 }
 
+function getFirstBlock() {
+  var text = "test";
+  if (getTopText(text)) {
+    return "top";
+  } else if (getBottomText(text)) {
+    return "bottom";
+  } else if (getFullPageText(text)) {
+    return "bg";
+  } else if (getTwoPageText(text)) {
+    return "span";
+  }
+}
+
 function makeFirstPage(text) {
   text = text || _("first_page_message");
   return (getTopText(text) || getBottomText(text) || getFullPageText(text) || getTwoPageText(text));
@@ -786,7 +799,7 @@ $(".new-page").on("click", function() {
 
 function addNewPage(e) {
   // create new page in left menu
-  pages.push({ text: [], image: [] });
+  pages.push({ text: [], image: [], layout: [] });
   var addPage = $("<a class='list-group-item' href='#'></a>");
   addPage.append($("<h4 class='list-group-item-heading'>" + _("page_num", { page: pages.length }) + "</h4>"));
   addPage.append($("<p class='list-group-item-text'></p>"));
@@ -815,10 +828,13 @@ function addNewPage(e) {
       if (textPos.checked) {
         if (textPos.name === "top") {
           newPageItems.push( getTopText(_("new_page_message")) );
+          pages[pages.length-1].layout.push("top");
         } else if (textPos.name === "bottom") {
           newPageItems.push( getBottomText(_("new_page_message")) );
+          pages[pages.length-1].layout.push("bottom");
         } else if (textPos.name === "bg") {
           newPageItems.push( getFullPageText(_("new_page_message")) );
+          pages[pages.length-1].layout.push("bg");
         }
       }
     });
@@ -826,13 +842,16 @@ function addNewPage(e) {
       if (imgPos.checked) {
         if (imgPos.name === "top") {
           newPageItems.push( getTopImg() );
+          pages[pages.length-1].layout.push("image_top");
         } else if (imgPos.name === "bottom") {
           newPageItems.push( getBottomImg() );
+          pages[pages.length-1].layout.push("image_bottom");
         } else if (imgPos.name === "bg") {
           background = {
             color: "#c8c8c8",
             url: "images/blank.png"
           };
+          pages[pages.length-1].layout.push("image_bg");
         }
       }
     });
@@ -933,13 +952,23 @@ if (load_book && load_book.length) {
 
   // when loading a book with no pages - create first one
   if(!pages.length) {
-    pages.push({ text: [_("first_page_message")], image: [] });
+    pages.push({ text: [_("first_page_message")], image: [], layout: [getFirstBlock()] });
   }
 
   for (var p = 0; p < pages.length; p++) {
-    var reloadPage = getTopText(pages[p].text) || getBottomText(pages[p].text);
+    var reloadPage = [];
+    for (var t = 0; t < pages[p].layout.length; t++) {
+      var boxType = pages[p].layout[t];
+      if (boxType === "top") {
+        reloadPage.push(getTopText(pages[p].text[t]));
+      } else if (boxType === "bottom") {
+        reloadPage.push(getBottomText(pages[p].text[t]));
+      } else if (boxType === "bg") {
+        reloadPage.push(getFullPageText(pages[p].text[t]));
+      }
+    }
     PBS.KIDS.storybook.config.pages.push({
-      content: [reloadPage]
+      content: reloadPage
     });
   }
 
@@ -957,6 +986,7 @@ if (load_book && load_book.length) {
   PBS.KIDS.storybook.config.pages.push({
     content: [makeFirstPage()]
   });
+  pages[0].layout.push(getFirstBlock());
 }
 
 renderBook(window, PBS);

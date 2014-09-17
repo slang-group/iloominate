@@ -22,7 +22,7 @@ function uploadPages (res, book, pages, start_index, image_index) {
   if (!image_index) {
     image_index = 0;
   }
-  if (page.image.length && page.image[image_index]) {
+  if (page.image && page.image.length && page.image[image_index]) {
     // store and update images in Cloudinary
 
     // create a shorter hash to notice when images change
@@ -82,11 +82,12 @@ exports.save = function (req, res) {
 
         if (book.pages.length >= i) {
           // new page
-          book.pages.push({ text: page.text, hash: "" });
+          book.pages.push({ text: page.text, hash: "", layout: page.layout });
         }
         else {
           // update existing page
           book.pages[i].text = page.text;
+          book.pages[i].layout = page.layout;
         }
       }
 
@@ -109,7 +110,7 @@ exports.save = function (req, res) {
       // uploading pages from editor
       for(var i=0; i<req.body.pages.length; i++){
         var page = req.body.pages[i];
-        book.pages.push({ text: page.text, hash: "" });
+        book.pages.push({ text: page.text, hash: "", layout: page.layout });
       }
 
       uploadPages(res, book, req.body.pages, 0);

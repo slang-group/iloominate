@@ -1,9 +1,9 @@
 make and edit words lists and phonics lists visually
-Spanish (and hopefully Creole? in phonics)
-save layout - reload multiple text + image
+Spanish (and hopefully Creole?) in phonics
 skip pageModal if user has only one option
 let user create book from existing template, share templates across teams
 more pixels on canvases
+revise cover text
 
 text
   antihighlight starting on first letter and word
