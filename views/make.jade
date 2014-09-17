@@ -36,14 +36,15 @@ html
               h4.list-group-item-heading.translate Layout
 
         div.col-md-10
-          noscript Enable JavaScript!
-
-          if loggedin && templates && templates.length
-            h3.translate Use Existing Template
-            select#loadtemplate(name="oldtemplate")
-              option.translate(value="") New Template
-              for template in templates
-                option(value="#{template._id}") #{template.name}
+          if loggedin
+            if templates && templates.length
+              h3.translate Use Existing Template
+              select#loadtemplate(name="oldtemplate")
+                option.translate(value="") New Template
+                for template in templates
+                  option(value="#{template._id}") #{template.name}
+            else
+              h4.translate You have no existing templates.
 
           a(name="paper")
           h3.translate Paper Size

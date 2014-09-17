@@ -73,14 +73,6 @@ html
               a.btn.btn-success.new-page.translate(href="#") Add Page
 
           div.list-group.book-options
-            //
-              a.list-group-item.guide(href="#")
-                img.icon(src="/images/teacher_14016.png")
-                span.translate Guide
-            a.list-group-item.chooseicon(href="#")
-              img.icon(src="/images/penguin_1986.png")
-              span.translate Add Icon
-
             div.list-group-item
               a.btn.btn-info.pdfify.translate(href="#") Make into PDF
               .clearfix
@@ -188,7 +180,5 @@ html
           script(type="text/javascript") cover = !{JSON.stringify(book.layout.cover)};
 
     script(type="text/javascript", src="/test.js")
-
-    // script(type="text/javascript", src="/guide.js")
 
     include partials/analytics

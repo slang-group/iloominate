@@ -80,6 +80,7 @@ var allTranslations = {
     "words per sentence": "words per sentence",
     "Writing": "Writing", // Writing menu
     "You are signed in.": "You are signed in.",
+    "You have no existing templates.": "You have no existing templates.",
 
     // homepage
     "Storybook App": "Storybook App",
@@ -184,6 +185,7 @@ var allTranslations = {
     "words per sentence": "words per sentence",
     "Writing": "Escribiendo",
     "You are signed in.": "Ha iniciado su sesión.",
+    "You have no existing templates.": "You have no existing templates.",
 
     // homepage
     "Storybook App": "Aplicación de Libros",
@@ -288,6 +290,7 @@ var allTranslations = {
     "words per sentence": "words per sentence",
     "Writing": "Writing", // writing menu
     "You are signed in.": "You are signed in.",
+    "You have no existing templates.": "You have no existing templates.",
 
     // homepage
     "Storybook App": "Storybook App",
