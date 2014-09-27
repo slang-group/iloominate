@@ -40,6 +40,9 @@ function uploadPages (res, book, pages, start_index, image_index) {
       // upload this new or updated image
       return cloudinary.uploader.upload(page.image[image_index], function (result) {
         book.pages[start_index].hash = hash;
+        if (!book.pages[start_index].image) {
+          book.pages[start_index].image = [];
+        }
         book.pages[start_index].image[image_index] = result.url;
         image_index++;
         if (image_index >= book.pages[start_index].image.length) {
