@@ -10,6 +10,7 @@ var t = require('../static/translations');
 function uploadPageImages (res, book, pages, start_index, image_index) {
   // reached end of book - return book ID
   if (start_index >= book.pages.length) {
+    console.log('saving book');
     return book.save(function (err) {
       if (err) {
         throw err;
@@ -23,9 +24,11 @@ function uploadPageImages (res, book, pages, start_index, image_index) {
 
   if (page.image && page.image.length && page.image[image_index]) {
     // store and update any images in Cloudinary
+    console.log('inspecting image');
 
     // notice when a HTTP URL is already present
-    if (page.image[image_index].indexOf("http:") === -1) {
+    if (page.image[image_index].indexOf("http:") === 0) {
+      console.log('avoiding http');
       image_index++;
       if (image_index >= page.image.length) {
         image_index = 0;
@@ -47,7 +50,9 @@ function uploadPageImages (res, book, pages, start_index, image_index) {
 
     if (!book.pages[start_index].hash || book.pages[start_index].hash !== hash) {
       // upload this new or updated image
+      console.log('uploading');
       return cloudinary.uploader.upload(page.image[image_index], function (result) {
+        console.log('uploaded');
         book.pages[start_index].hash = hash;
         if (!book.pages[start_index].image) {
           book.pages[start_index].image = [];
@@ -62,6 +67,7 @@ function uploadPageImages (res, book, pages, start_index, image_index) {
       });
     } else {
       // presume existing image
+      console.log('avoiding matching hash');
       image_index++;
       if (image_index >= page.image.length) {
         image_index = 0;
@@ -72,6 +78,7 @@ function uploadPageImages (res, book, pages, start_index, image_index) {
   }
 
   // check next page for an image to upload
+  console.log('next page');
   start_index++;
   uploadPageImages(res, book, pages, start_index);
 }
@@ -102,7 +109,7 @@ exports.save = function (req, res) {
 
         if (book.pages.length >= i) {
           // new page
-          book.pages.push({ text: page.text, hash: "", layout: page.layout });
+          book.pages.push({ text: page.text, image: [], hash: "", layout: page.layout });
         }
         else {
           // update existing page

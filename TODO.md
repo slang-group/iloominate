@@ -7,6 +7,7 @@ restore background images & full-page text
 avoid contaminated canvas
 more wordlists with 100 most popular words or something
 spanish and creole wordlists
+why did sentence/page length alerts not work on http://iloominate.org/edit?id=5426d3bf1db1310200edd7f8
 
 text
   antihighlight with multiple new lines
@@ -14,7 +15,6 @@ text
 
 images
   allow image upload / file drop into image select
-  bottom image of two-image page known locally, not stored to http://iloominate.org/edit?id=5426bc1e350ff30200181fff
   shown in PDFs
   uploaded images should stick around
   modal with tabs: |My Images|Team|Icons|

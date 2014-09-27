@@ -672,11 +672,11 @@ function renderBook(GLOBAL, PBS) {
           // clicked on the background canvas - is this customized?
           var pageID = $("#pbsRightPage .pbsSprite").parent().parent().attr("id");
           if (pageID === "pbsLeftPage") {
-            if (!PBS.KIDS.storybook.config.pages[current_page].background.url) {
+            if (!PBS.KIDS.storybook.config.pages[current_page] || !PBS.KIDS.storybook.config.pages[current_page].background.url) {
               return;
             }
           } else if (pageID === "pbsRightPage") {
-            if (!PBS.KIDS.storybook.config.pages[current_page + 1].background.url) {
+            if (!PBS.KIDS.storybook.config.pages[current_page + 1] || !PBS.KIDS.storybook.config.pages[current_page + 1].background.url) {
               return;
             }
           } else {
@@ -938,7 +938,7 @@ PBS.KIDS.storybook.config = {
         y: 30,
         width: 90,
         align: "center",
-        color: "#fff",
+        color: "#00f",
         size: font.size || 18,
         font: font.name || "Arial",
         lineHeight: layout.lineSpace || "120%",
