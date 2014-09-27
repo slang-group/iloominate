@@ -2,20 +2,15 @@ make and edit words lists and phonics lists visually
 Spanish (and hopefully Creole?) in phonics
 skip pageModal if user has only one option
 let user create book from existing template, share templates across teams
-more pixels on canvases
 revise cover text
+restore images and background text
 
 text
-  antihighlight starting on first letter and word
-  antihighlight avoiding problems with punctuation, new lines
-  words in sentence
-  sentences in page
+  antihighlight avoiding problems with multiple new lines
   something wrong in LTR page jump clicks? can't do cover either
 
 images
-  upload images / use Object URL
-  allow image add from page layout
-  overwrite mini images with background image?
+  allow image upload / file drop from page layout
 
 using page images
   saved, hashed, and reloaded / viewed
@@ -27,7 +22,6 @@ using page images
 image editor
   add more icons
   generated images should stick around
-  get this working offline too
 
 update offline / Chrome apps version
 

@@ -73,10 +73,6 @@ html
               a.btn.btn-success.new-page.translate(href="#") Add Page
 
           div.list-group.book-options
-            //
-              a.list-group-item.guide(href="#")
-                img.icon(src="/images/teacher_14016.png")
-                span.translate Guide
             a.list-group-item.chooseicon(href="#")
               img.icon(src="/images/penguin_1986.png")
               span.translate Add Icon
@@ -122,7 +118,7 @@ html
             h3.translate Add Page
           div.modal-body
             div.row
-              div.col-md-6
+              div.col-md-4
                 h4.translate Text
                 ul
                   if !book || !book.layout || !book.layout.text || book.layout.text.top
@@ -140,7 +136,7 @@ html
                       label
                         input.textposition(type="radio", name="bg", value="text")
                         span.translate full page
-              div.col-md-6
+              div.col-md-4
                 h4.translate Image
                 ul
                   if !book || !book.layout || !book.layout.image || book.layout.image.top
@@ -158,6 +154,21 @@ html
                       label
                         input.imgposition(type="radio", name="bg", value="image")
                         span.translate background image (one page)
+              div.col-md-4
+                h4.translate Blank
+                ul
+                  li
+                    label
+                      input.blankposition(type="radio", name="top", value="blank")
+                      span.translate top of page
+                  li
+                    label
+                      input.blankposition(type="radio", name="bottom", value="blank")
+                      span.translate bottom of page
+                  li
+                    label
+                      input.blankposition(type="radio", name="bg", value="blank")
+                      span.translate full page
           div.modal-footer
             button.btn.btn-default.translate(type="button", data-dismiss="modal") Cancel
             button.save.btn.btn-primary.translate(type="button", data-dismiss="modal") Save

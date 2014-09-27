@@ -7,6 +7,7 @@ var allTranslations = {
     "Ask to Join": "Ask to Join",
     "Author": "Author",
     "background image (one page)": "background image (one page)",
+    "Blank": "Blank", // empty part of the page
     "Book": "Book",
     "bottom of page": "bottom of page",
     "Cancel": "Cancel",
@@ -111,6 +112,7 @@ var allTranslations = {
     "Ask to Join": "Ask to Join",
     "Author": "Autor",
     "background image (one page)": "imagen de fondo (una página)",
+    "Blank": "Blank", // empty part of the page
     "Book": "Libro",
     "bottom of page": "inferior de la página",
     "Cancel": "Cancelar",
@@ -215,6 +217,7 @@ var allTranslations = {
     "Ask to Join": "Ask to Join",
     "Author": "Author",
     "background image (one page)": "background image (one page)",
+    "Blank": "Blank", // empty part of the page
     "Book": "Liv",
     "bottom of page": "bottom of page",
     "Cancel": "Cancel",

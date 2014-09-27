@@ -225,7 +225,7 @@ function loadPhonicsIntoWorksheet(wordlist) {
 
 // process a word list upload
 var wordWhitelist = ['', 'world', 'नेपाल', 'this', 'is', 'your', 'first', 'page'];
-var letterWhitelist = ['abcdefghijklmnopqrstuvw.?!'];
+var letterWhitelist = ['abcdefghijklmnopqrstuvw.?!,:;'];
 loadPhonics(wordWhitelist.join(' '), loadPhonicsIntoWorksheet);
 
 function setWhitelist (whitelist) {
@@ -256,6 +256,35 @@ function setWhitelist (whitelist) {
     highlighter.antihighlight('setLetters', letterWhitelist);
     highlighter.antihighlight('setWords', wordWhitelist);
   }
+
+  // sentences in page check + words in sentence check
+  var runPage = function (page) {
+    var pageWords = 0;
+    $(page + " textarea").each(function(i, txt) {
+      pageWords += txt.replace(/\s+/, ' ').split(' ').length;
+
+      if (layout.sentenceWords) {
+        var sentences = txt.split(/\.|!|\?|,/);
+        for (var s = 0; s < sentences.length; s++) {
+          var wordCount = sentences[s].replace(/\s+/, ' ').split(' ').length;
+          if (wordCount > layout.sentenceWords) {
+            $(txt).css("border", "1px solid #f88");
+          } else {
+            $(txt).css("border", "1px solid rgb(34, 34, 34)");
+          }
+        }
+      }
+    });
+    if (layout.pageWords) {
+      if (pageWords > layout.pageWords) {
+        $(page + " textarea").css("border", "1px solid #f88");
+      } else {
+        $(page + " textarea").css("border", "1px solid rgb(34, 34, 34)");
+      }
+    }
+  };
+  runPage("#pbsLeftPage");
+  runPage("#pbsRightPage");
 
   // make sure fonts have same properties, so highlights match words in textbox
   $('.highlighter').css({
@@ -988,5 +1017,17 @@ if (load_book && load_book.length) {
   });
   pages[0].layout.push(getFirstBlock());
 }
+
+// background image disables other images
+$("input[type=radio][name=bg][value=image]").click(function (e) {
+  if ($("input[type=radio][name=bg][value=image]")[0].checked) {
+    if ($("input[type=radio][name=top][value=image]").length) {
+      $("input[type=radio][name=top][value=image]")[0].checked = false;
+    }
+    if ($("input[type=radio][name=bottom][value=image]").length) {
+      $("input[type=radio][name=bottom][value=image]")[0].checked = false;
+    }
+  }
+});
 
 renderBook(window, PBS);
