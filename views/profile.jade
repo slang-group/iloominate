@@ -20,10 +20,18 @@ html
         .col-md-6
           h3.translate Welcome to iLoominate!
           h3.translate You are signed in.
-          a.btn.btn-large.btn-info(href="/user/#{user._id}") My Books
+          a.btn.btn-large.btn-info.translate(href="/user/#{user._id}") My Books
           br
           br
-          a.btn.btn-large.btn-success(href="/make") New Book
+          a.btn.btn-large.btn-success.translate(href="/make") New Book
+          br
+          if templates && templates.length
+            h4.translate Use Existing Template
+            form(action="/make", method="GET")
+              select#loadtemplate(name="oldtemplate")
+                for template in templates
+                  option(value="#{template._id}") #{template.name}
+              input.translate.btn.btn-success(type="submit", value="New Book")
 
         .col-md-6
           .well

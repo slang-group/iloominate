@@ -26,7 +26,7 @@ exports.inteam = function (req, res) {
     if(req.user.teams.length) {
       // select first team for now
       var teamName = req.user.teams[0];
-      Team.findOne({ name: teamName, grader: req.query.grader }, function(err, team) {
+      Team.findOne({ name: teamName }, function(err, team) {
         if (err) {
           throw err;
         }

@@ -1,5 +1,7 @@
 var User = require('../models/user');
 var Book = require('../models/book');
+var Template = require('../models/template');
+var Team = require('../models/team');
 
 var t = require('../static/translations');
 
@@ -25,10 +27,33 @@ exports.logout = function (req, res) {
 
 // personal profile (only works when logged in)
 exports.profile = function (req, res) {
-  res.render('profile', {
-    user: req.user,
-    translations: t.getTranslations(req, res)
-  });
+  if (req.user && req.user.teams.length) {
+    // select first team for now
+    var teamName = req.user.teams[0];
+    Team.findOne({ name: teamName }, function(err, team) {
+      if (err) {
+        throw err;
+      }
+
+      // select templates of all users in team
+      Template.find({ 'user_id': { $in: team.users } }).select('name').exec(function(err, templates) {
+        if(err) {
+          throw err;
+        }
+        res.render('profile', {
+          user: req.user,
+          translations: t.getTranslations(req, res),
+          templates: templates
+        });
+      });
+    });
+  } else {
+    res.render('profile', {
+      user: req.user,
+      translations: t.getTranslations(req, res),
+      templates: []
+    });
+  }
 };
 
 // user page (works for all web visitors)

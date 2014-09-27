@@ -264,10 +264,10 @@ function setWhitelist (whitelist) {
   var runPage = function (page) {
     var pageWords = 0;
     $(page + " textarea").each(function(i, txt) {
-      pageWords += txt.replace(/\s+/, ' ').split(' ').length;
+      pageWords += $(txt).val().replace(/\s+/, ' ').split(' ').length;
 
       if (layout.sentenceWords) {
-        var sentences = txt.split(/\.|!|\?|,/);
+        var sentences = $(txt).val().split(/\.|!|\?|,/);
         for (var s = 0; s < sentences.length; s++) {
           var wordCount = sentences[s].replace(/\s+/, ' ').split(' ').length;
           if (wordCount > layout.sentenceWords) {
