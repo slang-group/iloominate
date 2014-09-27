@@ -61,7 +61,7 @@ Includes:
 * [Simple HTML5 Drawing App](https://github.com/williammalone/Simple-HTML5-Drawing-App) - Apache license
 * Wikipedia translations for sample Arabic and Devanagari text - CC-BY-SA license
 
-Public Domain icons from [The Noun Project](http://thenounproject.com/).
+Public Domain icons from [The Noun Project](http://thenounproject.com/) including UN-OCHA Visual Information Unit.
 
 Web server uses Node.js with libraries Express, Passport, and Mongoose.
 

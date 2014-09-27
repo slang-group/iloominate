@@ -1,27 +1,23 @@
-make and edit words lists and phonics lists visually
+make and edit words lists or phonics lists visually
 Spanish (and hopefully Creole?) in phonics
-skip pageModal if user has only one option
-let user create book from existing template, share templates across teams
-revise cover text
-restore images and background text
+user can create book from existing template on /make and /profile
+share templates across teams
+revise cover title
+restore background images & full-page text
+avoid contaminated canvas
+more wordlists with 100 most popular words or something
+spanish and creole wordlists
 
 text
-  antihighlight avoiding problems with multiple new lines
+  antihighlight with multiple new lines
   something wrong in LTR page jump clicks? can't do cover either
 
 images
-  allow image upload / file drop from page layout
-
-using page images
-  saved, hashed, and reloaded / viewed
+  allow image upload / file drop into image select
+  bottom image of two-image page known locally, not stored to http://iloominate.org/edit?id=5426bc1e350ff30200181fff
   shown in PDFs
-  get it working locally, too
   uploaded images should stick around
   modal with tabs: |My Images|Team|Icons|
-
-image editor
-  add more icons
-  generated images should stick around
 
 update offline / Chrome apps version
 

@@ -45,19 +45,26 @@ function saveCurrentPage(callback) {
     });
 
     // save images
-    pages[current_page].image = [];
+    if (!pages[current_page].image) {
+      pages[current_page].image = [];
+    }
     var imgs = $("#pbsLeftPage .pbsSprite");
     var img_offset = textAreas.length;
+    var bg_offset = 0;
     imgs.each(function (i, img) {
       // skip the background canvas unless this page specifically styles it
       if (!i && !PBS.KIDS.storybook.config.pages[current_page].background.url) {
         img_offset--;
+        bg_offset++;
         return;
       }
 
-      var imgURL = img.toDataURL();
-      pages[current_page].image.push(imgURL);
-      PBS.KIDS.storybook.config.pages[current_page].content[i + img_offset].url = imgURL;
+      try {
+        var imgURL = img.toDataURL();
+        pages[current_page].image[i - bg_offset] = imgURL;
+        PBS.KIDS.storybook.config.pages[current_page].content[i + img_offset].url = imgURL;
+      } catch(e) {
+      }
     });
 
     var page_lister = current_page;
@@ -85,19 +92,26 @@ function saveCurrentPage(callback) {
       });
 
       // update images from right page
-      pages[current_page + 1].image = [];
+      if (!pages[current_page + 1].image) {
+        pages[current_page + 1].image = [];
+      }
       var rightImgs = $("#pbsRightPage .pbsSprite");
       var rightImgOffset = rightTextAreas.length;
+      bg_offset = 0;
       rightImgs.each(function (i, img) {
         // skip the background canvas unless this page specifically styles it
         if (!i && !PBS.KIDS.storybook.config.pages[current_page + 1].background.url) {
           rightImgOffset--;
+          bg_offset++;
           return;
         }
 
-        var imgURL = img.toDataURL();
-        pages[current_page + 1].image.push(imgURL);
-        PBS.KIDS.storybook.config.pages[current_page + 1].content[i + rightImgOffset].url = imgURL;
+        try {
+          var imgURL = img.toDataURL();
+          pages[current_page + 1].image[i - bg_offset] = imgURL;
+          PBS.KIDS.storybook.config.pages[current_page + 1].content[i + rightImgOffset].url = imgURL;
+        } catch(e) {
+        }
       });
 
       if (pages[current_page + 1].text.length) {
@@ -678,6 +692,7 @@ function renderBook(GLOBAL, PBS) {
           ctx.fillRect(0, 0, 500, 250);
           ctx.drawImage(e.target, 0, 0, 300, 300);
           $("#iconmodal").modal('hide');
+          saveCurrentPage();
         });
       });
     });
@@ -701,12 +716,12 @@ function getGenericText(text) {
   };
 }
 
-function getGenericImg() {
+function getGenericImg(filename) {
   return {
     type: "Sprite",
     x: 2.5,
     width: 95,
-    url: "images/blank.png"
+    url: filename || "images/blank.png"
   };
 }
 
@@ -749,20 +764,20 @@ function getTwoPageText(text) {
   return box;
 }
 
-function getTopImg() {
+function getTopImg(filename) {
   if (layout && layout.image && !layout.image.top) {
     return false;
   }
-  var box = getGenericImg();
+  var box = getGenericImg(filename);
   box.y = 0;
   return box;
 }
 
-function getBottomImg() {
+function getBottomImg(filename) {
   if (layout && layout.image && !layout.image.bottom) {
     return false;
   }
-  var box = getGenericImg();
+  var box = getGenericImg(filename);
   box.y = 50;
   return box;
 }
@@ -950,24 +965,33 @@ if (load_book && load_book.length) {
 
   for (var p = 0; p < pages.length; p++) {
     var reloadPage = [];
-    for (var t = 0; t < pages[p].layout.length; t++) {
-      var t2 = t - (pages[p].text || []).length;
-      var boxType = pages[p].layout[t];
-      if (boxType === "top") {
-        reloadPage.push(getTopText(pages[p].text[t]));
-      } else if (boxType === "bottom") {
-        reloadPage.push(getBottomText(pages[p].text[t]));
-      } else if (boxType === "bg") {
-        reloadPage.push(getFullPageText(pages[p].text[t]));
-      } else if (boxType === "image_top") {
-        reloadPage.push(getTopImg(pages[p].images[t2]));
-      } else if (boxType === "image_bottom") {
-        reloadPage.push(getBottomImg(pages[p].images[t2]));
-      } else if (boxType === "image_bg") {
-        reloadPage.push(getFullPageImg(pages[p].images[t2]));
+    var background = {};
+    try {
+      for (var t = 0; t < pages[p].layout.length; t++) {
+        var t2 = t - (pages[p].text || []).length;
+        var boxType = pages[p].layout[t];
+        if (boxType === "top") {
+          reloadPage.push(getTopText(pages[p].text[t]));
+        } else if (boxType === "bottom") {
+          reloadPage.push(getBottomText(pages[p].text[t]));
+        } else if (boxType === "bg") {
+          reloadPage.push(getFullPageText(pages[p].text[t]));
+        } else if (boxType === "image_top") {
+          reloadPage.push(getTopImg(pages[p].image[t2]));
+        } else if (boxType === "image_bottom") {
+          reloadPage.push(getBottomImg(pages[p].image[t2]));
+        } else if (boxType === "image_bg") {
+          background = {
+            color: "#c8c8c8",
+            url: pages[p].image[t2] || "images/blank.png"
+          };
+        }
       }
+    } catch (e) {
+      console.log(e);
     }
     PBS.KIDS.storybook.config.pages.push({
+      background: background,
       content: reloadPage
     });
   }

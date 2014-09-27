@@ -7,7 +7,7 @@ var Template = require('../models/template');
 var t = require('../static/translations');
 
 // helper function to store multiple pages
-function uploadPages (res, book, pages, start_index, image_index) {
+function uploadPageImages (res, book, pages, start_index, image_index) {
   // reached end of book - return book ID
   if (start_index >= book.pages.length) {
     return book.save(function (err) {
@@ -19,11 +19,20 @@ function uploadPages (res, book, pages, start_index, image_index) {
   }
 
   var page = pages[start_index];
-  if (!image_index) {
-    image_index = 0;
-  }
+  image_index = image_index || 0;
+
   if (page.image && page.image.length && page.image[image_index]) {
-    // store and update images in Cloudinary
+    // store and update any images in Cloudinary
+
+    // notice when a HTTP URL is already present
+    if (page.image[image_index].indexOf("http:") === -1) {
+      image_index++;
+      if (image_index >= page.image.length) {
+        image_index = 0;
+        start_index++;
+      }
+      return uploadPageImages(res, book, pages, start_index, image_index);
+    }
 
     // create a shorter hash to notice when images change
     var hash = "";
@@ -45,18 +54,26 @@ function uploadPages (res, book, pages, start_index, image_index) {
         }
         book.pages[start_index].image[image_index] = result.url;
         image_index++;
-        if (image_index >= book.pages[start_index].image.length) {
+        if (image_index >= page.image.length) {
           image_index = 0;
           start_index++;
         }
-        uploadPages(res, book, pages, start_index, image_index);
+        uploadPageImages(res, book, pages, start_index, image_index);
       });
+    } else {
+      // presume existing image
+      image_index++;
+      if (image_index >= page.image.length) {
+        image_index = 0;
+        start_index++;
+      }
+      return uploadPageImages(res, book, pages, start_index, image_index);
     }
   }
 
   // check next page for an image to upload
   start_index++;
-  uploadPages(res, book, pages, start_index);
+  uploadPageImages(res, book, pages, start_index);
 }
 
 // book pages (view and post)
@@ -94,7 +111,7 @@ exports.save = function (req, res) {
         }
       }
 
-      uploadPages(res, book, req.body.pages, 0);
+      uploadPageImages(res, book, req.body.pages, 0);
     });
   }
   else{
@@ -116,7 +133,7 @@ exports.save = function (req, res) {
         book.pages.push({ text: page.text, hash: "", layout: page.layout });
       }
 
-      uploadPages(res, book, req.body.pages, 0);
+      uploadPageImages(res, book, req.body.pages, 0);
     } else {
       // creating book from layout
       book.layout = {
