@@ -446,49 +446,132 @@ window.addEventListener('drop', dropFile, false);
 
 
 // PDF export
+function imgData(url, callback) {
+  if (url.indexOf("data:image/") === 0) {
+    if (callback) {
+      callback(url);
+    }
+    return url;
+  } else {
+    $("canvas.preview").attr("width", 300).attr("height", 300);
+    var canvas = $("canvas.preview")[0];
+    var ctx = canvas.getContext("2d");
+    var i = new Image();
+    i.onload = function() {
+      ctx.drawImage(i, 0, 0);
+      callback(canvas.toDataURL());
+    };
+    i.src = url;
+    return canvas.toDataURL();
+  }
+}
+
+// bulk of PDF paging
+function resumePages(doc, ctx) {
+  // write title and finish cover
+  doc.setFontSize(30);
+  ctx.font = "30px sans-serif";
+  ctx.fillStyle = "#33f";
+  var title = cover.content[0].text;
+  ctx.fillText(title, 5, 40);
+  doc.addPage();
+
+  // set generic text
+  ctx.font = "20px sans-serif";
+  ctx.fillStyle = "#000";
+  doc.setFontSize(20);
+
+  var img_height = 100;
+  var img_width = 100;
+  var img_format;
+
+  var pdfPages = PBS.KIDS.storybook.config.pages.slice(0);
+
+  // left-to-right fix
+  if(_("ltr") === "rtl") {
+    pdfPages.reverse();
+  }
+
+  var pdfifyContent = function(p, c) {
+    // advance when at end of page
+    if (c >= pdfPages[p].content.length) {
+      doc.addPage();
+      return pdfifyContent(p + 1, -1);
+    }
+    // finish when at end of book
+    if (p >= pdfPages.length) {
+      doc.save('book.pdf');
+    }
+
+    // before any content is added to a page: check for background
+    if (c === -1) {
+      if (pdfPages[p].background.url) {
+        img_format = 'PNG';
+        if ((pdfPages[p].background.url.indexOf("jpeg") > -1) || (pdfPages[p].background.url.indexOf("jpg") > -1)) {
+          img_format = 'JPEG';
+        }
+        return imgData(pdfPages[p].background.url, function(backgroundData) {
+          doc.addImage(backgroundData, img_format, 0, 0, img_width, img_height);
+          pdfifyContent(p, 0);
+        });
+      }
+      return pdfifyContent(p, 0);
+    }
+
+    var content = pdfPages[p].content[c];
+
+    if(content.type === "Sprite"){
+
+      img_format = 'PNG';
+      if(content.url.indexOf("jpeg") > -1 || content.url.indexOf("jpg") > -1) {
+        img_format = 'JPEG';
+      }
+      return imgData(content.url, function(imgContent) {
+        doc.addImage(imgContent, img_format, content.x, content.y, img_width, img_height);
+      });
+
+    } else if (content.type === "TextArea") {
+
+      // add internationalized text as an image
+      if (_("en") === "en") {
+        doc.text(content.x, content.y, content.text);
+      } else {
+        $("canvas.preview").attr("width", 500);
+        ctx.fillText(content.text, 0, 40);
+        var textAsImage = $("canvas.preview")[0].toDataURL();
+        doc.addImage(textAsImage, 'PNG', content.x, content.y, 125, 75);
+      }
+      return pdfifyContent(p, c + 1);
+    }
+  };
+
+  // start on background of zero-eth page
+  pdfifyContent(0, -1);
+}
+
 function pdfify() {
   saveCurrentPage(function(){
 
-    var ctx = $("canvas.preview")[0].getContext("2d");
-    ctx.font = "20px sans-serif";
-    ctx.fillStyle = "#000";
-
     var doc = new jsPDF();
+    var ctx = $("canvas.preview")[0].getContext("2d");
+    var img_height = 100;
+    var img_width = 100;
+    var img_format;
 
-    if(rightToLeft){
-      pages.reverse();
-    }
-
-    for(var p=0; p<pages.length; p++) {
-      // add user image
-      var img_offset = 0;
-      if(pages[p].image){
-        var insert_img = pages[p].image;
-        img_offset += pages[p].image_height / 8;
-        var img_format = 'PNG';
-        if(pages[p].image.indexOf("data:image/jpeg") === 0){
-          img_format = 'JPEG';
-        }
-        doc.addImage(pages[p].image, img_format, 20, 40, pages[p].image_width / 8, pages[p].image_height / 8);
+    // add cover
+    var cover = PBS.KIDS.storybook.config.cover;
+    if (cover.background.url) {
+      img_format = 'PNG';
+      if ((cover.background.url.indexOf("jpeg") > -1) || (cover.background.url.indexOf("jpg") > -1)) {
+        img_format = 'JPEG';
       }
-
-      // add internationalized text as an image
-      $("canvas.preview").attr("width", 500);
-      ctx.fillText(pages[p].text, 0, 40);
-      var imgData = $("canvas.preview")[0].toDataURL();
-      doc.addImage(imgData, 'PNG', 20, 40 + img_offset, 125, 75);
-
-      if(p !== pages.length - 1){
-        // need next page
-        doc.addPage();
-      }
+      return imgData(cover.background.url, function(coverData) {
+        doc.addImage(coverData, img_format, 5, 5, img_width, img_height);
+        resumePages(doc, ctx);
+      });
+    } else {
+      resumePages(doc, ctx);
     }
-
-    if(rightToLeft){
-      pages.reverse();
-    }
-
-    doc.save('Test.pdf');
   });
 }
 
@@ -656,7 +739,7 @@ function renderBook(GLOBAL, PBS) {
       if ((typeof layout.wordSpace === "string") && (layout.wordSpace.length > 1)) {
         $("textarea").on("blur", function (e) {
           var text = $(e.target).val();
-          text = text.replace(/\s+/g, layout.wordSpace);
+          text = text.replace(/(\s-\n)+/g, layout.wordSpace);
           $(e.target).val(text);
           // doesn't work on right page
           highlighter.antihighlight('highlight');
