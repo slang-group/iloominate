@@ -15,7 +15,8 @@
     "cloudinary": "1.0.X",
     "MD5": "1.2.X",
     "postmark": "0.2.X",
-    "rhyme-plus": "0.0.6"
+    "rhyme-plus": "0.0.6",
+    "request": "2.44.X"
   },
   "devDependencies": {
     "jshint": "2.5.X",

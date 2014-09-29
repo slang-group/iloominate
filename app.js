@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var flash = require('connect-flash');
 var rhyme = require('rhyme-plus');
+var request = require('request');
 
 // connect to MongoDB for user account support
 var User = require('./models/user');
@@ -75,6 +76,17 @@ app.get('/image/all', routes.images.all);
 app.get('/image/inteam', routes.images.inteam);
 app.get('/image/:id', routes.images.byid);
 app.post('/image', routes.images.save);
+
+// image proxy
+app.get('/proxyimage/*', function(req, res) {
+  var requestOptions = {
+    uri: req.url.replace('/proxyimage', 'http://res.cloudinary.com'),
+    encoding: 'binary'
+  };
+  request(requestOptions, function (err, response, body) {
+    res.end(new Buffer(body, 'binary'));
+  });
+});
 
 // user pages
 app.get('/signup', routes.users.signup);

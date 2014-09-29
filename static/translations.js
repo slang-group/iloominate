@@ -134,7 +134,7 @@ var allTranslations = {
     "Image": "Imagen",
     "Images": "Imagenes",
     "Join team": "Join team",
-    "Language": "Lengua",
+    "Language": "Idioma",
     "Layout": "Diseño",
     "Lead new team": "Lead new team",
     "leader": "líder",

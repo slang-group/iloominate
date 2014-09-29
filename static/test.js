@@ -461,7 +461,7 @@ function imgData(url, callback) {
       ctx.drawImage(i, 0, 0);
       callback(canvas.toDataURL());
     };
-    i.src = url;
+    i.src = url.replace('http://res.cloudinary.com/', '/proxyimage/');
     return canvas.toDataURL();
   }
 }
@@ -469,11 +469,11 @@ function imgData(url, callback) {
 // bulk of PDF paging
 function resumePages(doc, ctx) {
   // write title and finish cover
+  var cover = PBS.KIDS.storybook.config.cover;
   doc.setFontSize(30);
   ctx.font = "30px sans-serif";
   ctx.fillStyle = "#33f";
-  var title = cover.content[0].text;
-  ctx.fillText(title, 5, 40);
+  ctx.fillText(cover.title, 5, 40);
   doc.addPage();
 
   // set generic text
@@ -493,14 +493,15 @@ function resumePages(doc, ctx) {
   }
 
   var pdfifyContent = function(p, c) {
+    // finish when at end of book
+    if (p >= pdfPages.length) {
+      doc.save('book.pdf');
+      return;
+    }
     // advance when at end of page
     if (c >= pdfPages[p].content.length) {
       doc.addPage();
       return pdfifyContent(p + 1, -1);
-    }
-    // finish when at end of book
-    if (p >= pdfPages.length) {
-      doc.save('book.pdf');
     }
 
     // before any content is added to a page: check for background
@@ -528,6 +529,7 @@ function resumePages(doc, ctx) {
       }
       return imgData(content.url, function(imgContent) {
         doc.addImage(imgContent, img_format, content.x, content.y, img_width, img_height);
+        pdfifyContent(p, c + 1);
       });
 
     } else if (content.type === "TextArea") {
