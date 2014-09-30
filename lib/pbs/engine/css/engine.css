@@ -162,10 +162,10 @@ em {
 .pbsTextArea {
 	/* Layer the element on top of the page */
 	position: absolute;
-
 	margin: 0;
+}
 
-/*
+.browse .pbsTextArea {
 	cursor: default;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -173,8 +173,7 @@ em {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-*/
-
+	background: transparent;
 }
 
 .pbsDrawingPad {

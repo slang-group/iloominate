@@ -1,5 +1,7 @@
 // get basic text and image blocks
 
+var browsing = false;
+
 function getGenericText(text) {
   return {
     type: "TextArea",
@@ -37,7 +39,11 @@ function getBottomText(text) {
     return false;
   }
   var box = getGenericText(text);
-  box.y = 105;
+  if (browsing) {
+    box.y = 55;
+  } else {
+    box.y = 105;
+  }
   return box;
 }
 
