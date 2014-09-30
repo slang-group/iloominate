@@ -74,7 +74,7 @@ html
 
           div.list-group.book-options
             div.list-group-item
-              a.btn.btn-info.pdfify.translate(href="#") Make into PDF
+              a.btn.btn-info.pdfify.translate(href="#") Make PDF
               .clearfix
             div.list-group-item
               a.btn.btn-info.upload.translate(href="#") Upload
@@ -185,8 +185,10 @@ html
 
     include partials/pbs_engine
 
+    script(type="text/javascript", src="/pdfify.js")
+    script(type="text/javascript", src="/pagecomponent.js")
 
-    script(type="text/javascript") var load_book_id, load_book, cover, layout, font;
+    script(type="text/javascript") var load_book_id, load_book, cover, layout, font; var prefix = "";
     if book
       script(type="text/javascript") load_book_id = "#{book._id}"; load_book = !{JSON.stringify(book.pages)};
       if book.layout

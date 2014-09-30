@@ -55,12 +55,14 @@ if (typeof outOfChromeApp === "undefined" || !outOfChromeApp) {
       chrome.i18n.getAcceptLanguages(function (languageList) {
         preferredLocale = (languageList[0]).toLowerCase().replace("-", "_");
         makeTranslation(preferredLocale);
+        initializeBook();
       });
     }
     else{
       // language setting exists
       preferredLocale = item.language;
       makeTranslation(preferredLocale);
+      initializeBook();
     }
   });
 

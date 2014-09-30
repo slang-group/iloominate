@@ -8,6 +8,7 @@
     <link href="../lib/antihighlight/jquery.antihighlight.css" rel="stylesheet" type="text/css"/>
     <link href="../lib/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <link href="../lib/jqime/css/jquery.ime.css" rel="stylesheet" type="text/css"/>
+    <link href="../lib/pbs/engine/css/engine.css" rel="stylesheet" type="text/css">
 
     <!-- custom style -->
     <link href="../static/main.css" rel="stylesheet" type="text/css"/>
@@ -71,8 +72,8 @@
     <br/>
 
     <div class="container">
-      <div class="row-fluid">
-        <div class="col-xs-3">
+      <div class="row">
+        <div class="col-md-2">
           <div class="list-group page-list">
             <a href="#" class="list-group-item active">
               <h4 class="list-group-item-heading translate">Page 1</h4>
@@ -84,43 +85,22 @@
           </div>
 
           <div class="list-group book-options">
-            <a class="list-group-item guide" href="#">
-              <img class="icon" src="../static/images/teacher_14016.png"/>
-              <span class="translate">Guide</span>
-            </a>
+            <div class="list-group-item">
+              <a href="#" class="btn btn-info pdfify translate">Make PDF</a>
+              <div class="clearfix"></div>
+            </div>
           </div>
         </div>
 
-        <div class="col-lg-9">
-          <noscript class="translate">Enable JavaScript!</noscript>
+        <div class="col-md-10">
+          <noscript>Enable JavaScript!</noscript>
 
           <div class="well page">
-            <div class="image_area">
-              <h4 class="translate" dir="auto">Drop in an Image</h4>
-              <div class="filedrop bordered">
-              </div>
-            </div>
-            <div class="clearfix">
-            </div>
-
-            <!--
-              <h4 class="translate" dir="auto">Type first page</h4>
-            -->
-            <textarea name="page" class="form-control translate" rows="3" dir="auto">Type first page</textarea>
-            <br/>
-            <a href="#" class="btn btn-success new-page translate">Add Page</a>
-            <hr/>
-            <a href="#" class="btn btn-info pdfify" class="translate">Make into PDF</a>
           </div>
-
-          <canvas width="500" height="300" class="hide"></canvas>
         </div>
       </div>
-      <div class="book hide">
-      </div>
-    </div>
-
-    <div class="clearfix">
+      <canvas width="500" height="300" class="preview hide"></canvas>
+      <canvas width="164" height="164" class="color-change hide"></canvas>
     </div>
 
     <div id="wordmodal" class="modal fade">
@@ -145,68 +125,146 @@
       </div>
     </div>
 
-    <div id="guidemodal" class="modal fade">
+    <div id="iconmodal" class="modal fade">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button class="close" type="button" data-dismiss="modal" aria-hidden="true">x</button>
-            <h3 class="translate">Guide</h3>
+            <button type="button" data-dismiss="modal" aria-hidden="true" class="close">x</button>
+            <h3>
+              <span class="translate">Add Icon</span>
+              <div class="color-bar">
+                <span class="pink">__</span>
+                <span class="red">__</span>
+                <span class="orange">__</span>
+                <span class="yellow">__</span>
+                <span class="green">__</span>
+                <span class="blue">__</span>
+                <span class="purple">__</span>
+              </div>
+            </h3>
           </div>
           <div class="modal-body">
-            <div class="form-group">
-              <p>Every story needs a hero. Use the beginning to introduce the main character of your story.</p>
-              <label for="maincharacter">Who is this story about?</label>
-              <div class="row pickcharacter">
-                <ul class="col-xs-4">
-                  <li>
-                    <strong>Names</strong>
-                  </li>
-                  <li>
-                    <a href="#">Pam</a>
-                  </li>
-                  <li>
-                    <a href="#">Sam</a>
-                  </li>
-                  <li>
-                    <a href="#">Dad</a>
-                  </li>
-                </ul>
-                <ul class="col-xs-4">
-                  <li>
-                    <strong>Animals</strong>
-                  </li>
-                  <li>
-                    <a href="#">bird</a>
-                  </li>
-                  <li>
-                    <a href="#">cat</a>
-                  </li>
-                  <li>
-                    <a href="#">bat</a>
-                  </li>
-                </ul>
-              </div>
-              <input id="maincharacter" class="form-control" type="hidden" name="maincharacter"/>
+            <div class="row">
+              <img src="../static/images/teacher_14016.png" class="col-md-3">
+              <img src="../static/images/penguin_1986.png" class="col-md-3">
+              <img src="../static/images/mosquito_19603.png" class="col-md-3">
+              <img src="../static/images/backpack_2551.png" class="col-md-3">
             </div>
-            <div class="form-group hide">
-              <p>
-                Describe
-                <span class="aboutcharacter"></span>.
-                Choose a word for how he / she / it is.
-              </p>
-              <input id="aboutcharacter" class="form-control" name="aboutcharacter"/>
+            <div class="row">
+              <img src="../static/images/deer_103.png" class="col-md-3">
+              <img src="../static/images/police_4227.png" class="col-md-3">
+              <img src="../static/images/pig_1575.png" class="col-md-3">
+              <img src="../static/images/graduate_6897.png" class="col-md-3">
             </div>
-
-            <button class="btn btn-info translate next" type="button">Next</button>
+            <div class="row">
+              <img src="../static/images/fish_12563.png" class="col-md-3">
+              <img src="../static/images/frog_2546.png" class="col-md-3">
+              <img src="../static/images/duck_12535.png" class="col-md-3">
+              <img src="../static/images/playground_712.png" class="col-md-3">
+            </div>
+            <div class="row">
+              <img src="../static/images/lobster_7165.png" class="col-md-3">
+              <img src="../static/images/run_2401.png" class="col-md-3">
+              <img src="../static/images/storm_4249.png" class="col-md-3">
+              <img src="../static/images/wheat_4214.png" class="col-md-3">
+            </div>
+            <div class="clearfix"></div>
           </div>
-
           <div class="modal-footer">
-            <button class="btn btn-default translate" type="button" data-dismiss="modal">Cancel</button>
+            <button type="button" data-dismiss="modal" class="btn btn-default translate">Cancel</button>
+            <button type="button" data-dismiss="modal" class="btn btn-success translate iconadder">Add Icon</button>
           </div>
         </div>
       </div>
     </div>
 
+    <div id="pagemodal" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" data-dismiss="modal" aria-hidden="true" class="close">x</button>
+            <h3 class="translate">Add Page</h3>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-4">
+                <h4 class="translate">Text</h4>
+                <ul>
+                  <li>
+                    <label>
+                      <input type="radio" name="top" value="text" class="textposition">
+                      <span class="translate">top of page</span>
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input type="radio" name="bottom" value="text" class="textposition">
+                      <span class="translate">bottom of page</span>
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input type="radio" name="bg" value="text" class="textposition">
+                      <span class="translate">full page</span>
+                    </label>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-md-4">
+                <h4 class="translate">Image</h4>
+                <ul>
+                  <li>
+                    <label>
+                      <input type="radio" name="top" value="image" class="imgposition">
+                      <span class="translate">top of page</span>
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input type="radio" name="bottom" value="image" class="imgposition">
+                      <span class="translate">bottom of page</span>
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input type="radio" name="bg" value="image" class="imgposition">
+                      <span class="translate">background image (one page)</span>
+                    </label>
+                  </li>
+                </ul>
+              </div>
+              <div class="col-md-4">
+                <h4 class="translate">Blank</h4>
+                <ul>
+                  <li>
+                    <label>
+                      <input type="radio" name="top" value="blank" class="blankposition">
+                      <span class="translate">top of page</span>
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input type="radio" name="bottom" value="blank" class="blankposition">
+                      <span class="translate">bottom of page</span>
+                    </label>
+                  </li>
+                  <li>
+                    <label>
+                      <input type="radio" name="bg" value="blank" class="blankposition">
+                      <span class="translate">full page</span>
+                    </label>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" data-dismiss="modal" class="btn btn-default translate">Cancel</button>
+            <button type="button" data-dismiss="modal" class="save btn btn-primary translate">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- 3rd party libraries -->
     <script type="text/javascript" src="../lib/jquery-1.11.0.min.js"></script>
@@ -235,10 +293,26 @@
     <script type="text/javascript" src="../lib/jqime/rules/ne/ne-trad.js"></script>
     <script type="text/javascript" src="../lib/jqime/rules/ne/ne-transliteration.js"></script>
 
+    <!-- PBS library -->
+    <script type="text/javascript" src="../lib/pbs/engine/js/pbs.js"></script>
+    <script type="text/javascript" src="../lib/pbs/engine/js/eventDispatcher.js"></script>
+    <script type="text/javascript" src="../lib/pbs/engine/js/interaction.js"></script>
+    <script type="text/javascript" src="../lib/pbs/engine/js/resourceLoader.js"></script>
+    <script type="text/javascript" src="../lib/pbs/engine/js/book.js"></script>
+    <script type="text/javascript" src="../lib/pbs/engine/js/page.js"></script>
+    <script type="text/javascript" src="../lib/pbs/engine/js/textArea.js"></script>
+    <script type="text/javascript" src="../lib/pbs/engine/js/view.js"></script>
+    <script type="text/javascript" src="../lib/pbs/engine/js/sprite.js"></script>
+    <script type="text/javascript" src="../lib/pbs/engine/js/cycler.js"></script>
+
+    <!-- /make defaults -->
+    <script type="text/javascript" src="../static/makeDefaults.js"></script>
+
     <!-- custom script -->
     <script type="text/javascript" src="../static/translations.js"></script>
     <script type="text/javascript" src="../static/localize.js"></script>
+    <script type="text/javascript" src="../static/pdfify.js"></script>
+    <script type="text/javascript" src="../static/pagecomponent.js"></script>
     <script type="text/javascript" src="../static/test.js"></script>
-    <script type="text/javascript" src="../static/guide.js"></script>
   </body>
 </html>
