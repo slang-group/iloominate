@@ -31,7 +31,8 @@ var bookSchema = mongoose.Schema({
     wordSpace: Number,
     lineSpace: Number,
     pageWords: Number,
-    sentenceWords: Number
+    sentenceWords: Number,
+    grader: String
   },
   pages: Array
 });

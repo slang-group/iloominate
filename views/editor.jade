@@ -79,6 +79,11 @@ html
             div.list-group-item
               a.btn.btn-info.upload.translate(href="#") Upload
               .clearfix
+            if book && book._id
+              div.list-group-item
+                a.btn.btn-info.viewer.translate(href="/book/#{book._id}") View
+                .clearfix
+
 
         div.col-md-10
           noscript Enable JavaScript!
