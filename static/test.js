@@ -188,7 +188,13 @@ var blockHandler = function (e) {
 
 // process an image upload
 var processImage = function (e) {
-  current_image = e.target.result;
+  var i = new Image();
+  i.onload = function () {
+    activeImage.drawImage(i, 0, 0);
+    $("#iconmodal").modal('hide');
+    saveCurrentPage();
+  };
+  i.src = e.target.result;
 };
 
 // async: process English text and callback with phonics information
@@ -618,6 +624,7 @@ function renderBook(GLOBAL, PBS) {
     $(".pbsSprite").each(function (i, spriter) {
       $(spriter).click(function (e) {
         var canvas = e.target;
+        activeImage = canvas.getContext('2d');
         if ($(canvas).hasClass("pbsPageCanvas")) {
           // clicked on the background canvas - is this customized?
           var pageID = $("#pbsRightPage .pbsSprite").parent().parent().attr("id");
@@ -637,7 +644,7 @@ function renderBook(GLOBAL, PBS) {
         $("#iconmodal").modal('show');
         $("#iconmodal .modal-body").find('img').on('click', function (e) {
           $("#iconmodal .modal-body").find('img').off();
-          var ctx = canvas.getContext('2d');
+          var ctx = activeImage;
           ctx.fillStyle = "#fff";
           ctx.fillRect(0, 0, 500, 250);
           ctx.drawImage(e.target, 0, 0, 300, 300);
