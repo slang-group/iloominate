@@ -1,18 +1,24 @@
 make and save offline templates
 edit words lists and phonics lists visually
-Spanish (and hopefully Creole?) in phonics
+Spanish and Creole in phonics
 revise cover title
 restore background images & full-page text
-more wordlists with 100 most popular words
 spanish and creole wordlists
 why did sentence/page length alerts not work on http://iloominate.org/edit?id=5426d3bf1db1310200edd7f8
+
+OLPC XO friendly version
+  switch cloudinary over to fs for cover
+  file input button to upload an image (have modal with tabs)
+  test camera > story
+  test page flips
+  output to single-page HTML5 book
+  installation instructions for the XSCE
 
 text
   antihighlight with multiple new lines
   something wrong in LTR same-page nav clicks?
 
 images
-  upload cover image
   uploaded images should stick around
   modal with tabs: |My Images|Team|Icons|
 

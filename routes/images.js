@@ -1,4 +1,3 @@
-var cloudinary = require('cloudinary');
 var md5 = require('MD5');
 
 var t = require('../static/translations');

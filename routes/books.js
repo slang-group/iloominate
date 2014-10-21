@@ -1,5 +1,4 @@
 var fs = require('fs');
-var cloudinary = require('cloudinary');
 var md5 = require('MD5');
 
 var Book = require('../models/book');
@@ -23,7 +22,7 @@ function uploadPageImages (res, book, pages, start_index, image_index) {
   image_index = image_index || 0;
 
   if (page.image && page.image.length && page.image[image_index]) {
-    // store and update any images in Cloudinary
+    // store and update any images in local file system
     console.log('inspecting image');
 
     // notice when a HTTP URL is already present
@@ -50,21 +49,19 @@ function uploadPageImages (res, book, pages, start_index, image_index) {
 
     if (!book.pages[start_index].hash || book.pages[start_index].hash !== hash) {
       // upload this new or updated image
-      console.log('uploading');
-      return cloudinary.uploader.upload(page.image[image_index], function (result) {
-        console.log('uploaded');
-        book.pages[start_index].hash = hash;
-        if (!book.pages[start_index].image) {
-          book.pages[start_index].image = [];
-        }
-        book.pages[start_index].image[image_index] = result.url;
-        image_index++;
-        if (image_index >= page.image.length) {
-          image_index = 0;
-          start_index++;
-        }
-        uploadPageImages(res, book, pages, start_index, image_index);
-      });
+      console.log('no upload');
+      book.pages[start_index].hash = hash;
+      if (!book.pages[start_index].image) {
+        book.pages[start_index].image = [];
+      }
+      book.pages[start_index].image[image_index] = page.image[image_index];
+      image_index++;
+      if (image_index >= page.image.length) {
+        image_index = 0;
+        start_index++;
+      }
+      return uploadPageImages(res, book, pages, start_index, image_index);
+
     } else {
       // presume existing image
       console.log('avoiding matching hash');
@@ -197,17 +194,17 @@ exports.save = function (req, res) {
       if (!req.body.coverUrl && req.files.coverImage && req.files.coverImage.size) {
         // upload image and then load book
         var imageStream = fs.createReadStream(req.files.coverImage.path, { encoding: 'binary' });
-        var cloudStream = cloudinary.uploader.upload_stream(function(result){
-          book.layout.cover.url = result.url;
+
+        var fname = '/uploads/cover' + (new Date() * 1);
+        var cloudStream = fs.writeFile(__dirname + '../static/' + fname, imageStream, function(err) {
+          book.layout.cover.url = fname;
           book.save(function(err) {
             if (err) {
               throw err;
             }
-            res.redirect('/edit?id=' + book._id + '&url=' + result.url);
+            res.redirect('/edit?id=' + book._id + '&url=' + fname);
           });
         });
-
-        imageStream.on('data', cloudStream.write).on('end', cloudStream.end);
 
       } else {
         // book has no image on cover, or uses image from server
