@@ -12,7 +12,6 @@
     "passport-local": "0.1.X",
     "connect-flash": "0.1.X",
     "bcrypt-nodejs": "latest",
-    "cloudinary": "1.0.X",
     "MD5": "1.2.X",
     "postmark": "0.2.X",
     "rhyme-plus": "0.0.6",
