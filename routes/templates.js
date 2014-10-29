@@ -1,8 +1,10 @@
-var Template = require('../models/template');
+var cradle = require('cradle');
+
+var template_db = new(cradle.Connection)().database('templates');
 
 // template JSON
 exports.byid = function (req, res) {
-  Template.findById(req.params.id, function (err, template) {
+  template_db.get(req.params.id, function (err, template) {
     if (err) {
       throw err;
     }

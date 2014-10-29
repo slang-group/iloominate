@@ -1,21 +1,19 @@
 {
   "author": "UnleashKids",
   "name": "iLoominate",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "dependencies": {
     "request": "2.34.X",
     "node-polyglot": "0.3.X",
     "express": "3.5.X",
     "jade": "1.3.X",
-    "mongoose": "3.8.X",
-    "passport": "0.1.X",
-    "passport-local": "0.1.X",
     "connect-flash": "0.1.X",
-    "bcrypt-nodejs": "latest",
     "MD5": "1.2.X",
     "postmark": "0.2.X",
     "rhyme-plus": "0.0.6",
-    "request": "2.44.X"
+    "request": "2.44.X",
+    "cradle": "0.6.X",
+    "express-user-couchdb": "0.3.X"
   },
   "devDependencies": {
     "jshint": "2.5.X",

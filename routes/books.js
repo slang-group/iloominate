@@ -1,8 +1,10 @@
 var fs = require('fs');
 var md5 = require('MD5');
+var cradle = require('cradle');
 
-var Book = require('../models/book');
-var Template = require('../models/template');
+var db = new(cradle.Connection)().database('books');
+var template_db = new(cradle.Connection)().database('templates');
+
 var t = require('../static/translations');
 
 // helper function to store multiple pages
@@ -10,12 +12,21 @@ function uploadPageImages (res, book, pages, start_index, image_index) {
   // reached end of book - return book ID
   if (start_index >= book.pages.length) {
     console.log('saving book');
-    return book.save(function (err) {
-      if (err) {
-        throw err;
-      }
-      res.json({ id: book._id });
-    });
+    if (book.id) {
+      return db.merge(book.id, book, function (err, resp) {
+        if (err) {
+          throw err;
+        }
+        res.json({ id: resp.id });
+      });
+    } else {
+      return db.save(book, function (err, resp) {
+        if (err) {
+          throw err;
+        }
+        res.json({ id: resp.id });
+      });
+    }
   }
 
   var page = pages[start_index];
@@ -82,7 +93,7 @@ function uploadPageImages (res, book, pages, start_index, image_index) {
 
 // book pages (view and post)
 exports.byid = function (req, res) {
-  Book.findById(req.params.book_id, function (err, book) {
+  db.get(req.params.bookid, function (err, book) {
     if (err) {
       throw err;
     }
@@ -96,7 +107,7 @@ exports.byid = function (req, res) {
 exports.save = function (req, res) {
   if (req.body.book_id) {
     // updating book (currently no user check)
-    Book.findById(req.body.book_id, function (err, book) {
+    db.get(req.body.book_id, function (err, book) {
       if (err) {
         throw err;
       }
@@ -120,10 +131,10 @@ exports.save = function (req, res) {
   }
   else{
     // creating new book
-    var book = new Book();
+    var book = {};
     book.name = "hello";
-    if(req.isAuthenticated()){
-      book.user_id = req.user._id;
+    if (false) { // req.isAuthenticated()){
+      book.user_id = req.user.id;
     }
     else{
       book.user_id = "536e934decbddf2809fa32a0";
@@ -176,7 +187,7 @@ exports.save = function (req, res) {
 
       if (req.body.templatename) {
         // save template
-        var template = new Template();
+        var template = {};
         template.layout = JSON.parse(JSON.stringify(book.layout));
         template.name = req.body.templatename;
         template.user_id = book.user_id;
@@ -184,7 +195,7 @@ exports.save = function (req, res) {
           template.team = req.user.teams[0];
         }
 
-        template.save(function(err) {
+        template_db.save(template, function(err, resp) {
           if (err) {
             throw err;
           }
@@ -198,22 +209,25 @@ exports.save = function (req, res) {
         var fname = '/uploads/cover' + (new Date() * 1);
         var cloudStream = fs.writeFile(__dirname + '../static/' + fname, imageStream, function(err) {
           book.layout.cover.url = fname;
-          book.save(function(err) {
+          db.save(book, function(err, resp) {
             if (err) {
               throw err;
             }
-            res.redirect('/edit?id=' + book._id + '&url=' + fname);
+            console.log(resp);
+            res.redirect('/edit?id=' + resp.id + '&url=' + fname);
           });
         });
 
       } else {
         // book has no image on cover, or uses image from server
         book.layout.cover.url = req.body.coverUrl || "";
-        book.save(function(err) {
-          if (err) {
-            throw err;
-          }
-          res.redirect('/edit?id=' + book._id);
+        db.save(book, function(err, resp) {
+          console.log(JSON.stringify(err));
+          //if (err) {
+          //  throw err;
+          //}
+          console.log(JSON.stringify(resp));
+          res.redirect('/edit?id=' + resp.id);
         });
       }
     }

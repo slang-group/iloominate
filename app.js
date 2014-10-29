@@ -1,18 +1,22 @@
 // load node modules
 var express = require('express');
-var mongoose = require('mongoose');
-var passport = require('passport');
 var flash = require('connect-flash');
 var rhyme = require('rhyme-plus');
 var request = require('request');
+var cradle = require('cradle');
 
-// connect to MongoDB for user account support
-var User = require('./models/user');
-mongoose.connect(process.env.MONGOLAB_URI || process.env.MONGODB_URI || 'localhost');
-require('./config/passport')(passport);
-
-// password reset
-var password_reset = require('./config/reset');
+// connect to CouchDB for user account support and storing books
+// var db = new(cradle.Connection)().database('ebooks');
+var couchUser = require('express-user-couchdb');
+var couchUserConfig = {
+  users: 'http://localhost:5984/_users',
+  email: 'nick@unleashkids.org'
+};
+cradle.setup({
+  host: 'localhost',
+  cache: false,
+  raw: false
+});
 
 // configure Express.js framework
 var app = express();
@@ -22,6 +26,8 @@ app.configure(function () {
   app.use(express.bodyParser());
   app.use(express.session({ secret: process.env.SECRET }));
 
+  //app.use(couchUser(couchUserConfig));
+
   // avoid CSRF attack / errors
   app.use(express.csrf());
   app.use(function (req, res, next) {
@@ -30,8 +36,6 @@ app.configure(function () {
     next();
   });
 
-  app.use(passport.initialize());
-  app.use(passport.session());
   app.use(flash());
 
   app.set('views', __dirname + '/views');
@@ -42,9 +46,11 @@ app.configure(function () {
 
 // helper function to check whether someone has logged in
 function isLoggedIn(req, res, next) {
+  /*
   if (req.isAuthenticated()) {
     return next();
   }
+  */
   res.redirect('/');
 }
 
@@ -92,8 +98,10 @@ app.get('/proxyimage/*', function(req, res) {
 app.get('/signup', routes.users.signup);
 app.get('/login', routes.users.login);
 app.get('/logout', routes.users.logout);
+/*
 app.post('/reset', password_reset.reset_mail);
 app.get('/reset', password_reset.reset_confirm);
+*/
 app.get('/profile', isLoggedIn, routes.users.profile);
 app.get('/user/:id', routes.users.byid);
 
@@ -120,6 +128,7 @@ rhyme(function(r) {
   });
 }, (__dirname + '/lib/dictionary/cmudict.0.7a'));
 
+/*
 app.post('/signup', passport.authenticate('local-signup', {
   successRedirect: '/profile',
   failureRedirect: '/signup',
@@ -131,6 +140,7 @@ app.post('/login', passport.authenticate('local-login', {
   failureRedirect: '/login',
   failureFlash: true
 }));
+*/
 
 // team pages
 app.post('/team/create', routes.teams.create);

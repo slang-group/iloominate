@@ -7,12 +7,18 @@ spanish and creole wordlists
 why did sentence/page length alerts not work on http://iloominate.org/edit?id=5426d3bf1db1310200edd7f8
 
 OLPC XO friendly version
-  switch cloudinary over to fs for cover
+  switch cloudinary over to fs for cover (others work)
   file input button to upload an image (have modal with tabs)
-  test camera > story
+  test camera images > story
   test page flips
   output to single-page HTML5 book
-  installation instructions for the XSCE
+  remove widescreen menus  
+  installation instructions for the XSCE (pretty simple on Fedora 20!)
+
+CouchDB replacement for MongoDB?
+  users
+  books
+  remember to create dbs in /_utils with Futon
 
 text
   antihighlight with multiple new lines

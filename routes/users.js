@@ -1,6 +1,5 @@
 var User = require('../models/user');
 var Book = require('../models/book');
-var Template = require('../models/template');
 var Team = require('../models/team');
 
 var t = require('../static/translations');
@@ -36,16 +35,16 @@ exports.profile = function (req, res) {
       }
 
       // select templates of all users in team
-      Template.find({ 'user_id': { $in: team.users } }).select('name').exec(function(err, templates) {
-        if(err) {
-          throw err;
-        }
+      //Template.find({ 'user_id': { $in: team.users } }).select('name').exec(function(err, templates) {
+      //  if(err) {
+      //    throw err;
+      //  }
         res.render('profile', {
           user: req.user,
           translations: t.getTranslations(req, res),
           templates: templates
         });
-      });
+      //});
     });
   } else {
     res.render('profile', {
