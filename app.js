@@ -59,6 +59,7 @@ app.get('/edit', routes.editor);
 
 // book pages
 app.get('/book/:book_id', routes.books.byid);
+app.get('/book2/:book_id', routes.books.plainbyid);
 app.post('/book', routes.books.save);
 
 // word lists

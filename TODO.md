@@ -29,3 +29,9 @@ docs
   writing the manual
   writing more examples
   operator vs user vs translator manual
+
+ansible
+  start on boot
+  have SECRET environment variable
+  create /data/db/journal
+  create and connect to CouchDB?

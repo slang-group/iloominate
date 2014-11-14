@@ -80,13 +80,27 @@ function uploadPageImages (res, book, pages, start_index, image_index) {
   uploadPageImages(res, book, pages, start_index);
 }
 
-// book pages (view and post)
+// book (interactive, animated view)
 exports.byid = function (req, res) {
   Book.findById(req.params.book_id, function (err, book) {
     if (err) {
       throw err;
     }
     res.render('book', {
+      book: book,
+      translations: t.getTranslations(req, res)
+    });
+  });
+};
+
+// book (plain eBook view)
+// book pages (view and post)
+exports.plainbyid = function (req, res) {
+  Book.findById(req.params.book_id, function (err, book) {
+    if (err) {
+      throw err;
+    }
+    res.render('plainbook', {
       book: book,
       translations: t.getTranslations(req, res)
     });

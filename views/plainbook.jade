@@ -1,0 +1,75 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title iLoominate: Storybook App
+
+    // 3rd party libraries
+    link(href="/bootstrap.min.css", rel="stylesheet", type="text/css")
+
+    // custom style
+    link(href="/main.css", rel="stylesheet", type="text/css")
+
+    if book && book.layout && book.layout.font && book.layout.font.name
+      if book.layout.font.name.indexOf('Noto') > -1
+        link(href="/noto-fonts.css", rel="stylesheet", type="text/css")
+      if book.layout.font.name.indexOf('web_') > -1
+        link(href="/webfont-fonts.css", rel="stylesheet", type="text/css")
+
+  body.browse
+    div.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
+      div.container
+        div.navbar-header
+
+        ul.nav.navbar-nav
+          li.active
+            a(href="/")
+              span iLoominate&nbsp;&nbsp;
+              span.translate Online
+
+        ul.nav.navbar-nav.pull-right
+          li
+            a(href="#", data-toggle="dropdown")
+              span.translate Language
+              span &nbsp;▽
+            include partials/languages
+          if loggedin
+            li
+              a#logout.translate(href="/logout") Log Out
+          else
+              li
+                a.translate(href="/login") Log In
+              li
+                a.translate(href="/signup") Sign Up
+
+    br
+    br
+    br
+
+    div.container
+      div.row
+        div.col-md-12.page.plainpagecontainer
+          noscript Enable JavaScript!
+
+    // 3rd party libraries
+    script(type="text/javascript", src="/jquery-1.11.0.min.js")
+
+    script(type="text/javascript", src="/bootstrap.min.js")
+
+    script(type="text/javascript", src="/polyglot.min.js")
+
+    include partials/translate_page
+
+    script(type="text/javascript", src="/pagecomponent.js")
+
+    script(type="text/javascript") var load_book_id, load_book, cover, layout, font; var prefix = "";
+    if book
+      script(type="text/javascript") load_book_id = "#{book._id}"; load_book = !{JSON.stringify(book.pages)};
+      if book.layout
+        script(type="text/javascript") layout = !{JSON.stringify(book.layout)}; font = layout.font;
+        if book.layout.cover
+          script(type="text/javascript") cover = !{JSON.stringify(book.layout.cover)};
+
+    script(type="text/javascript", src="/bookbrowseplain.js")
+
+    include partials/analytics

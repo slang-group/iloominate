@@ -59,39 +59,17 @@ html
 
     div.container
       div.row
-        div.col-md-2
-          div.list-group.page-list
-            if book && book.pages.length
-              - for (var page_num = 1; page_num <= book.pages.length; page_num++)
-                a.list-group-item(href="#")
-                  h4.list-group-item-heading.translate Page #{page_num}
-            else
-              a.list-group-item.active(href="#")
-                h4.list-group-item-heading.translate Page 1
-                p.list-group-item-text.translate What is the story?
-            div.list-group-item
-              a.btn.btn-success.new-page.translate(href="#") Add Page
-
-          div.list-group.book-options
-            div.list-group-item
-              a.btn.btn-info.pdfify.translate(href="#") Make PDF
-              .clearfix
-            div.list-group-item
-              a.btn.btn-info.upload.translate(href="#") Upload
-              .clearfix
-            if book && book._id
-              div.list-group-item
-                a.btn.btn-info.viewer.translate(href="/book/#{book._id}") View
-                .clearfix
-
-
-        div.col-md-10
+        div.col-md-12
           noscript Enable JavaScript!
 
           div.well.page
 
       canvas.preview.hide(width="500", height="300")
       canvas.color-change.hide(width="164", height="164")
+
+    .hover-footer
+      a.btn.btn-success.new-page.translate(href="#") Add Page
+      a.btn.btn-info.upload.translate(href="#") Upload
 
     #wordmodal.modal.fade
       div.modal-dialog
