@@ -511,6 +511,21 @@ var rgb_of = {
   "purple": [200, 0, 200]
 };
 
+$("#iconmodal li a").click(function(e) {
+  $("#iconmodal li").removeClass("active");
+  var li = $(e.target).parent();
+  li.addClass("active");
+  if (li.hasClass("all")) {
+    $("#iconmodal img").show();
+  } else if (li.hasClass("people")) {
+    $("#iconmodal img").hide();
+    $("#iconmodal .people").show();
+  } else if (li.hasClass("animals")) {
+    $("#iconmodal img").hide();
+    $("#iconmodal .animals").show();
+  }
+});
+
 $(".color-bar span").on("click", function(e){
   var color = $(e.target).attr("class");
   var canvas = $("canvas.color-change")[0];

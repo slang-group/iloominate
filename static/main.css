@@ -222,3 +222,23 @@ label span {
 .plainpage > * {
   position: relative;
 }
+
+input, textarea {
+  color: #000 !important;
+}
+
+#iconmodal .modal-dialog {
+  width: 800px;
+}
+
+.clearfix {
+  clear: both;
+}
+
+#iconmodal ul.nav {
+  margin-top: -25px;
+}
+
+#iconmodal ul.nav, #iconmodal h3 input {
+  float: left;
+}

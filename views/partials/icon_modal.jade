@@ -4,7 +4,14 @@
       div.modal-header
         button.close(type="button", data-dismiss="modal", aria-hidden="true") x
         h3
-          span.translate Add Icon
+          ul.nav.nav-tabs
+            li.all(role="presentation", class="active")
+              a.translate(href="#") All
+            li.people(role="presentation")
+              a.translate(href="#") People
+            li.animals(role="presentation")
+              a.translate(href="#") Animals
+          input.translate(type="text", placeholder="search")
           div.color-bar
             span.pink __
             span.red __
@@ -13,27 +20,36 @@
             span.green __
             span.blue __
             span.purple __
+          .clearfix
       div.modal-body
         div.row
-          img.col-md-3(src="/images/teacher_14016.png")
-          img.col-md-3(src="/images/penguin_1986.png")
-          img.col-md-3(src="/images/mosquito_19603.png")
-          img.col-md-3(src="/images/backpack_2551.png")
+          img.col-md-2.people(src="/images/teacher_14016.png")
+          img.col-md-2.animals(src="/images/penguin_1986.png")
+          img.col-md-2.animals(src="/images/mosquito_19603.png")
+          img.col-md-2(src="/images/backpack_2551.png")
+          img.col-md-2(src="/images/music_23486.png")
+          img.col-md-2(src="/images/church_6220.png")
         div.row
-          img.col-md-3(src="/images/deer_103.png")
-          img.col-md-3(src="/images/police_4227.png")
-          img.col-md-3(src="/images/pig_1575.png")
-          img.col-md-3(src="/images/graduate_6897.png")
+          img.col-md-2.animals(src="/images/deer_103.png")
+          img.col-md-2.people(src="/images/police_4227.png")
+          img.col-md-2.animals(src="/images/pig_1575.png")
+          img.col-md-2.people(src="/images/graduate_6897.png")
+          img.col-md-2.animals(src="/images/dog_364.png")
+          img.col-md-2(src="/images/truck_513.png")
         div.row
-          img.col-md-3(src="/images/fish_12563.png")
-          img.col-md-3(src="/images/frog_2546.png")
-          img.col-md-3(src="/images/duck_12535.png")
-          img.col-md-3(src="/images/playground_712.png")
+          img.col-md-2.animals(src="/images/fish_12563.png")
+          img.col-md-2.animals(src="/images/frog_2546.png")
+          img.col-md-2.animals(src="/images/duck_12535.png")
+          img.col-md-2(src="/images/playground_712.png")
+          img.col-md-2.animals(src="/images/cat_6725.png")
+          img.col-md-2(src="/images/laptop_7281.png")
         div.row
-          img.col-md-3(src="/images/lobster_7165.png")
-          img.col-md-3(src="/images/run_2401.png")
-          img.col-md-3(src="/images/storm_4249.png")
-          img.col-md-3(src="/images/wheat_4214.png")
+          img.col-md-2.animals(src="/images/lobster_7165.png")
+          img.col-md-2.people(src="/images/run_2401.png")
+          img.col-md-2(src="/images/storm_4249.png")
+          img.col-md-2(src="/images/wheat_4214.png")
+          img.col-md-2(src="/images/book_21506.png")
+          img.col-md-2.animals(src="/images/snake_26096.png")
         div.clearfix
 
       div.modal-footer
