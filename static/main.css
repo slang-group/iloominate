@@ -252,3 +252,9 @@ input, textarea {
   background: #fff;
   height: 460px;
 }
+
+.file-input {
+  padding: 20px;
+  background: #444;
+  color: #fff;
+}

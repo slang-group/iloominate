@@ -92,8 +92,9 @@ html
               input.iconurl(type="hidden", name="coverUrl", value="")
               br
               br
-              a.btn.btn-info.translate(href="#") Upload
-              input#cover-image.hide(type="file", name="coverImage")
+              .file-input
+                span.translate Choose a file
+                input(type="file")
 
           hr
           a(name="writing")
