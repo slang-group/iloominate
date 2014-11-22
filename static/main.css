@@ -223,10 +223,6 @@ label span {
   position: relative;
 }
 
-input, textarea {
-  color: #000 !important;
-}
-
 #iconmodal .modal-dialog {
   width: 800px;
 }
@@ -241,4 +237,18 @@ input, textarea {
 
 #iconmodal ul.nav, #iconmodal h3 input {
   float: left;
+}
+
+/* OLPC XO CSS */
+input, textarea {
+  color: #000 !important;
+}
+
+.row.make {
+  font-size: 14pt;
+}
+
+.pbsPagesContainer {
+  background: #fff;
+  height: 460px;
 }

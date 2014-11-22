@@ -49,7 +49,7 @@ html
           a(name="paper")
           h3.translate Paper Size
 
-          div.row
+          div.row.make
             div.col-md-6
               label
                 input#fullpage(type="radio", name="paper-size", value="8.5x11", checked="checked")
@@ -63,7 +63,7 @@ html
 
           h3.translate Grade System
 
-          div.row
+          div.row.make
             div.col-md-6
               label
                 input#words(type="radio", name="grader", value="words", checked="checked")
@@ -78,7 +78,7 @@ html
           a(name="cover")
           h3.translate Cover
 
-          div.row
+          div.row.make
             div.col-md-6
               h4.translate Title and Author
               textarea.translate(name="title", placeholder="Title", rows="1", cols="50")
@@ -99,7 +99,7 @@ html
           a(name="writing")
           h3.translate Writing
 
-          div.row
+          div.row.make
             div.col-md-6
               h4.translate Fonts and Letters
               select#fontName(name="font", dir="auto")
@@ -148,7 +148,7 @@ html
           a(name="layout")
           h3.translate Layout
 
-          div.row.line-labels
+          div.row.line-labels.make
             div.col-md-6
               h4.translate Text
               p.translate Allow:
@@ -175,7 +175,7 @@ html
                 input#imagebottom(type="checkbox", name="bottom-image", checked)
                 span.translate bottom of page
 
-          div.row
+          div.row.make
             br
             br
             br

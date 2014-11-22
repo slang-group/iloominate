@@ -453,7 +453,7 @@ window.addEventListener('drop', dropFile, false);
 // books can be created and updated on online site
 var book_id = null;
 
-function upload() {
+function upload(callback) {
   saveCurrentPage(function(){
     $.post("/book", {pages: pages, book_id: book_id, _csrf: csrf_token}, function(response) {
       // redirect to newly created or updated book
@@ -461,10 +461,18 @@ function upload() {
         book_id = response.id;
         history.replaceState({}, "", "/edit?id=" + book_id);
       }
+      if (typeof callback === 'function') {
+        callback();
+      }
     });
   });
 }
 $(".upload").on("click", upload);
+$(".btn.view").click(function() {
+  upload(function() {
+    window.location.href = "/book2/" + book_id;
+  });
+});
 
 function checkPhonics(textBlurb) {
   loadPhonics(textBlurb, function(phonics) {
