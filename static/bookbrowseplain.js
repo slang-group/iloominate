@@ -108,6 +108,20 @@ function initializeBook() {
       }
       addPlainPage(background, reloadPage);
     }
+
+    // add all images
+    $(".plainpage img").each(function(irk, img) {
+      var i = new Image();
+      i.onload = function() {
+        var canv = $("<canvas>")[0];
+        $(canv).width(i.width);
+        $(canv).height(i.height);
+        var ctx = canv.getContext('2d');
+        ctx.drawImage(i, 0, 0, i.width, i.height); // maybe / 2? needed on retina MacBook
+        $(img).attr("src", canv.toDataURL());
+      };
+      i.src = $(img).attr("src");
+    });
   }
 
   // apply text style

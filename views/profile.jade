@@ -56,7 +56,6 @@ html
 
             h4.translate Join team
             form(action="/team/join", method="POST")
-              input(type='hidden', name='_csrf', value=token)
               input.translate(type="input", name="teamname" placeholder="Team name")
               input.btn.btn-success.translate(type="submit" value="Ask to Join")
 
@@ -65,7 +64,6 @@ html
 
             h4.translate Lead new team
             form(action="/team/create", method="POST")
-              input(type='hidden', name='_csrf', value=token)
               input.translate(type="input", name="teamname" placeholder="Team name")
               input.btn.btn-success.translate(type="submit" value="Create")
 

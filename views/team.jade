@@ -32,7 +32,6 @@ html
           if user
             h4.translate Join team
             form(action="/team/join", method="POST")
-              input(type='hidden', name='_csrf', value=token)
               input(type="hidden", name="teamname" value="#{team.name}")
               input.btn.btn-success.translate(type="submit" value="Ask to Join")
 

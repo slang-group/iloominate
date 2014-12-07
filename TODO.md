@@ -7,11 +7,11 @@ spanish and creole wordlists
 why did sentence/page length alerts not work on http://iloominate.org/edit?id=5426d3bf1db1310200edd7f8
 
 OLPC XO friendly version
-  switch cloudinary over to fs
-  file input button to upload cover image
+  fs to upload cover image
   test camera > story -- adjust any image size
   installation instructions for the XSCE
-  get file select working
+  remove animations
+  verify background image
 
 text
   antihighlight with multiple new lines

@@ -28,7 +28,6 @@ html
 
         .col-md-6
           form.well(action="/login", method="post")
-            input(type='hidden', name='_csrf', value=token)
             .form-group
               label.translate Email
               input.form-control(type="text", name="email")
@@ -42,7 +41,6 @@ html
         .col-md-4
           h4 Forgot your password?
           form.well(action="/reset", method="post")
-            input(type='hidden', name='_csrf', value=token)
             .form-group
               label.translate Email
               input.form-control(type="text", name="email")

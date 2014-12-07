@@ -20,7 +20,6 @@ html
     br
 
     form.container(action="/make", method="POST", enctype="multipart/form-data")
-      input#csrf(type='hidden', name='_csrf', value=token)
       input#templatestore(type='hidden', name='templatename', value='')
 
       div.row

@@ -1,4 +1,5 @@
 // load node modules
+var fs = require('fs');
 var express = require('express');
 var mongoose = require('mongoose');
 var passport = require('passport');
@@ -21,14 +22,6 @@ app.configure(function () {
   app.use(express.cookieParser());
   app.use(express.bodyParser());
   app.use(express.session({ secret: process.env.SECRET }));
-
-  // avoid CSRF attack / errors
-  app.use(express.csrf());
-  app.use(function (req, res, next) {
-    res.cookie('XSRF-TOKEN', req.csrfToken());
-    res.locals.token = req.csrfToken();
-    next();
-  });
 
   app.use(passport.initialize());
   app.use(passport.session());
@@ -57,6 +50,16 @@ app.get('/make', routes.maker);
 app.post('/make', routes.books.save);
 app.get('/edit', routes.editor);
 
+app.get('/user_images/:filename', function(req, res) {
+  fs.readFile(__dirname + "/user_images/" + req.params.filename, function(err, data) {
+    if (err) {
+      throw err;
+    }
+    console.log(data);
+    res.send(data);
+  });
+});
+
 // book pages
 app.get('/book/:book_id', routes.books.byid);
 app.get('/book2/:book_id', routes.books.plainbyid);
@@ -77,17 +80,6 @@ app.get('/image/all', routes.images.all);
 app.get('/image/inteam', routes.images.inteam);
 app.get('/image/:id', routes.images.byid);
 app.post('/image', routes.images.save);
-
-// image proxy
-app.get('/proxyimage/*', function(req, res) {
-  var requestOptions = {
-    uri: req.url.replace('/proxyimage', 'http://res.cloudinary.com'),
-    encoding: 'binary'
-  };
-  request(requestOptions, function (err, response, body) {
-    res.end(new Buffer(body, 'binary'));
-  });
-});
 
 // user pages
 app.get('/signup', routes.users.signup);

@@ -50,17 +50,30 @@ function uploadPageImages (res, book, pages, start_index, image_index) {
     if (!book.pages[start_index].hash || book.pages[start_index].hash !== hash) {
       // upload this new or updated image
       console.log('no upload');
-      book.pages[start_index].hash = hash;
       if (!book.pages[start_index].image) {
         book.pages[start_index].image = [];
+        book.pages[start_index].hash = [];
       }
-      book.pages[start_index].image[image_index] = page.image[image_index];
-      image_index++;
-      if (image_index >= page.image.length) {
-        image_index = 0;
-        start_index++;
-      }
-      return uploadPageImages(res, book, pages, start_index, image_index);
+
+      var filename = hash + "_" + (new Date() * 1);
+      book.pages[start_index].image[image_index] = '/user_images/' + filename;
+      book.pages[start_index].hash[image_index] = hash;
+
+      var encoded = page.image[image_index].replace(/^data:image\/png;base64,/, "");
+
+      return fs.writeFile(__dirname + "/../user_images/" + filename, encoded, 'base64', function(err) {
+        if (err) {
+          throw err;
+        }
+
+        image_index++;
+        if (image_index >= page.image.length) {
+          image_index = 0;
+          start_index++;
+        }
+
+        uploadPageImages(res, book, pages, start_index, image_index);
+      });
 
     } else {
       // presume existing image

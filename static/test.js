@@ -1,5 +1,5 @@
 // CSRF token
-var csrf_token = $('#csrf').val();
+var csrf_token = '';
 
 // store page content
 var pages = [{ text: [], image: [], layout: [] }];
