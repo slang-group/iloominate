@@ -222,9 +222,14 @@ exports.save = function (req, res) {
         // upload image and then load book
         var imageStream = fs.createReadStream(req.files.coverImage.path, { encoding: 'binary' });
 
-        var fname = '/uploads/cover' + (new Date() * 1);
-        var cloudStream = fs.writeFile(__dirname + '../static/' + fname, imageStream, function(err) {
-          book.layout.cover.url = fname;
+        var filename = 'cover' + (new Date() * 1);
+
+        fs.writeFile(__dirname + "/../user_images/" + filename, imageStream, 'binary', function(err) {
+          if (err) {
+            throw err;
+          }
+
+          book.layout.cover.url = filename;
           book.save(function(err) {
             if (err) {
               throw err;
