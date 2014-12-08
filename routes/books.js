@@ -218,23 +218,28 @@ exports.save = function (req, res) {
         });
       }
 
-      if (!req.body.coverUrl && req.files.coverImage && req.files.coverImage.size) {
+      if (req.files && req.files.coverImage && req.files.coverImage.size) {
+
         // upload image and then load book
-        var imageStream = fs.createReadStream(req.files.coverImage.path, { encoding: 'binary' });
-
-        var filename = 'cover' + (new Date() * 1);
-
-        fs.writeFile(__dirname + "/../user_images/" + filename, imageStream, 'binary', function(err) {
+        fs.readFile(req.files.coverImage.path, { encoding: 'binary' }, function(err, data) {
           if (err) {
             throw err;
           }
 
-          book.layout.cover.url = filename;
-          book.save(function(err) {
+          var filename = 'cover' + (new Date() * 1);
+
+          fs.writeFile(__dirname + "/../user_images/" + filename, data, 'binary', function(err) {
             if (err) {
               throw err;
             }
-            res.redirect('/edit?id=' + book._id + '&url=' + fname);
+
+            book.layout.cover.url = '/user_images/' + filename;
+            book.save(function(err) {
+              if (err) {
+                throw err;
+              }
+              res.redirect('/edit?id=' + book._id);
+            });
           });
         });
 

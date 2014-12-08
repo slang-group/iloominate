@@ -109,7 +109,7 @@ function initializeBook() {
       addPlainPage(background, reloadPage);
     }
 
-    // add all images
+    // base64-encode all images so they work off of this server
     $(".plainpage img").each(function(irk, img) {
       var i = new Image();
       i.onload = function() {
@@ -122,6 +122,22 @@ function initializeBook() {
       };
       i.src = $(img).attr("src");
     });
+
+    // include cover
+    var coverURL = $($(".plainpage")[0]).css("background-image");
+    if(coverURL.indexOf("url(") === 0) {
+      coverURL = coverURL.substring(4, coverURL.length - 1);
+    }
+    var i = new Image();
+    i.onload = function() {
+      var canv = $("<canvas>")[0];
+      $(canv).width(i.width);
+      $(canv).height(i.height);
+      var ctx = canv.getContext('2d');
+      ctx.drawImage(i, 0, 0, i.width, i.height); // maybe / 2? needed on retina MacBook
+      $($(".plainpage")[0]).css("background-image", "url(" + canv.toDataURL() + ")");
+    };
+    i.src = coverURL;
   }
 
   // apply text style

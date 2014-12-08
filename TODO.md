@@ -9,11 +9,13 @@ why did sentence/page length alerts not work on http://iloominate.org/edit?id=54
 OLPC XO friendly version
   test camera / image upload > story -- adjust any image size
     use upload callback and refresh page
-  test camera / image upload > cover
   installation instructions for the XSCE
   remove animations
   verify background image
-  multimedia
+  use command: SECRET='' PORT='' npm start
+
+  multimeter
+  gift for J, guide, S's kids
 
 text
   antihighlight with multiple new lines

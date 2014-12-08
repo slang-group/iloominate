@@ -29,8 +29,8 @@ app.configure(function () {
 
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
-  app.use(express["static"](__dirname + '/static'));
-  app.use(express["static"](__dirname + '/lib'));
+  app.use(express['static'](__dirname + '/static'));
+  app.use(express['static'](__dirname + '/lib'));
 });
 
 // helper function to check whether someone has logged in
