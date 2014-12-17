@@ -117,7 +117,7 @@ function initializeBook() {
         $(canv).width(i.width);
         $(canv).height(i.height);
         var ctx = canv.getContext('2d');
-        ctx.drawImage(i, 0, 0, i.width, i.height); // maybe / 2? needed on retina MacBook
+        ctx.drawImage(i, 0, 0, i.width / 2, i.height / 2);
         $(img).attr("src", canv.toDataURL());
       };
       i.src = $(img).attr("src");
@@ -134,7 +134,7 @@ function initializeBook() {
       $(canv).width(i.width);
       $(canv).height(i.height);
       var ctx = canv.getContext('2d');
-      ctx.drawImage(i, 0, 0, i.width, i.height); // maybe / 2? needed on retina MacBook
+      ctx.drawImage(i, 0, 0, i.width / 2, i.height / 2);
       $($(".plainpage")[0]).css("background-image", "url(" + canv.toDataURL() + ")");
     };
     i.src = coverURL;

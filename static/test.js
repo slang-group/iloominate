@@ -188,9 +188,20 @@ var blockHandler = function (e) {
 
 // process an image upload
 var processImage = function (e) {
+  var iw = $(activeImage.canvas).width() * 2;
+  var ih = $(activeImage.canvas).height() * 2;
+  activeImage.fill = "#fff";
+  activeImage.fillRect(0, 0, iw, ih);
+
   var i = new Image();
   i.onload = function () {
-    activeImage.drawImage(i, 0, 0);
+    if (i.width / i.height > iw / ih) {
+      ih = i.height * iw / i.width;
+    } else {
+      iw = i.width * ih / i.height;
+    }
+
+    activeImage.drawImage(i, 0, 0, iw, ih);
     $("#iconmodal").modal('hide');
     saveCurrentPage();
   };
@@ -233,9 +244,37 @@ function loadPhonicsIntoWorksheet(wordlist) {
 }
 
 // process a word list upload
-var wordWhitelist = ['', 'world', 'नेपाल', 'this', 'is', 'your', 'first', 'page'];
-var letterWhitelist = ['abcdefghijklmnopqrstuvw.?!,:;'];
-loadPhonics(wordWhitelist.join(' '), loadPhonicsIntoWorksheet);
+var wordWhitelist = [];
+var masterlist = {};
+var letterWhitelist = ['abcdefghijklmnopqrstuvwxyz,.?;:\'\"!àèò'];
+$.getJSON("/wordlist/haiti", function(word_array) {
+  setWhitelist(word_array);
+});
+// loadPhonics(wordWhitelist.join(' '), loadPhonicsIntoWorksheet);
+
+function removeAccents(content){
+  var accents = {
+    "a": ["à"],
+    "e": ["è","é"],
+    "i": [ ],
+    "o": ["ò"],
+    "u": [],
+    "-": ["/"]
+  };
+  for(var letter in accents){
+    for(var a=0;a<accents[letter].length;a++){
+      content = replaceAll(content, accents[letter][a], letter);
+    }
+  }
+  return content;
+}
+
+function replaceAll(src, oldr, newr){
+  while(src.indexOf(oldr) > -1){
+    src = src.replace(oldr, newr);
+  }
+  return src;
+}
 
 function setWhitelist (whitelist) {
   // reset existing whitelists
@@ -261,9 +300,45 @@ function setWhitelist (whitelist) {
   if (layout.grader === 'phonics') {
     loadPhonics(wordWhitelist.join(' '), loadPhonicsIntoWorksheet);
   } else {
+    var autocomplete_list = [];
+
+    for (var m = 0; m < wordWhitelist.length; m++) {
+      var part_of_speech = wordWhitelist[m].split('~')[0];
+      var word = wordWhitelist[m].split('~')[1];
+      wordWhitelist[m] = word;
+
+      var simple_word = removeAccents(word);
+      autocomplete_list.push(simple_word);
+      masterlist[simple_word] = { part_of_speech: part_of_speech, word: word };
+    }
+
     letterWhitelist = [letterWhitelist.join('')];
-    highlighter.antihighlight('setLetters', letterWhitelist);
-    highlighter.antihighlight('setWords', wordWhitelist);
+    if (highlighter) {
+      highlighter.antihighlight('setLetters', letterWhitelist);
+      highlighter.antihighlight('setWords', wordWhitelist);
+    }
+
+    // set typeahead / autocomplete to new wordlist
+    $(".typeahead").typeahead({
+      source: autocomplete_list,
+      highlighter: function(item){
+        var select_word = masterlist[item].word;
+        var part_of_speech = masterlist[item].part_of_speech;
+        var word_bar = $("<li><a href='#'>" + select_word + "</a></li>")
+        word_bar.find('a').click(function(e) {
+          e.preventDefault();
+          var content = $(currentText).val();
+          var lastSpace = Math.max(content.lastIndexOf(" "), content.lastIndexOf("\n"));
+          $(".hover-word-suggest").hide();
+          $(currentText).val( content.substring(0, lastSpace + 1) + select_word + " ").focus();
+        });
+        $("td." + part_of_speech).show();
+        $("tr.suggested td." + part_of_speech).append(word_bar);
+        $(".hover-word-suggest").show();
+        return null;
+      },
+      minLength: 1
+    });
   }
 
   // sentences in page check + words in sentence check
@@ -305,42 +380,38 @@ function setWhitelist (whitelist) {
   return wordWhitelist;
 }
 
-// when online and logged in
-if ($("#logout").length) {
+// set default letter and word lists
+var menuItem = $(".user-login .dropdown-menu li");
+menuItem.find("a").on("click", function() {
+  $(".dropdown-menu.wordlists li").removeClass("active");
+  menuItem.addClass("active");
+  setWhitelist(['abcdefghijklmnopqrstuvwxyz,.?;:\'\"!àèò']);
+});
 
-  // set default letter and word lists
-  var menuItem = $(".user-login .dropdown-menu li");
-  menuItem.find("a").on("click", function() {
-    $(".dropdown-menu.wordlists li").removeClass("active");
-    menuItem.addClass("active");
-    setWhitelist(['hello', 'world', 'नेपाल', 'abcdefghijklmnopqrstuvw.?!']);
-  });
+// download a copy of all user + team word lists, add to a menu
+var wordlists_by_id = {};
+$.getJSON("/wordlist/all", function (metalist) {
+  $.each(metalist, function(i, list) {
+    var menuItem = $("<li role='presentation'>");
+    menuItem.append($("<a href='#' role='menuitem'>").text(list.name));
+    $(".dropdown-menu.wordlists").append(menuItem);
+    menuItem.find("a").on("click", function() {
+      $(".dropdown-menu.wordlists li").removeClass("active");
+      menuItem.addClass("active");
 
-  // download a copy of all user + team word lists, add to a menu
-  var wordlists_by_id = {};
-  $.getJSON("/wordlist/inteam?grader=" + (layout.grader || "words"), function (metalist) {
-    $.each(metalist, function(i, list) {
-      var menuItem = $("<li role='presentation'>");
-      menuItem.append($("<a href='#' role='menuitem'>").text(list.name));
-      $(".dropdown-menu.wordlists").append(menuItem);
-      menuItem.find("a").on("click", function() {
-        $(".dropdown-menu.wordlists li").removeClass("active");
-        menuItem.addClass("active");
-
-        // AJAX to download the actual wordlist once selected
-        if(!wordlists_by_id[list._id]) {
-          $.getJSON("/wordlist/" + list._id, function(detail_list) {
-            wordlists_by_id[detail_list._id] = detail_list.words;
-            setWhitelist(detail_list.words);
-          });
-        }
-        else {
-          setWhitelist(wordlists_by_id[list._id]);
-        }
-      });
+      // AJAX to download the actual wordlist once selected
+      if(!wordlists_by_id[list._id]) {
+        $.getJSON("/wordlist/" + list._id, function(detail_list) {
+          wordlists_by_id[detail_list._id] = detail_list.words;
+          setWhitelist(detail_list.words);
+        });
+      }
+      else {
+        setWhitelist(wordlists_by_id[list._id]);
+      }
     });
   });
-}
+});
 
 // when offline - load previous word lists from app storage
 if (typeof outOfChromeApp === "undefined" || !outOfChromeApp) {
@@ -510,12 +581,13 @@ function checkPhonics(textBlurb) {
 
 // color changer on icons
 var rgb_of = {
+  "black": [0, 0, 0],
   "pink": [255, 105, 180],
   "red": [255, 0, 0],
   "orange": [255, 165, 0],
-  "yellow": [255, 255, 0],
-  "green": [0, 255, 0],
-  "blue": [0, 0, 255],
+  "yellow": [230, 230, 0],
+  "green": [0, 200, 0],
+  "blue": [0, 0, 200],
   "purple": [200, 0, 200]
 };
 
@@ -570,6 +642,25 @@ $($(".page-list").children()[0]).on("click", function() {
   }
 });
 
+var currentText;
+function launchWordGuide(textarea, pressed) {
+  var content = $(textarea).val();
+  if (pressed) {
+    content += pressed;
+  }
+  if ($(textarea).offset().left < ($(window).width() / 2) - 100) {
+    $(".hover-word-suggest").removeClass("left").addClass("right");
+  } else {
+    $(".hover-word-suggest").removeClass("right").addClass("left");
+  }
+  var lastWord = content.substring(Math.max(content.lastIndexOf(" "), content.lastIndexOf("\n")) + 1);
+  $(".hover-word-suggest").hide();
+  if (lastWord.length > 1) {
+    currentText = textarea;
+    $(".hover-word-suggest input").val(lastWord).trigger('keydown').trigger('keyup').trigger('keypress');
+  }
+}
+
 function renderBook(GLOBAL, PBS) {
 
   // Create the storybook
@@ -609,8 +700,27 @@ function renderBook(GLOBAL, PBS) {
     }
     $("textarea").resize();
 
+    // auto-suggest last word
+    $("textarea").on("keypress", function(e) {
+      var pressed = String.fromCharCode(e.which);
+      if (!pressed) {
+        return;
+      }
+      launchWordGuide(e.target, pressed);
+    });
+    $("textarea").on("keyup", function(e){
+      if (e.keyCode === 8) {
+        launchWordGuide(e.target);
+      }
+    });
+    $(".typeahead").on("keydown", function() {
+      // clear suggestions
+      $("tr td").hide();
+      $("tr.suggested td").html("");
+    });
+
     // multilingual input with jQuery.IME
-    $("textarea").ime();
+    // $("textarea").ime();
 
     // when user leaves the textarea, do more difficult check for phonics
     // only English words are currently in the system
@@ -916,3 +1026,16 @@ if (typeof outOfChromeApp !== "undefined" && outOfChromeApp) {
   // if offline: you are waiting for a callback with preferred locale
   initializeBook();
 }
+
+$(".file-input .btn").click(function(e) {
+  e.preventDefault();
+  upload(function() {
+    var form = $($(e.target).parents("form")[0]);
+    var page_index = current_page;
+    if ($(activeImage.canvas).parents("#pbsRightPage").length) {
+      page_index++;
+    }
+    form.attr("action", "/edit?id=" + book_id + "&page=" + page_index);
+    form.submit();
+  });
+});

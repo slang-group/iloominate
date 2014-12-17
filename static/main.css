@@ -136,6 +136,10 @@ body#imager {
   margin-right: 35px;
   cursor: pointer;
 }
+.color-bar span.black {
+  background-color: black;
+  color: black;
+}
 .color-bar span.pink {
   background-color: pink;
   color: pink;
@@ -256,6 +260,73 @@ input, textarea {
 
 .file-input {
   padding: 20px;
-  background: #444;
-  color: #fff;
+  background: #ccc;
+  color: #000;
+}
+
+.file-input .btn {
+  float: right;
+}
+
+.hover-word-suggest {
+  position: fixed;
+  top: 100px;
+  display: none;
+  width: auto;
+}
+
+.hover-word-suggest.left {
+  left: 30px;
+}
+
+.hover-word-suggest.right {
+  right: 30px;
+}
+
+.hover-word-suggest .well {
+  width: auto;
+  min-width: 260px;
+}
+
+.hover-word-suggest input {
+  display: none;
+}
+
+.hover-word-suggest tr.header {
+  font-weight: bold;
+}
+
+.hover-word-suggest tr.suggested td {
+  max-height: 100px;
+  overflow-y: scroll;
+}
+
+.hover-word-suggest td {
+  display: none;
+  vertical-align: top;
+  padding: 5px 10px;
+}
+
+.hover-word-suggest li {
+  padding: 5px 0;
+}
+
+.hover-word-suggest li a {
+  text-decoration: none;
+  color: #000;
+  font-size: 17pt;
+}
+
+.hover-word-suggest li a:hover {
+  font-weight: bold;
+  color: #00c;
+}
+
+.hover-word-suggest .typeahead.dropdown-menu {
+  display: none !important;
+}
+
+tr.suggested li {
+  display: block;
+  list-style-type: none;
 }

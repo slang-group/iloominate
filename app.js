@@ -49,13 +49,13 @@ app.get('/', routes.home);
 app.get('/make', routes.maker);
 app.post('/make', routes.books.save);
 app.get('/edit', routes.editor);
+app.post('/edit', routes.books.addphoto);
 
 app.get('/user_images/:filename', function(req, res) {
   fs.readFile(__dirname + "/user_images/" + req.params.filename, function(err, data) {
     if (err) {
       throw err;
     }
-    console.log(data);
     res.send(data);
   });
 });
@@ -68,6 +68,8 @@ app.post('/book', routes.books.save);
 // word lists
 app.get('/wordlist/all', routes.wordlists.all);
 app.get('/wordlist/inteam', routes.wordlists.inteam);
+app.get('/wordlist/haiti', routes.wordlists.haiti);
+app.get('/wordlist/clearhaiti', routes.wordlists.clearhaiti);
 app.get('/wordlist/:id', routes.wordlists.byid);
 app.post('/wordlist', routes.wordlists.save);
 

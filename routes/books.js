@@ -120,6 +120,48 @@ exports.plainbyid = function (req, res) {
   });
 };
 
+exports.addphoto = function (req, res) {
+  Book.findById(req.query.id, function (err, book) {
+    if (err) {
+      throw err;
+    }
+
+    if (req.files && req.files.photo && req.files.photo.size) {
+      fs.readFile(req.files.photo.path, { encoding: 'binary' }, function(err, data) {
+        if (err) {
+          throw err;
+        }
+
+        var filename = 'page' + (new Date() * 1);
+
+        fs.writeFile(__dirname + "/../user_images/" + filename, data, 'binary', function(err) {
+          if (err) {
+            throw err;
+          }
+
+          var page = book.pages[req.query.page * 1];
+          page.image = ['/user_images/' + filename];
+          book.pages[req.query.page * 1] = page;
+
+          var rep_book = new Book();
+          rep_book.pages = book.pages;
+          rep_book.layout = book.layout;
+          rep_book.name = book.name;
+          rep_book.user_id = book.user_id;
+
+          rep_book.save(function(err) {
+            if (err) {
+              throw err;
+            }
+
+            res.redirect('/edit?id=' + rep_book._id);
+          });
+        });
+      });
+    }
+  });
+};
+
 exports.save = function (req, res) {
   if (req.body.book_id) {
     // updating book (currently no user check)

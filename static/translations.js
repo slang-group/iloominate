@@ -3,7 +3,9 @@ var allTranslations = {
     "About the team": "About the team",
     "Add Icon": "Add Icon",
     "Add Page": "Add Page",
+    "All": "All",
     "Allow:": "Allow:", // writer can have these options
+    "Animals": "Animals",
     "Ask to Join": "Ask to Join",
     "Author": "Author",
     "background image (one page)": "background image (one page)",
@@ -54,6 +56,7 @@ var allTranslations = {
     "Paper": "Paper", // choose which paper to print on
     "Paper Size": "Paper Size",
     "Password": "Password",
+    "People": "People",
     "Phonics": "Phonics",
     "Picture": "Picture",
     "Save": "Save",
@@ -217,7 +220,9 @@ var allTranslations = {
     "About the team": "About the team",
     "Add Icon": "Ajoute Icon",
     "Add Page": "Ajoute Paj",
+    "All": "All",
     "Allow:": "Allow:", // writer can have these options
+    "Animals": "Animals",
     "Ask to Join": "Ask to Join",
     "Author": "Author",
     "background image (one page)": "background image (one page)",
@@ -235,7 +240,7 @@ var allTranslations = {
     "Edit": "Edit",
     "en": "ht",
     "Email": "Email",
-    "first_page_message": "This is your first page!\nStart writing and add new pages.",
+    "first_page_message": "Bonjou!",
     "Fonts and Letters": "Fonts and Letters",
     "full page": "full page",
     "Grade System": "Grade System",
@@ -258,7 +263,7 @@ var allTranslations = {
     "New Book": "New Book",
     "New Icon": "New Icon",
     "New Template": "New Template",
-    "new_page_message": "You made a new page. Write this page and keep this story going!",
+    "new_page_message": "Advance!",
     "Next": "Next",
     "Online": "Online",
     "(Optional)": "(Optional)",
@@ -268,6 +273,7 @@ var allTranslations = {
     "Paper": "Paper", // choose which paper to print on
     "Paper Size": "Paper Size",
     "Password": "Password",
+    "People": "People",
     "Phonics": "Phonics",
     "Picture": "Picture",
     "Save": "Save",
@@ -412,7 +418,7 @@ var getTranslations = function (req, res) {
   if (typeof req === "string") {
     preferredLocale = req;
   } else {
-    preferredLocale = req.query.language || req.cookies.language || (req.headers['accept-language'] || "").split(",")[0];
+    preferredLocale = "ht"; // req.query.language || req.cookies.language || (req.headers['accept-language'] || "").split(",")[0];
     res.cookie('language', preferredLocale);
   }
 

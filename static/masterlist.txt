@@ -1,0 +1,109 @@
+Level 1
+~~ent~~
+bonjou, komoun, w, m, nicolas, sora
+
+Level 2
+~~a~~
+ti
+~~n~~
+ate, eta, ete, eto, oto, ta, tata, te, teta, tete, tito
+~~v~~
+tate
+
+Level 3
+~~n~~
+lalo, leta, lete, leti, lo, lota, ola
+~~ent~~
+ala
+~~v~~
+ale, lite, lolo, lote
+
+Level 4
+~~a~~
+sale, sou
+~~adv~~
+otou, sitou, sou
+~~kon~~
+sito
+~~n~~
+atou, lasi, lise, silo, site, so, solo, sousi, sousou, taso, tisi
+~~v~~
+lase, lese, se, sele, sote, soule, souse, touse
+
+Level 5
+~~a~~
+sere
+~~n~~
+lari, rara, rato, reta, seri
+~~v~~
+rale, rate, rele, rete, ri, sire, souri, tere
+
+Level 6
+~~n~~
+abe, ibo, labou, lobo, rabo, tebe
+~~v~~
+rabi, sibi
+
+Level 7
+~~a~~
+imen, malen, maton, mou, mouri, sanse
+~~adv~~
+lan, lontan, otan, raman, sitan, tanto, toutan
+~~pre~~
+selon
+~~n~~
+alen, amou, ason, elan, lame, lanbi, lanman, lanmen, lanmou, lansan, leman, leson, letan, limon, ma, mabi, manba, manbo, manman, manti, manto, maren, mari, mason, maten, mati, mato, me, melon, men, mera, mi, mimi, mitan, mo, moman, mori, moso, moulen, moumou, mouton, ren, riban, salon, san, sanba, sansi, sante, satan, saten, semi, sen, senti, seren, siman, somon, son, talan, talon, tan, tanbou, taton, ten, tenten, teren, ton, tonton, touman
+~~v~~
+ame, lanbe, lanse, lonmen, mase, mele, mete, moule, rame, renmen, rense, simen, tanmen, tante, tonbe
+
+Level 8
+~~a~~
+koken, kolan, kontan, renka, taken
+~~adv~~
+konsa, kouman, tankou
+~~konj~~
+ake
+~~n~~
+eka, eko, kaka, kaki, kako, kan, kanson, kanton, kara, kare, kata, katon, ke, koki, kokon, kola, kolon, koma, komi, konba, konkou, kontou, koton, kou, koukou, koure, kousen, kouti, kouto, lakou, loke, makou, reken, sante, sekou, sen, tako
+~~ent~~
+kisa
+~~v~~
+kaba, kale, kase, kenbe, kente, kete, kite, koke, kole, konte, kore, koube, kouri, make, moke, souke, take, teke
+~~pwo~~
+ki
+
+Level 9
+~~a~~
+kapon, penba, piti, pore, pouri
+~~adv~~
+apa, pi, pita, poko, poutan
+~~n~~
+api, epe, kanpo, kepi, konpa, kopen, kopi, koupon, lapen, mapou, opa, palan, panpan, panten, panti, papa, pari, pasan, pate, peman, pen, penso, penti, peta, pete, pikan, piki, pilon, piman, pipi, pire, pise, piten, po, poban, pon, ponpon, poto, pou, poulen, pouli, poumon, poupe, poupou, pousan, pouso, repa, repo, soupi, tanpon, tapi, tenpan
+~~ent~~
+tanpi
+~~v~~
+kanpe, koupe, koupi, pake, pale, panmen, panse, pantan, pare, pase, pati, pe, pense, peri, pike, pile, poli, ponpe, pouse, rape, soupe, tape
+
+Level 10
+~~a~~
+dou, modi, pedan, toudi
+~~adv~~
+ade, ditou, dotan
+~~n~~
+diri, do, dola, ide, kado, lendi, madi, manda, padon, penda, pendou, po, radi, rado, rido, tandon
+~~v~~
+dire, dodo, dole, donte, dore, douko, dousi, sede, sonde, soude
+
+Level 11
+~~a~~
+amè, epè, galan, ge, kagou, polè, sensè, sèten, solè
+~~adv~~
+amò, gentan, kibò, kilè, pakè, talè
+~~n~~
+abò, aga, akò, apò, doulè, ekè, etè, ga, gadò, gaga, gala, galè, galon, gan, gangan, gason, gato, gè, gede, genlè, gete, geto, gidon, gimè, gita, gode, gon, gonbo, gou, gouden, kansè, kè, kò, kòdon, kòlè, kòmè, kondò, konmè, kontè, koulè, koupè, lagè, lamè, lamò, lanbè, lanmè, lanmò, lapè, latè, lè, lèdè, lepè, lidè, likè, lò, longan, longè, malè, mango, mantè, masè, mèki, mèsi, mò, molè, monpè, motè, odè, orè, otè, palè, pèlen, pèmi, pèpè, pèsi, pidè, pò, pokè, rabè, rabò, ragou, rapò, rebò, rèkè, remò, resò, sabò, sansè, sè, sèman, senkè, sèpan, sèso, setè, siga, sipò, sò, sògo, somè, soudè, tanga, tè, tikè, timè, tirè, tòti
+~~ent~~
+ago
+~~v~~
+dòmi, gade, gante, gate, geri, gide, gonmen, goumen, goute, kòde, lage, mòde, pèdi, pèse, sèke, tange
+~~np~~
+ogou

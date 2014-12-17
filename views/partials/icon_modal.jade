@@ -11,8 +11,9 @@
               a.translate(href="#") People
             li.animals(role="presentation")
               a.translate(href="#") Animals
-          input.translate(type="text", placeholder="search")
+          // input.translate(type="text", placeholder="search")
           div.color-bar
+            span.black __
             span.pink __
             span.red __
             span.orange __
@@ -26,9 +27,11 @@
           img.col-md-2.people(src="/images/teacher_14016.png")
           img.col-md-2.animals(src="/images/penguin_1986.png")
           img.col-md-2.animals(src="/images/mosquito_19603.png")
-          img.col-md-2(src="/images/backpack_2551.png")
-          img.col-md-2(src="/images/music_23486.png")
-          img.col-md-2(src="/images/church_6220.png")
+          div.col-md-6
+            form.file-input(action="/photo", method="POST", enctype="multipart/form-data")
+              span.translate Choose a file
+              input(type="file", name="photo")
+              .btn.btn-success Go
         div.row
           img.col-md-2.animals(src="/images/deer_103.png")
           img.col-md-2.people(src="/images/police_4227.png")
@@ -61,8 +64,8 @@
           img.col-md-2(src="/images/plane_9033.png")
           img.col-md-2(src="/images/sun_76.png")
           img.col-md-2.people(src="/images/workman_23530.png")
-          div.col-md-6
-            .file-input
-              span.translate Choose a file
-              input(type="file")
+          img.col-md-2(src="/images/backpack_2551.png")
+          img.col-md-2(src="/images/music_23486.png")
+          img.col-md-2(src="/images/church_6220.png")
+
         div.clearfix
