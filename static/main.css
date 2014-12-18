@@ -270,9 +270,15 @@ input, textarea {
 
 .hover-word-suggest {
   position: fixed;
-  top: 100px;
-  display: none;
+  top: 80px;
+  bottom: 50px;
   width: auto;
+  overflow-y: scroll;
+  display: none;
+}
+
+.hover-word-suggest input {
+  width: 100%;
 }
 
 .hover-word-suggest.left {
@@ -288,16 +294,12 @@ input, textarea {
   min-width: 260px;
 }
 
-.hover-word-suggest input {
-  display: none;
-}
-
 .hover-word-suggest tr.header {
   font-weight: bold;
 }
 
 .hover-word-suggest tr.suggested td {
-  max-height: 100px;
+  max-height: 250px;
   overflow-y: scroll;
 }
 
@@ -314,7 +316,7 @@ input, textarea {
 .hover-word-suggest li a {
   text-decoration: none;
   color: #000;
-  font-size: 17pt;
+  font-size: 14pt;
 }
 
 .hover-word-suggest li a:hover {
@@ -329,4 +331,23 @@ input, textarea {
 tr.suggested li {
   display: block;
   list-style-type: none;
+}
+
+.pbsTextArea {
+  background: transparent;
+}
+
+#pbsPage0 textarea {
+  color: #00c !important;
+  text-shadow: 2px 2px #fff;
+  font-weight: bold;
+  font-size: 28pt;
+}
+
+.pbsPage {
+  border-right: 2px solid #000;
+}
+
+.pbsPage:last-of-type {
+  border-right: none;
 }
