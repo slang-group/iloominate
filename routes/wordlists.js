@@ -39,31 +39,26 @@ exports.haiti = function (req, res) {
       throw err;
     }
     if (!lists.length) {
-      var levels = [];
       fs.readFile(__dirname + '/../static/masterlist.txt', { encoding: 'utf-8' }, function (err, file) {
+        var words = [];
         var lines = file.split("\n");
         var part_of_speech;
         for (var a = 0; a < lines.length; a++) {
           var line = lines[a];
-          if (line.indexOf("~") > -1) {
+          if (line.indexOf("~~") > -1) {
             part_of_speech = line.replace("~~", "").replace("~~", "");
             continue;
           }
-          if (line.indexOf("Level") > -1) {
-            levels.push([]);
-            continue;
-          }
-          if (!line.length) {
+          if (!line.length || line.indexOf("Level") > -1) {
             continue;
           }
           var combined_words = line.split(', ');
           for (var c = 0; c < combined_words.length; c++) {
             combined_words[c] = part_of_speech + "~" + combined_words[c];
           }
-          levels[levels.length - 1] = levels[levels.length - 1].concat(combined_words);
+          words = words.concat(combined_words);
         }
 
-        /*
         var list = new WordList();
         list.place = "haiti";
         list.name = "Ayiti";
@@ -73,11 +68,11 @@ exports.haiti = function (req, res) {
           list.user = req.user._id;
         }
         list.words = words;
-        list.save(function (err) {
+        /* list.save(function (err) {
           res.json(list.words);
         });
         */
-        res.json(levels);
+        res.json(words);
       });
     } else {
       res.json(lists[0].words);

@@ -11,6 +11,7 @@
               a.translate(href="#") People
             li.animals(role="presentation")
               a.translate(href="#") Animals
+          // input.translate(type="text", placeholder="search")
           div.color-bar
             span.black __
             span.pink __
@@ -28,9 +29,9 @@
           img.col-md-2.animals(src="/images/mosquito_19603.png")
           div.col-md-6
             form.file-input(action="/photo", method="POST", enctype="multipart/form-data")
-              .btn.btn-success Go
               span.translate Choose a file
               input(type="file", name="photo")
+              .btn.btn-success Go
         div.row
           img.col-md-2.animals(src="/images/deer_103.png")
           img.col-md-2.people(src="/images/police_4227.png")

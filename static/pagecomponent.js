@@ -42,7 +42,7 @@ function getBottomText(text) {
   if (browsing) {
     box.y = 55;
   } else {
-    box.y = 55;
+    box.y = 105;
   }
   return box;
 }
