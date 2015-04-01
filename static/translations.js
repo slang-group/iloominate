@@ -418,7 +418,7 @@ var getTranslations = function (req, res) {
   if (typeof req === "string") {
     preferredLocale = req;
   } else {
-    preferredLocale = "ht"; // req.query.language || req.cookies.language || (req.headers['accept-language'] || "").split(",")[0];
+    preferredLocale = req.query.language || req.cookies.language || (req.headers['accept-language'] || "").split(",")[0];
     res.cookie('language', preferredLocale);
   }
 
