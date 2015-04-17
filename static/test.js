@@ -1,6 +1,5 @@
 // CSRF token
 var csrf_token = '';
-var lastWhitelist;
 
 // store page content
 var pages = [{ text: [], image: [], layout: [] }];
@@ -8,6 +7,7 @@ var current_page = 0;
 var current_image = null;
 
 var book = null;
+var highlighter = null;
 var twoPageOn = false;
 var phonicsWhitelist = [];
 var activeImage = null;
@@ -178,33 +178,79 @@ function setCurrentPage(p, isAddingPage) {
   });
 }
 
+// drop a file onto the page
+var files, fileindex;
+
+var blockHandler = function (e) {
+  e.stopPropagation();
+  e.preventDefault();
+};
+
+// process an image upload
+var processImage = function (e) {
+  var iw = $(activeImage.canvas).width() * 2;
+  var ih = $(activeImage.canvas).height() * 2;
+  activeImage.fill = "#fff";
+  activeImage.fillRect(0, 0, iw, ih);
+
+  var i = new Image();
+  i.onload = function () {
+    if (i.width / i.height > iw / ih) {
+      ih = i.height * iw / i.width;
+    } else {
+      iw = i.width * ih / i.height;
+    }
+
+    activeImage.drawImage(i, 0, 0, iw, ih);
+    $("#iconmodal").modal('hide');
+    saveCurrentPage();
+  };
+  i.src = e.target.result;
+};
+
+// async: process English text and callback with phonics information
+function loadPhonics(textBlurb, callback) {
+  var text = textBlurb.replace(/(\r|\n)/g, " ").split(' ');
+  var words = [];
+  for(var w = 0; w < text.length; w++) {
+    var word = text[w].replace(/\b[-.,()&$#!\[\]{}"']+\B|\B[-.,()&$#!\[\]{}"']+\b/g, "");
+    if (word) {
+      words.push(word);
+    }
+  }
+  $.getJSON("/phonics?words=" + words.join(","), function (phonics) {
+    if (callback && typeof callback === 'function') {
+      callback(phonics);
+    }
+  });
+}
+
+function loadPhonicsIntoWorksheet(wordlist) {
+  // add each word
+  for(var word in wordlist) {
+    if (wordlist.hasOwnProperty(word)) {
+      // for each valid pronunciation
+      for(var p = 0; p < wordlist[word].length; p++) {
+        // add each syllable once
+        for(var s = 0; s < wordlist[word][p].length; s++) {
+          var syllable = wordlist[word][p][s];
+          if (phonicsWhitelist.indexOf(syllable) === -1) {
+            phonicsWhitelist.push(syllable);
+          }
+        }
+      }
+    }
+  }
+}
+
 // process a word list upload
 var wordWhitelist = [];
 var masterlist = {};
 var letterWhitelist = ['abcdefghijklmnopqrstuvwxyz,.?;:\'\"!àèò'];
-$.getJSON("/wordlist/haiti", function(word_levels) {
-
-  var word_list = [];
-  $.each(word_levels, function(level_num, new_words) {
-    word_list = word_list.concat(new_words);
-
-    var list_level = $("<li role='presentation'><a href='#' role='menuitem'>Level " + (level_num * 1 + 1) + "</a></li>");
-    $(".wordlists").append(list_level);
-    var whitelist = word_list.concat([]);
-    whitelist.reverse();
-    list_level.click(function (e) {
-      $(".wordlists li").removeClass("active");
-      list_level.addClass("active");
-      setWhitelist(whitelist);
-    });
-
-    // add the last one immediately
-    if (level_num === word_levels.length - 1) {
-      list_level.addClass("active");
-      setWhitelist(whitelist);
-    }
-  });
+$.getJSON("/wordlist/haiti", function(word_array) {
+  setWhitelist(word_array);
 });
+// loadPhonics(wordWhitelist.join(' '), loadPhonicsIntoWorksheet);
 
 function removeAccents(content){
   var accents = {
@@ -230,36 +276,8 @@ function replaceAll(src, oldr, newr){
   return src;
 }
 
-var autocomplete_list = [];
-
-// set typeahead / autocomplete to new wordlist
-$(".typeahead").typeahead({
-  source: autocomplete_list,
-  highlighter: function(item){
-    populateWord(item);
-    return null;
-  },
-  minLength: 1
-});
-
-function populateWord(item) {
-  var select_word = masterlist[item].word;
-  var part_of_speech = masterlist[item].part_of_speech;
-  var word_bar = $("<li><a href='#'>" + select_word + "</a></li>")
-  word_bar.find('a').click(function(e) {
-    e.preventDefault();
-    var content = $(currentText).val();
-    var lastSpace = Math.max(content.lastIndexOf(" "), content.lastIndexOf("\n"));
-    $(".hover-word-suggest input").val("");
-    $(currentText).val( content.substring(0, lastSpace + 1) + select_word + " ").focus();
-  });
-  $("td." + part_of_speech).show();
-  $("tr.suggested td." + part_of_speech).append(word_bar);
-}
-
 function setWhitelist (whitelist) {
   // reset existing whitelists
-  lastWhitelist = whitelist;
   wordWhitelist = [];
   letterWhitelist = [];
   for (var w=0; w<whitelist.length; w++) {
@@ -278,23 +296,50 @@ function setWhitelist (whitelist) {
     }
   }
 
-  // update autocomplete plugin
-  autocomplete_list.splice(0, autocomplete_list.length);
-  $("tr.suggested td").html("");
+  // update antihighlighter plugin
+  if (layout.grader === 'phonics') {
+    loadPhonics(wordWhitelist.join(' '), loadPhonicsIntoWorksheet);
+  } else {
+    var autocomplete_list = [];
 
-  for (var m = 0; m < wordWhitelist.length; m++) {
-    var part_of_speech = wordWhitelist[m].split('~')[0];
-    var word = wordWhitelist[m].split('~')[1];
-    wordWhitelist[m] = word;
+    for (var m = 0; m < wordWhitelist.length; m++) {
+      var part_of_speech = wordWhitelist[m].split('~')[0];
+      var word = wordWhitelist[m].split('~')[1];
+      wordWhitelist[m] = word;
 
-    var simple_word = removeAccents(word);
-    autocomplete_list.push(simple_word);
-    masterlist[simple_word] = { part_of_speech: part_of_speech, word: word };
+      var simple_word = removeAccents(word);
+      autocomplete_list.push(simple_word);
+      masterlist[simple_word] = { part_of_speech: part_of_speech, word: word };
+    }
 
-    populateWord(simple_word);
+    letterWhitelist = [letterWhitelist.join('')];
+    if (highlighter) {
+      highlighter.antihighlight('setLetters', letterWhitelist);
+      highlighter.antihighlight('setWords', wordWhitelist);
+    }
+
+    // set typeahead / autocomplete to new wordlist
+    $(".typeahead").typeahead({
+      source: autocomplete_list,
+      highlighter: function(item){
+        var select_word = masterlist[item].word;
+        var part_of_speech = masterlist[item].part_of_speech;
+        var word_bar = $("<li><a href='#'>" + select_word + "</a></li>")
+        word_bar.find('a').click(function(e) {
+          e.preventDefault();
+          var content = $(currentText).val();
+          var lastSpace = Math.max(content.lastIndexOf(" "), content.lastIndexOf("\n"));
+          $(".hover-word-suggest").hide();
+          $(currentText).val( content.substring(0, lastSpace + 1) + select_word + " ").focus();
+        });
+        $("td." + part_of_speech).show();
+        $("tr.suggested td." + part_of_speech).append(word_bar);
+        $(".hover-word-suggest").show();
+        return null;
+      },
+      minLength: 1
+    });
   }
-
-  letterWhitelist = [letterWhitelist.join('')];
 
   // sentences in page check + words in sentence check
   var runPage = function (page) {
@@ -325,6 +370,13 @@ function setWhitelist (whitelist) {
   runPage("#pbsLeftPage");
   runPage("#pbsRightPage");
 
+  // make sure fonts have same properties, so highlights match words in textbox
+  $('.highlighter').css({
+    'font-family': font.name,
+    'font-size': font.size + "pt",
+    'line-height': layout.lineSpace + "pt"
+  });
+
   return wordWhitelist;
 }
 
@@ -338,6 +390,28 @@ menuItem.find("a").on("click", function() {
 
 // download a copy of all user + team word lists, add to a menu
 var wordlists_by_id = {};
+$.getJSON("/wordlist/all", function (metalist) {
+  $.each(metalist, function(i, list) {
+    var menuItem = $("<li role='presentation'>");
+    menuItem.append($("<a href='#' role='menuitem'>").text(list.name));
+    $(".dropdown-menu.wordlists").append(menuItem);
+    menuItem.find("a").on("click", function() {
+      $(".dropdown-menu.wordlists li").removeClass("active");
+      menuItem.addClass("active");
+
+      // AJAX to download the actual wordlist once selected
+      if(!wordlists_by_id[list._id]) {
+        $.getJSON("/wordlist/" + list._id, function(detail_list) {
+          wordlists_by_id[detail_list._id] = detail_list.words;
+          setWhitelist(detail_list.words);
+        });
+      }
+      else {
+        setWhitelist(wordlists_by_id[list._id]);
+      }
+    });
+  });
+});
 
 // when offline - load previous word lists from app storage
 if (typeof outOfChromeApp === "undefined" || !outOfChromeApp) {
@@ -362,6 +436,91 @@ if (typeof outOfChromeApp === "undefined" || !outOfChromeApp) {
   });
 }
 
+// uploading a whitelist when a user presses "Save" button
+$("#wordmodal .save").on("click", function() {
+  var name = $("#wordmodal #wordlistname").val();
+  var wordlist = $("#wordmodal p").text();
+
+  // add to word list dropdown for logged-in users
+  $(".dropdown-menu.wordlists li").removeClass("active");
+
+  var menuItem = $("<li role='presentation' class='active'>");
+  menuItem.append($("<a href='#' role='menuitem'>").text(name));
+  $(".dropdown-menu.wordlists").append(menuItem);
+  menuItem.find("a").on("click", function() {
+    $(".dropdown-menu.wordlists li").removeClass("active");
+    menuItem.addClass("active");
+    setWhitelist(wordlist.split(" "));
+  });
+
+  if (typeof outOfChromeApp === "undefined" || !outOfChromeApp) {
+    // save to Chrome app version of localStorage
+    var hash = md5(wordlist);
+    chrome.storage.local.get('wordlist_' + hash, function(item){
+      if (!Object.keys(item).length) {
+        // creating a new list in localStorage
+        var storeVal = {};
+        storeVal['wordlist_' + hash] = {type: 'wordlist', name: name, wordlist: wordlist};
+        chrome.storage.local.set(storeVal, function(){
+          console.log('list saved as ' + storeName);
+        });
+      }
+      else{
+        // list exists in localStorage
+        return;
+      }
+    });
+
+  } else {
+    // online - post word list to server
+    $.post("/wordlist", {name: name, wordlist: wordlist, _csrf: csrf_token, grader: (layout.grader || "words")}, function(response) {
+      console.log(response);
+    });
+  }
+});
+
+// process a dropped file into letter and word lists
+var processWhitelist = function (e) {
+  var whitelist = e.target.result;
+  // reduce to lowercase words separated by spaces
+  whitelist = whitelist.replace(/\r?\n|\r/g, ' ').replace(/\s\s+/g, ' ').toLowerCase().split(' ');
+
+  whitelist = setWhitelist(whitelist);
+
+  // display and save whitelist for final approval
+  $("#wordmodal .modal-body input").val("");
+  $("#wordmodal .modal-body p").text(whitelist.join(" ").substring(0,500));
+  $("#wordmodal").modal('show');
+};
+
+
+// file drop handlers
+var dropFile = function (e) {
+  e.stopPropagation();
+  e.preventDefault();
+
+  files = e.dataTransfer.files;
+  if (files && files.length) {
+    var reader = new FileReader();
+
+    var fileType = files[0].type.toLowerCase();
+    if(fileType.indexOf("image") > -1){
+      // process an image
+      reader.onload = processImage;
+      reader.readAsDataURL(files[0]);
+    }
+    else{
+      // process a whitelist of letters and words
+      reader.onload = processWhitelist;
+      reader.readAsText(files[0]);
+    }
+  }
+};
+window.addEventListener('dragenter', blockHandler, false);
+window.addEventListener('dragexit', blockHandler, false);
+window.addEventListener('dragover', blockHandler, false);
+window.addEventListener('drop', dropFile, false);
+
 // books can be created and updated on online site
 var book_id = null;
 
@@ -385,6 +544,40 @@ $(".btn.view").click(function() {
     window.location.href = "/book2/" + book_id;
   });
 });
+
+function checkPhonics(textBlurb) {
+  loadPhonics(textBlurb, function(phonics) {
+    var rejectWords = [];
+    for (var word in phonics) {
+      if (phonics.hasOwnProperty(word)) {
+        var wordWorks = false;
+        for (var p = 0; p < phonics[word].length; p++) {
+          var pronunciationWorks = true;
+          for (var s = 0; s < phonics[word][p].length; s++) {
+            var syllable = phonics[word][p][s];
+            if (phonicsWhitelist.indexOf(syllable) === -1) {
+              // unknown phoneme - reject this pronunciation
+              pronunciationWorks = false;
+              break;
+            }
+          }
+          if (pronunciationWorks) {
+            // one of this word's pronunciations works - accept word
+            wordWorks = true;
+          }
+        }
+        if (!wordWorks && phonics[word].length) {
+          // this word is known and it was rejected
+          rejectWords.push(word);
+        }
+      }
+    }
+    if (rejectWords.length) {
+      // highlight these phonics words
+      highlighter.antihighlight('setReject', rejectWords);
+    }
+  });
+}
 
 // color changer on icons
 var rgb_of = {
@@ -440,7 +633,33 @@ $(".color-bar span").on("click", function(e){
   });
 });
 
-var currentText, triggerTimeout;
+// activate first page link
+$($(".page-list").children()[0]).on("click", function() {
+  if (_("ltr") === "rtl") {
+    setCurrentPage(pages.length - 1);
+  } else {
+    setCurrentPage(0);
+  }
+});
+
+var currentText;
+function launchWordGuide(textarea, pressed) {
+  var content = $(textarea).val();
+  if (pressed) {
+    content += pressed;
+  }
+  if ($(textarea).offset().left < ($(window).width() / 2) - 100) {
+    $(".hover-word-suggest").removeClass("left").addClass("right");
+  } else {
+    $(".hover-word-suggest").removeClass("right").addClass("left");
+  }
+  var lastWord = content.substring(Math.max(content.lastIndexOf(" "), content.lastIndexOf("\n")) + 1);
+  $(".hover-word-suggest").hide();
+  if (lastWord.length > 1) {
+    currentText = textarea;
+    $(".hover-word-suggest input").val(lastWord).trigger('keydown').trigger('keyup').trigger('keypress');
+  }
+}
 
 function renderBook(GLOBAL, PBS) {
 
@@ -454,36 +673,50 @@ function renderBook(GLOBAL, PBS) {
   book.addEventListener("PAGE_CHANGE", function () {
     current_page = book.getPage();
 
+    // activate antihighlight
+    if (layout.grader === "phonics") {
+      highlighter = $("textarea").antihighlight({
+        caseSensitive: false
+      });
+    } else {
+      highlighter = $("textarea").antihighlight({
+        words: wordWhitelist,
+        letters: letterWhitelist,
+        caseSensitive: false
+      });
+    }
+
+    // match styling on antihighlight and textareas
+    $('.highlighter').css({
+      'font-family': font.name,
+      'font-size': font.size + "pt",
+      'line-height': layout.lineSpace + "pt"
+    });
+
     // full-page and two-page text areas
     if(twoPageOn) {
       $("textarea").css({ "z-index": 999 });
+      $(".antihighlight").width($("textarea").width());
     }
     $("textarea").resize();
 
-    $("textarea").on('focus', function(e) {
-      currentText = e.target;
+    // auto-suggest last word
+    $("textarea").on("keypress", function(e) {
+      var pressed = String.fromCharCode(e.which);
+      if (!pressed) {
+        return;
+      }
+      launchWordGuide(e.target, pressed);
     });
-
-    $("#pbsLeftPage").click(function (e) {
-      if (!$(e.target).parents('#pbsPage0').length) {
-        $(".hover-word-suggest").removeClass("left").addClass("right").show();
+    $("textarea").on("keyup", function(e){
+      if (e.keyCode === 8) {
+        launchWordGuide(e.target);
       }
     });
-
-    $("#pbsRightPage").click(function(e) {
-      if (!$(e.target).parents('#pbsPage0').length) {
-        $(".hover-word-suggest").removeClass("right").addClass("left").show();
-      }
-    });
-
     $(".typeahead").on("keydown", function() {
       // clear suggestions
       $("tr td").hide();
       $("tr.suggested td").html("");
-
-      if ($(".typeahead").val() === '') {
-        setWhitelist(lastWhitelist);
-      }
     });
 
     // multilingual input with jQuery.IME
@@ -514,32 +747,13 @@ function renderBook(GLOBAL, PBS) {
           var text = $(e.target).val();
           text = text.replace(/(\s-\n)+/g, layout.wordSpace);
           $(e.target).val(text);
+          // doesn't work on right page
+          highlighter.antihighlight('highlight');
         });
       }
     }
 
     // make images clickable
-    var hasChanged = false;
-    $("#pbsPage0 canvas").click(function (e) {
-      var activeImage = $("#pbsPage0 canvas")[0].getContext('2d');
-      if (!hasChanged) {
-        hasChanged = true;
-        $("#iconmodal").modal('show');
-        $("#iconmodal .modal-body").find('img').on('click', function (e) {
-          $("#iconmodal .modal-body").find('img').off();
-          var ctx = activeImage;
-          ctx.fillStyle = "#ccc";
-          ctx.fillRect(0, 0, 1300, 1300);
-          ctx.fill();
-          ctx.drawImage(e.target, $(window).width() / 10, $(window).height() / 10, $(window).width(), $(window).height());
-
-          PBS.KIDS.storybook.config.cover.background.url = $("#pbsPage0 canvas")[0].toDataURL();
-
-          $("#iconmodal").modal('hide');
-          saveCurrentPage();
-        });
-      }
-    });
     $(".pbsSprite").each(function (i, spriter) {
       $(spriter).click(function (e) {
         var canvas = e.target;
@@ -720,7 +934,7 @@ function initializeBook() {
   	},
   	cover: {
   		background: {
-  			url: cover.url || (prefix + "images/book_21506.png")
+  			url: cover.url || (prefix + "images/frog_2546.png")
   		},
   		content: [
         {
@@ -728,7 +942,7 @@ function initializeBook() {
           x: 10,
           y: 30,
           width: 90,
-          align: "left",
+          align: "center",
           color: "#00f",
           size: font.size || 18,
           font: font.name || "Arial",

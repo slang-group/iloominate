@@ -240,7 +240,7 @@ var allTranslations = {
     "Edit": "Edit",
     "en": "ht",
     "Email": "Email",
-    "first_page_message": " ",
+    "first_page_message": "Bonjou!",
     "Fonts and Letters": "Fonts and Letters",
     "full page": "full page",
     "Grade System": "Grade System",
@@ -263,7 +263,7 @@ var allTranslations = {
     "New Book": "New Book",
     "New Icon": "New Icon",
     "New Template": "New Template",
-    "new_page_message": " ",
+    "new_page_message": "Advance!",
     "Next": "Next",
     "Online": "Online",
     "(Optional)": "(Optional)",
@@ -346,7 +346,7 @@ var allTranslations = {
     "Drop in an Image": "إدراج صورة",
     "Edit": "تحرير",
     "Email": "البريد الإلكتروني",
-    "en": "en", // language for page (html lang="en")
+    "en": "ar", // language for page (html lang="en")
     "first_page_message": "هذه هي الصفحة الأولى!\nبدء الكتابة وإضافة صفحات جديدة.",
     "Fonts and Letters": "الخطوط والحروف",
     "full page": "كامل الصفحة",
@@ -362,7 +362,7 @@ var allTranslations = {
     "line size": "حجم السطر",
     "Log In": "تسجيل الدخول",
     "Log Out": "تسجيل الخروج",
-    "ltr": "ltr", // left-to-right or right-to-left?
+    "ltr": "rtl", // left-to-right or right-to-left?
     "Make PDF": "إنشاء PDF",
     "middle of page": "منتصف الصفحة",
     "My Books": "ورقاتي",
@@ -434,7 +434,7 @@ var allTranslations = {
     "Drop in an Image": "ምስልን አስገባ",
     "Edit": "አርትዕ",
     "Email": "ኢሜል",
-    "en": "en", // language for page (html lang="en")
+    "en": "am", // language for page (html lang="en")
     "first_page_message": "ይህ የእርስዎ የመጀመሪያ ገጽ ነው።\nመጻፍ ይጀምሩ እና አዳዲስ ገጾችን ያክሉ።",
     "Fonts and Letters": "ፎንቶች እና ሆሄዎች",
     "full page": "ሙሉ ገጽ",
@@ -518,7 +518,7 @@ var allTranslations = {
     "Drop in an Image": "একটি ছবি কমান",
     "Edit": "সম্পাদনা",
     "Email": "ইমেইল",
-    "en": "en", // language for page (html lang="en")
+    "en": "bn", // language for page (html lang="en")
     "first_page_message": "এটি আপনার প্রথম পৃষ্ঠা!\nলিখতে শুরু করুন এবং নতুন পৃষ্ঠা যোগ করুন।",
     "Fonts and Letters": "ফন্ট ও অক্ষরগুলি",
     "full page": "পূর্ণ পৃষ্ঠা",
@@ -602,7 +602,7 @@ var allTranslations = {
     "Drop in an Image": "ដាក់ចូលជារូបភាព",
     "Edit": "កែ",
     "Email": "អ៊ីម៉ែល",
-    "en": "en", // language for page (html lang="en")
+    "en": "km", // language for page (html lang="en")
     "first_page_message": "នេះជាទំព័រដំបូងរបស់អ្នក!\nចាប់ផ្តើមសរសេរ ហើយបន្ថែមទំព័រថ្មីៗ។",
     "Fonts and Letters": "ហ្វុន និងអក្សរ",
     "full page": "ពេញទំព័រ",
@@ -676,7 +676,7 @@ var getTranslations = function (req, res) {
   if (typeof req === "string") {
     preferredLocale = req;
   } else {
-    preferredLocale = "ht"; // req.query.language || req.cookies.language || (req.headers['accept-language'] || "").split(",")[0];
+    preferredLocale = req.query.language || req.cookies.language || (req.headers['accept-language'] || "").split(",")[0];
     res.cookie('language', preferredLocale);
   }
 

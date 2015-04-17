@@ -5,7 +5,9 @@ html
     title= 'iLoominate: Storybook App'
 
     // 3rd party libraries
+    link(href="/antihighlight/jquery.antihighlight.css", rel="stylesheet", type="text/css")
     link(href="/bootstrap.min.css", rel="stylesheet", type="text/css")
+    // link(href="/jqime/css/jquery.ime.css", rel="stylesheet", type="text/css")
     link(href="/pbs/engine/css/engine.css", rel="stylesheet", type="text/css")
 
     // custom style
@@ -29,14 +31,14 @@ html
         ul.nav.navbar-nav.pull-right
           li
             a(href="#", data-toggle="dropdown")
-              span.translate Word List
-              span &nbsp;▽
-            ul.dropdown-menu.wordlists(role="menu", aria-labelledby="dLabel")
-          li
-            a(href="#", data-toggle="dropdown")
               span.translate Language
               span &nbsp;▽
             include partials/languages
+          li
+            a(href="#", data-toggle="dropdown")
+              span.translate Word List
+              span &nbsp;▽
+            ul.dropdown-menu.wordlists(role="menu", aria-labelledby="dLabel")
 
     br
     br
@@ -52,35 +54,25 @@ html
       canvas.preview.hide(width="500", height="300")
       canvas.color-change.hide(width="164", height="164")
 
-    .hover-word-suggest.right
-      .well
-        input.typeahead(type="text", placeholder="chache yon mo")
-        table
-          tr.header
-            td.n Noun
-            td.v Verb
-            td.a Adjective
-            td.adv Adverb
-          tr.suggested
-            td.n
-            td.v
-            td.a
-            td.adv
-          tr.header
-            td.ent Interjection
-            td.kon.konj Conjunction
-            td.pwo PWO?
-            td.pre Preposition
-          tr.suggested
-            td.ent
-            td.kon.konj
-            td.pwo
-            td.pre
-
     .hover-footer
       a.btn.btn-success.new-page.translate(href="#") Add Page
-      a.btn.btn-info.upload.translate(href="#") Save
+      a.btn.btn-info.upload.translate(href="#") Upload
       a.btn.btn-info.view.translate(href="#") View
+
+    #wordmodal.modal.fade
+      div.modal-dialog
+        div.modal-content
+          div.modal-header
+            button.close(type="button", data-dismiss="modal", aria-hidden="true") x
+            h3.translate Save Word List
+          div.modal-body
+            div.form-group
+              label.translate(for="wordlistname") Name
+              input#wordlistname.form-control(type="text", name="wordlistname")
+            p Word list goes here
+          div.modal-footer
+            button.btn.btn-default.translate(type="button", data-dismiss="modal") Cancel
+            button.save.btn.btn-primary.translate(type="button", data-dismiss="modal") Save
 
     include partials/icon_modal
 
@@ -149,15 +141,21 @@ html
 
     // 3rd party libraries
     script(type="text/javascript", src="/jquery-1.11.0.min.js")
+    script(type="text/javascript", src="/antihighlight/jquery.antihighlight.js")
+
+    script(type="text/javascript", src="/jspdf.min.js")
 
     script(type="text/javascript", src="/bootstrap.min.js")
 
     script(type="text/javascript", src="/polyglot.min.js")
 
+    // include partials/jquery_ime
+
     include partials/translate_page
 
     include partials/pbs_engine
 
+    script(type="text/javascript", src="/pdfify.js")
     script(type="text/javascript", src="/pagecomponent.js")
 
     script(type="text/javascript") var load_book_id, load_book, cover, layout, font; var prefix = "";
@@ -169,3 +167,5 @@ html
           script(type="text/javascript") cover = !{JSON.stringify(book.layout.cover)};
 
     script(type="text/javascript", src="/test.js")
+
+    // include partials/analytics
