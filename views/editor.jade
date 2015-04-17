@@ -24,7 +24,7 @@ html
 
         ul.nav.navbar-nav
           li.active
-            a(href="#") iLoominate Lascahobas
+            a(href="#") iLoominate
 
         ul.nav.navbar-nav.pull-right
           li
@@ -32,6 +32,11 @@ html
               span.translate Word List
               span &nbsp;▽
             ul.dropdown-menu.wordlists(role="menu", aria-labelledby="dLabel")
+          li
+            a(href="#", data-toggle="dropdown")
+              span.translate Language
+              span &nbsp;▽
+            include partials/languages
 
     br
     br
@@ -46,7 +51,7 @@ html
 
       canvas.preview.hide(width="500", height="300")
       canvas.color-change.hide(width="164", height="164")
-    
+
     .hover-word-suggest.right
       .well
         input.typeahead(type="text", placeholder="chache yon mo")
@@ -71,7 +76,7 @@ html
             td.kon.konj
             td.pwo
             td.pre
-              
+
     .hover-footer
       a.btn.btn-success.new-page.translate(href="#") Add Page
       a.btn.btn-info.upload.translate(href="#") Save
