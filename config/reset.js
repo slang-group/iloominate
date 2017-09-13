@@ -1,4 +1,3 @@
-var postmark = require("postmark")(process.env.POSTMARK_API_KEY);
 var bcrypt = require("bcrypt-nodejs");
 
 var User = require('../models/user');
@@ -19,6 +18,7 @@ exports.reset_mail = function(req, res) {
         });
       });
     }
+/*
     postmark.send({
       "From": "ndoiron@mapmeld.com",
       "To": user_email,
@@ -33,6 +33,7 @@ exports.reset_mail = function(req, res) {
         res.send('Reset e-mail sent.');
       }
     });
+*/
   });
 };
 
