@@ -1,5 +1,7 @@
 # iLoominate
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/slang-group/iloominate.svg)](https://greenkeeper.io/)
+
 iLoominate will be an app for templating, writing, and printing books for beginning
 readers. It will support multiple languages, help writers use the letters and
 words which children have learned, and support best practices and common layouts
